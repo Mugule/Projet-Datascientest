@@ -4,7 +4,6 @@
 import datetime
 import numpy as np
 import pandas as pd
-from matplotlib import dates as mdates
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -918,7 +917,7 @@ if selectedMenu == "Analyses":
                                      secondary_y=False)
         
         # Regression Polynomiale
-        x = mdates.date2num(df['Date'][df["Game"]=="BOTW"])
+        x = df['Date'][df['Game'] == 'BOTW'].apply(lambda date: date.toordinal())
         y = df['Like_SUM'][df["Game"]=="BOTW"]
         # Polynomiale de degré 3
         coeffs = np.polyfit(x, y, 3)
