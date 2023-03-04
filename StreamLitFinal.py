@@ -26,10 +26,11 @@ def weighted_average(group):
             return np.nan
 
 # %% (_.~" DATAFRAMES "~._)  
-
-
-# %%% Import de df
+# %%% Import
+# DataFrame principal
 df = pd.read_csv("finalDataset.csv")
+# Dataframe de base venant de VGChartz
+dfVGSales = pd.read_csv("vgsales.csv", index_col=[0]) 
 # %%% Formatage df
 # Création de la colonne Date
 df["Date"] = pd.to_datetime(df['Year'].astype("str")+" "+df['Month'].astype("str"),format="%Y %m")
@@ -60,6 +61,18 @@ dfmean = pd.concat([dfmean,
 # Suppression de SWCH et TOTL
 dfmean = dfmean.drop([5,6])
 
+# %%% ColorDict
+colorDict = {}
+
+for name in dfVGSales.Publisher.unique():
+    if name == 'Nintendo':
+        colorDict[name] = "red"
+    elif name == 'Electronic Arts':
+        colorDict[name] = "blue"
+    elif name == 'Activision':
+        colorDict[name] = "cornflowerblue"
+    else:
+        colorDict[name] = "grey"
 
 # %% (_.~" STREAMLIT "~._) 
 
@@ -72,17 +85,44 @@ with st.sidebar:
     selectedMenu = option_menu(
         menu_title = "Switch bestsellers",
         menu_icon= "nintendo-switch",
-        options = ["Contexte",
+        options = ["Projet",
+                   "Contexte",
                    "Methodologie",
                    "Analyses",
                    "Conclusion",
                    "Scrap-App"],
-        icons = ["info",
+        icons = ["easel",
+                 "info",
                  "cloud-download",
                  "graph-up",
                  "controller",
                  "twitter"])
 
+# %%% Projet
+
+if selectedMenu == "Projet":
+    
+    st.markdown("<h1 style='text-align: center;'>Analyse des bestsellers de la Nintendo Switch</h1>", unsafe_allow_html=True)
+    
+    st.markdown(" --- image cool --- ")
+    
+    st.markdown("<h3 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
+    
+    st.markdown("Pour ce projet, nous avons choisi l’analyse des ventes de jeux vidéo sur l’axe du storytelling. Nous le ferons via du scrapping, du text mining puis un sentiment analysis sur le dataset obtenu. Le projet sera dans une démarche de rétrospection plutôt que de prédiction. L’idée est de mieux comprendre ce qu’il s’est passé pour préparer de futures campagnes marketing (par exemple).")
+    
+    st.markdown("Projet présenté par")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+       st.subheader("Michael Deroche")
+    
+    with col2:
+       st.subheader("Nicolas Brown")
+    
+    with col3:
+       st.subheader("Julien Petit")
+    
+    st.caption('_ - Promotion JAN 2023 Datascientest - _') 
 
 # %%% Contexte
 
@@ -90,16 +130,184 @@ if selectedMenu == "Contexte":
     
     st.title("Contexte")
     
-    st.caption('_ - Promotion JAN 2023 Datascientest - _') 
+    # %%%% Introduction
+    
+    st.header("Les premières données")
+    
+    # imageVGChartz
+    imageVGChartz = "https://www.vgchartz.com/assets/images/vgchartz-logo-horizontal.png"
+    st.image(imageVGChartz)
+    
+    st.markdown("Les données fournies par DataScientest viennent d'un scrapping réalisé sur le site VGChartz par 'GregorySmith' disponible sur le site Kaggle ([ou ici](https://www.kaggle.com/datasets/gregorut/videogamesales)). Après une première visualisation des données, nous verrons pourquoi nous avons décidé d'obtenir nos propres données pour réaliser une analyse. Vous trouverez ci-dessous les données brutes et notre première exploration de données.")
+              
+    st.dataframe(dfVGSales.head(5))
 
+    st.markdown("Les chiffres des ventes parcours la grandes partis des jeux allant de 1980 à 2016 (4 jeux au delà de cette période). Cela s'éxplique par un changement de méthodologie du site VGChartz expliqué [ici](https://www.vgchartz.com/methodology.php).") 
+
+    st.markdown("Wii Sports la vente numéro 1 se détache complètement du reste. Cette valeur aberrante s'explique facilement car ce jeu a été vendu systématiquement avec chaque Nintendo Wii (à part au Japon et en Corée du Sud). On ne peut pas vraiment parler d'un choix du consommateur mais plus d'un jeu 'gratuit'. On peut quand même mesurer le succès du jeu grâce à sa deuxième version : Wii Sports Resort. Afin de ne pas fausser les graphiques, nous supprimerons la ligne concernant Wii Sports.")
+
+    st.markdown("Enfin, on peut noter 278 valeurs manquantes pour les années et 58 pour les éditeurs. Nous verrons plus tard que nous allons créer de toute pièce nos dataset via scrapping, il n’est donc pas nécessaire de s’attarder sur celle-ci.")
+    
+    # %%%% Première Exploration
+    
+    st.subheader('Exploration du Dataset')
+    
+    st.markdown("Après analyse, nous avons pu voir que Nintendo sort des jeux extrêmement qualitatifs. En effet, si on le compare avec Activision et EA (Electronic Arts) qui sont des mastodontes, nous allons voir que les chiffres de ventes ne suit pas de la même manière. Sur ces deux premiers graphiques. Nous allons voir le nombre de titres uniques vendus par éditeur en comparaison avec le nombre total des ventes (en millions de dollars).")
+
+    
+    bestPublisherSales = dfVGSales[dfVGSales["Publisher"].isin(dfVGSales["Publisher"] \
+                                                     .value_counts()[0:10].index)] \
+                                                     .groupby(["Publisher"]) \
+                                                     .agg({"Global_Sales":"sum"}) \
+                                                     .reset_index(level='Publisher') \
+                                                     .sort_values(by=["Global_Sales"], ascending=False)
+
+    bestPublisherUnits = pd.DataFrame(dfVGSales.Publisher.value_counts()[0:10].sort_values()).reset_index() \
+                                                                                             .rename(columns={"index": 'Publisher', 'Publisher': "Titles"}) \
+                                                                                            .sort_values(by=["Titles"], ascending=False)
+    
+    # Suppression de WiiSport
+    dfVGSales = dfVGSales.drop([1])
+    
+    # Graph Titre par éditeur
+
+    vgPublUnit = px.bar(bestPublisherUnits, 
+                 x="Titles", 
+                 y="Publisher",
+                 color="Publisher",
+                 color_discrete_map = colorDict,
+                 labels={"Publisher": "Editeurs",
+                         "Titles": "Total des titres sortis"},
+                 title="Nombre de titres uniques sortis par éditeurs",
+                 text_auto='.2s',
+                 orientation='h')
+    
+    st.plotly_chart(vgPublUnit)
+    
+    # Graph Ventes par éditeur
+    
+    vgPublSals = px.bar(bestPublisherSales, 
+                        x="Global_Sales", 
+                        y="Publisher",
+                        color="Publisher",
+                        color_discrete_map = colorDict,
+                        labels={"Publisher": "Editeurs",
+                                "Global_Sales": "Total des ventes mondiales (M$)"},
+                        title="Ventes par éditeur",
+                        text_auto='.2s',
+                        orientation='h')
+    
+    st.plotly_chart(vgPublSals)
+
+    st.markdown("Si dans le premier cas Nintendo n’est pas en tête avec seulement 700 titres sortis contre 1400 titres chez EA (soit le double), on remarque que les ventes totales sont à 1700M chez Nintendo ! Si EA tient la deuxième position avec 1100M on voit que certains comme Namco Bandai peinent à réaliser le même résultat avec un peu plus de 250M . Nintendo atteint un peu plus de 2.4M par titre. Dans les plus gros éditeurs, c’est tout simplement énorme. Alors même si les autres éditeurs s’en tirent bien du point de vue commercial, Nintendo domine-t-il par des bestsellers sur différentes années?")
+
+    # Graph meilleurs titres
+    
+    vgBestTitl_df = dfVGSales.groupby(['Year','Publisher','Name']).agg({"Global_Sales":"sum"}).reset_index(level=['Year','Publisher','Name'])
+    vgBestTitl_cond = vgBestTitl_df.groupby('Year')['Global_Sales'].transform('max') == vgBestTitl_df['Global_Sales']
+    vgBestTitl = px.bar(vgBestTitl_df[vgBestTitl_cond], 
+                        x="Year", 
+                        y="Global_Sales", 
+                        color = "Publisher",
+                        color_discrete_map = colorDict,     
+                        labels={"Publisher": "Editeurs",
+                        "Global_Sales" : "Ventes total (M$)",
+                        "Year": "Année"},
+                        title="Meilleur titre de l'année",
+                        hover_name="Name")
+    
+    st.plotly_chart(vgBestTitl)
+    
+    st.markdown("Ici on peut voir que Nintendo domine avec ses best-sellers. A savoir que l’on à regroupé les même titres sortis sur des consoles différentes. C’est d’ailleurs pour cela qu’un éditeur comme Activision tire son épingle du jeu grâce notamment à sa franchise Call Of Duty sortie sur toutes les consoles respectives selon les années. En comparaison nous avons laissé EA Sports qui restait un gros éditeur des premiers graphiques. Comme on peut le voir, il n’est plus aussi présent.")
+    
+    vgGenrSals_df = dfVGSales.groupby(['Year','Genre']).agg({"Global_Sales":"sum"}).reset_index(level=['Year','Genre'])
+
+    vgGenrSals = px.bar(vgGenrSals_df, x="Year", y="Global_Sales", color = "Genre", 
+                        labels={"Genre": "Genre",
+                                "Global_Sales" : "Ventes total (M$)",
+                                "Year": "Année"},
+                        title="Total des ventes par genres")
+    
+    st.plotly_chart(vgGenrSals)
+    
+    st.markdown("La question du genre aurait pu se poser mais aucune vraie tendance ne semble être corrélé au fait de sortir un best sellers. On notera que plus de jeux sport/shooter sont sortis ces dernières années car la technologie fournie par les plateforme le permettait.")
+    
+    # %%%% Le cas Nintendo
+    
+    # imageNintendo
+    imageNintendo = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Nintendo_red_logo.svg/320px-Nintendo_red_logo.svg.png"
+    st.image(imageNintendo)  
+    
+    st.subheader('Le cas Nintendo')
+    st.markdown("Les cas Nintendo est interressant à étudier. Cependant le Dataset de base semble trop pauvre et les données pas forcément pertinente. Notre groupe de travail à donc décider de créer son propre Dataset comme nous le verrons dans la partie méthodologie.")
+    
+    st.subheader('Notre problèmatique')
+    st.markdown("L’impact des réseaux sociaux et des commentaires sur les sites de ventes régissent de plus en plus notre manière de consommer. Mais quand est il pour le marché des jeux vidéos? L’impact est-il si significatif? Peut-on observer des tendances qui font qu’un jeu marche plutôt sur la durée? C’est ce que nous allons vérifier.")
+    
+    st.markdown("<h3 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
 
 # %%% Méthodologie
 
 if selectedMenu == "Methodologie":
     
-    st.title("Comment qu'on a fait")
+    st.title("Methodologie")
+    
+    st.subheader('Capture et sélection des données')
+    st.markdown("Déroulé du projet :\n - Scrapping des bestsellers de la Nintendo Switch\n - Sélection des jeux à étudier\n - Scrapping des données Twitter, Amazon et Metacritic associée\n - Text Mining en vue du sentiment Analysis\n - Analyse des données")
     
     
+    # %%%% Scrap Switch
+    st.subheader('Scrapping Nintendo')
+    
+    st.markdown("Nous avons vu que Nintendo savait vendre des jeux. Nous allons donc scraper leur données et analyser les ventes de ses best sellers. Pour ce faire nous irons directement scrapper les données sur le [site officiel de Nintendo](https://www.nintendo.co.jp/ir/en/finance/software/index.html). Celui-ci liste ses meilleurs jeux par vente totale sur une plateforme pour chaque trimestre. ")
+
+    st.markdown("Pour cet exercice, nous nous concentrerons plus tard sur la Switch car ces données d'actualités sont disponibles depuis la création de la console. Mais au départ, nous avons du récupérer les données pour chaque consoles. Aussi pour avoir la dimension temporelle, nous nous aiderons du site [Wayback Machine](http://web.archive.org/). Cet outil permet de retrouver des archives d’autres sites. Ainsi, nous pouvons remonter dans le temps afin de retrouver les meilleures ventes à un moment donné. Petite particularité, la date de l’archive diffère de la date du rapport.")
+    
+    # %%%% Sélection des jeux
+    
+    st.subheader('Sélection des jeux')
+
+    st.markdown("Après analyse des bestsellers, nous avons décider de prendre les cinqs meilleurs ventes de la Nintendo Switch. Pour plusieurs raison. \n - **Complétude** : les données sont mieux archivés et sur une plus longue période. Le suivi n'en sera que meilleur. \n -  **Actualité** : les données sont d'actualité et sont des notre problèmatique. \n - **Pertinence** : les données concerne cinq jeu avec des patterns très différents. Cela permettra de comprendre au mieux les facteurs décisifs.")    
+
+    # Graphique TOP5
+    dfMax = df.groupby("Game").agg({"Sales":"max"}).reset_index().drop([5,6]).sort_values(by="Sales")
+    bestFive = go.Figure()
+    bestFive.add_trace(go.Bar(x = dfMax['Game'], 
+                              y = dfMax['Sales'],
+                              text = dfMax['Sales'],
+                              marker_color = ["crimson","cornflowerblue","lightsteelblue","lightgreen","ivory"],
+                              name = "TOP 5 Nintendo Switch"))
+    bestFive.update_traces(textfont_size=12,
+                           textangle=0, 
+                           textposition="inside", 
+                           cliponaxis=False,
+                           showlegend=False,
+                           texttemplate = "%{text:.2s}")
+    bestFive.update_layout(title_text="Meilleures ventes de la Nintendo Switch")
+    st.plotly_chart(bestFive)
+    
+    
+    # %%%% Scrap Twitter
+    st.subheader('Scrap Twitter')
+    st.markdown(" * insert text here * ")
+    
+    # %%%% Scrap Amazon
+    st.subheader('Scrap Amazon')
+    st.markdown(" * insert text here * ")
+    
+    # %%%% Scrap Metacritic
+    st.subheader('Scrap Metacritic')
+    st.markdown(" * insert text here * ")
+    
+    # %%%% Sentiment Analysis
+    st.subheader('Sentiment Analysis')
+    st.markdown(" * insert text here * ")
+
+    # %%%% Création du Dataset Final
+    st.subheader('Dataset Final')
+    st.markdown("La particularité de notre dataset final est sa cohérence. En effet les périodes étudiées pour un même jeu n'ont pas la même **périodicité** ni la même **plage** selon leur origine. Nous avons fait le choix de sacrifié un peu de cohérence pour avoir une donnée mensuelle de qualité regroupant le maximum d'information. Ainsi par exemple, nous pourrons voir les effets d'annonces via Twitter avant la commercialisation d'un jeu et les comparer avec le rapport trimestriel officiel de Nintendo.")
+    
+    st.markdown("* schéma pipeline serait cool *")
     
 # %%% Analyses
 
@@ -1043,5 +1251,3 @@ if selectedMenu == "Conclusion":
 if selectedMenu == "Scrap-App":
     st.title("Incomming !")
     st.subheader('voilà voilà')
-
-
