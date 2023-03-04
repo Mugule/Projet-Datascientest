@@ -63,6 +63,11 @@ dfmean = dfmean.drop([5,6])
 
 # %% (_.~" STREAMLIT "~._) 
 
+# %%% Navigation
+
+st.set_page_config(page_title="Switch Bestsellers",
+                   page_icon=":video_game:")
+
 with st.sidebar:
     selectedMenu = option_menu(
         menu_title = "Switch bestsellers",
