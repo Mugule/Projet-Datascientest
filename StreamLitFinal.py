@@ -4,7 +4,6 @@
 import datetime
 import numpy as np
 import pandas as pd
-from PIL import Image
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -105,8 +104,7 @@ if selectedMenu == "Projet":
     
     
     # Image
-    imgPres = Image.open("medias/imgpresentation.png")
-    st.image(imgPres)
+    st.image("medias/imgpresentation.png")
     
     st.markdown("<h4 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
     
@@ -274,13 +272,6 @@ if selectedMenu == "Methodologie":
         
         # Graphique TOP5
         
-        # Chargement des images
-        imgpokeshield = Image.open("medias/imgpokeshield.png")
-        imgbotwlink = Image.open("medias/imgbotwlink.png")
-        imgssbumario = Image.open("medias/imgssbumario.png")
-        imgacnhnook = Image.open("medias/imgacnhnook.png")
-        imgmkd8splt = Image.open("medias/imgmkd8splt.png")
-        
         # Création de dfMax
         dfMax = df.groupby("Game").agg({"Sales":"max"}).reset_index().drop([5,6]).sort_values(by="Sales").replace({"POKE":"Pokémon Épée/Bouclier","ACNH":"Animal Crossing : New Horizons","SSBU":"Super Smash Bros. Ultimate","MKD8":"Mario Kart 8 Deluxe","BOTW":"The Legend of Zelda : Breath of the Wild"})
         
@@ -295,31 +286,31 @@ if selectedMenu == "Methodologie":
                                   hovertemplate = '%{x}'))
         
         # Ajout des images
-        bestFive.add_layout_image(dict(source=imgpokeshield,
+        bestFive.add_layout_image(dict(source="medias/imgpokeshield.png",
                                        xref="x",
                                        yref="y",
                                        x=0,
                                        y=1,))
 
-        bestFive.add_layout_image(dict(source=imgbotwlink,
+        bestFive.add_layout_image(dict(source="medias/imgbotwlink.png",
                                        xref="x",
                                        yref="y",
                                        x=1,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source=imgssbumario,
+        bestFive.add_layout_image(dict(source="medias/imgssbumario.png",
                                        xref="x",
                                        yref="y",
                                        x=2,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source=imgacnhnook,
+        bestFive.add_layout_image(dict(source="medias/imgacnhnook.png",
                                        xref="x",
                                        yref="y",
                                        x=3,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source=imgmkd8splt,
+        bestFive.add_layout_image(dict(source="medias/imgmkd8splt.png",
                                        xref="x",
                                        yref="y",
                                        x=4,
@@ -353,8 +344,7 @@ if selectedMenu == "Methodologie":
     with tabt:
         
         # Image
-        imgtwitter = Image.open("medias/imgtwitter.png")
-        st.image(imgtwitter,width=250)
+        st.image("medias/imgtwitter.png",width=250)
         
         st.subheader('Scrap Twitter')
         
@@ -367,8 +357,7 @@ if selectedMenu == "Methodologie":
         # Scrap Metacritic
         
         # Image
-        imgMtc = Image.open("medias/imgmetacritic.png")
-        st.image(imgMtc,width=250)
+        st.image("medias/imgmetacritic.png",width=250)
         
         st.subheader('Scrap Metacritic')
         st.markdown(" * insert text here * ")        
@@ -376,8 +365,7 @@ if selectedMenu == "Methodologie":
         # Scrap Amazon
         
         # Image
-        imgAmz = Image.open("medias/imgamazon.png")
-        st.image(imgAmz,width=250)
+        st.image("medias/imgamazon.png",width=250)
     
         st.subheader('Scrap Amazon')
         st.markdown(" * insert text here * ")
@@ -398,8 +386,7 @@ if selectedMenu == "Methodologie":
         st.markdown("La particularité de notre dataset final est sa cohérence. En effet les périodes étudiées pour un même jeu n'ont pas la même **périodicité** ni la même **plage** selon leur origine. Nous avons fait le choix de sacrifié un peu de cohérence pour avoir une donnée mensuelle de qualité regroupant le maximum d'information. Ainsi par exemple, nous pourrons voir les effets d'annonces via Twitter avant la commercialisation d'un jeu et les comparer avec le rapport trimestriel officiel de Nintendo.")
         
         # Image
-        imgPipeline = Image.open("medias/imgpipeline.png")
-        st.image(imgPipeline)
+        st.image("medias/imgpipeline.png")
     
 # %%% Analyses
 
@@ -413,8 +400,7 @@ if selectedMenu == "Analyses":
     with tabs:
         
         # Image
-        bannerssbu = Image.open("medias/bannerssbu.png")
-        st.image(bannerssbu)
+        st.image("medias/bannerssbu.png")
         
         # %%%%% Intro
         
@@ -585,8 +571,7 @@ if selectedMenu == "Analyses":
     with tabp:
 
         # Image
-        bannerpoke = Image.open("medias/bannerpoke.png")
-        st.image(bannerpoke)
+        st.image("medias/bannerpoke.png")
         
         # %%%%% Intro
         
@@ -827,8 +812,7 @@ if selectedMenu == "Analyses":
     with taba:
 
         # Image
-        banneracnh = Image.open("medias/banneracnh.png")
-        st.image(banneracnh)
+        st.image("medias/banneracnh.png")
         
         # %%%%% Intro
         
@@ -979,8 +963,7 @@ if selectedMenu == "Analyses":
     with tabm:
 
         # Image
-        bannermkd8 = Image.open("medias/bannermkd8.png")
-        st.image(bannermkd8)
+        st.image("medias/bannermkd8.png")
         
         # %%%%% Intro
         
@@ -1130,8 +1113,7 @@ if selectedMenu == "Analyses":
     with tabb:
 
         # Image
-        bannerbotw = Image.open("medias/bannerbotw.png")
-        st.image(bannerbotw)
+        st.image("medias/bannerbotw.png")
         
         # %%%%% Outro
         
@@ -1342,12 +1324,6 @@ if selectedMenu == "Analyses":
         st.subheader("Une petite communauté active")
         st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de se jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de publique. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant créera un nouveau pique d’activité pour ce deuxième opus.")
         
-                # Chargement des images
-        imgocarina = Image.open("medias/imgocarina.png")
-        imgskullkid = Image.open("medias/imgskullkid.png")
-        imgbotwlink = Image.open("medias/imgbotwlink.png")
-        imgtotkmark = Image.open("medias/imgtotkmark.png")
-        
         botw_z01 = ["Ocarina of Time (1998)","Majora's Mask (2000)"]
         botw_z02 = ["Breath of the Wild (2017)","Tears of the Kingdom (2023)"]
         
@@ -1374,22 +1350,22 @@ if selectedMenu == "Analyses":
                                showlegend=False,
                                texttemplate = "               %{y:.2s}M")
         
-        botwprev.add_layout_image(dict(source=imgocarina,
+        botwprev.add_layout_image(dict(source="medias/imgocarina.png",
                                        xref="x",
                                        x=-0.1,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source=imgskullkid,
+        botwprev.add_layout_image(dict(source="medias/imgskullkid.png",
                                        xref="x",
                                        x=0.8,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source=imgbotwlink,
+        botwprev.add_layout_image(dict(source="medias/imgbotwlink.png",
                                        xref="x2",
                                        x=-0.1,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source=imgtotkmark,
+        botwprev.add_layout_image(dict(source="medias/imgtotkmark.png",
                                        xref="x2",
                                        x=1,
                                        y=0.02,))
