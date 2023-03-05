@@ -4,6 +4,7 @@
 import datetime
 import numpy as np
 import pandas as pd
+from PIL import Image
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -102,11 +103,12 @@ with st.sidebar:
 
 if selectedMenu == "Projet":
     
-    st.markdown("<h1 style='text-align: center;'>Analyse des bestsellers de la Nintendo Switch</h1>", unsafe_allow_html=True)
     
-    st.markdown(" --- image cool --- ")
+    # Image
+    imgPres = Image.open("medias/imgpresentation.png")
+    st.image(imgPres)
     
-    st.markdown("<h3 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
+    st.markdown("<h4 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
     
     st.markdown("Pour ce projet, nous avons choisi l’analyse des ventes de jeux vidéo sur l’axe du storytelling. Nous le ferons via du scrapping, du text mining puis un sentiment analysis sur le dataset obtenu. Le projet sera dans une démarche de rétrospection plutôt que de prédiction. L’idée est de mieux comprendre ce qu’il s’est passé pour préparer de futures campagnes marketing (par exemple).")
     
@@ -232,17 +234,16 @@ if selectedMenu == "Contexte":
     
     st.markdown("La question du genre aurait pu se poser mais aucune vraie tendance ne semble être corrélé au fait de sortir un best sellers. On notera que plus de jeux sport/shooter sont sortis ces dernières années car la technologie fournie par les plateforme le permettait.")
     
-    # %%%% Le cas Nintendo
+    # %%%% Le cas Nintendo  
     
-    # imageNintendo
-    imageNintendo = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Nintendo_red_logo.svg/320px-Nintendo_red_logo.svg.png"
-    st.image(imageNintendo)  
-    
-    st.subheader('Le cas Nintendo')
+    st.header('Le cas Nintendo')
     st.markdown("Les cas Nintendo est interressant à étudier. Cependant le Dataset de base semble trop pauvre et les données pas forcément pertinente. Notre groupe de travail à donc décider de créer son propre Dataset comme nous le verrons dans la partie méthodologie.")
     
     st.subheader('Notre problèmatique')
     st.markdown("L’impact des réseaux sociaux et des commentaires sur les sites de ventes régissent de plus en plus notre manière de consommer. Mais quand est il pour le marché des jeux vidéos? L’impact est-il si significatif? Peut-on observer des tendances qui font qu’un jeu marche plutôt sur la durée? C’est ce que nous allons vérifier.")
+    
+    st.subheader('Capture et sélection des données')
+    st.markdown("Déroulé du projet :\n - Scrapping des bestsellers de la Nintendo Switch et sélection des jeux à étudier\n - Scrapping des données Twitter \n - Scrapping des commentaires Metacritic et Amazon \n - Text Mining en vue du sentiment Analysis\n - Construction du Dataset final et analyse des données")
     
     st.markdown("<h3 style='text-align: center;'>Peut-on utiliser Twitter comme facteur prédictif des ventes?</h3>", unsafe_allow_html=True)
 
@@ -252,75 +253,168 @@ if selectedMenu == "Methodologie":
     
     st.title("Methodologie")
     
-    st.subheader('Capture et sélection des données')
-    st.markdown("Déroulé du projet :\n - Scrapping des bestsellers de la Nintendo Switch\n - Sélection des jeux à étudier\n - Scrapping des données Twitter, Amazon et Metacritic associée\n - Text Mining en vue du sentiment Analysis\n - Analyse des données")
+    tabn, tabt, tabc, tabm, tabd = st.tabs(["Nintendo", "Twitter", "Commentaires", "Sentiment", "Dataset"])
     
-    
-    # %%%% Scrap Switch
-    st.subheader('Scrapping Nintendo')
-    
-    st.markdown("Nous avons vu que Nintendo savait vendre des jeux. Nous allons donc scraper leur données et analyser les ventes de ses best sellers. Pour ce faire nous irons directement scrapper les données sur le [site officiel de Nintendo](https://www.nintendo.co.jp/ir/en/finance/software/index.html). Celui-ci liste ses meilleurs jeux par vente totale sur une plateforme pour chaque trimestre. ")
+        # %%%% Scrap Switch
+        
+    with tabn:
+        # imageNintendo
+        imageNintendo = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Nintendo_red_logo.svg/320px-Nintendo_red_logo.svg.png"
+        st.image(imageNintendo,width=250)
+        
+        st.subheader('Scrapping Nintendo')
+        
+        st.markdown("Nous avons vu que Nintendo savait vendre des jeux. Nous allons donc scraper leur données et analyser les ventes de ses best sellers. Pour ce faire nous irons directement scrapper les données sur le [site officiel de Nintendo](https://www.nintendo.co.jp/ir/en/finance/software/index.html). Celui-ci liste ses meilleurs jeux par vente totale sur une plateforme pour chaque trimestre. ")
+        
+        st.markdown("Pour cet exercice, nous nous concentrerons plus tard sur la Switch car ces données d'actualités sont disponibles depuis la création de la console. Mais au départ, nous avons du récupérer les données pour chaque consoles. Aussi pour avoir la dimension temporelle, nous nous aiderons du site [Wayback Machine](http://web.archive.org/). Cet outil permet de retrouver des archives d’autres sites. Ainsi, nous pouvons remonter dans le temps afin de retrouver les meilleures ventes à un moment donné. Petite particularité, la date de l’archive diffère de la date du rapport.")
+        
+        st.subheader('Sélection des jeux')
+        
+        st.markdown("Après analyse des bestsellers, nous avons décider de prendre les cinqs meilleurs ventes de la Nintendo Switch. Pour plusieurs raison. \n - **Complétude** : les données sont mieux archivés et sur une plus longue période. Le suivi n'en sera que meilleur. \n -  **Actualité** : les données sont d'actualité et sont des notre problèmatique. \n - **Pertinence** : les données concerne cinq jeu avec des patterns très différents. Cela permettra de comprendre au mieux les facteurs décisifs.")    
+        
+        # Graphique TOP5
+        
+        # Chargement des images
+        imgpokeshield = Image.open("medias/imgpokeshield.png")
+        imgbotwlink = Image.open("medias/imgbotwlink.png")
+        imgssbumario = Image.open("medias/imgssbumario.png")
+        imgacnhnook = Image.open("medias/imgacnhnook.png")
+        imgmkd8splt = Image.open("medias/imgmkd8splt.png")
+        
+        # Création de dfMax
+        dfMax = df.groupby("Game").agg({"Sales":"max"}).reset_index().drop([5,6]).sort_values(by="Sales").replace({"POKE":"Pokémon Épée/Bouclier","ACNH":"Animal Crossing : New Horizons","SSBU":"Super Smash Bros. Ultimate","MKD8":"Mario Kart 8 Deluxe","BOTW":"The Legend of Zelda : Breath of the Wild"})
+        
+        # Création du graphique
+        bestFive = go.Figure()
+        
+        bestFive.add_trace(go.Bar(x = dfMax['Game'], 
+                                  y = dfMax['Sales'],
+                                  text = dfMax['Sales'],
+                                  marker_color = ["crimson","cornflowerblue","lightsteelblue","lightgreen","ivory"],
+                                  name = "TOP 5 Nintendo Switch",
+                                  hovertemplate = '%{x}'))
+        
+        # Ajout des images
+        bestFive.add_layout_image(dict(source=imgpokeshield,
+                                       xref="x",
+                                       yref="y",
+                                       x=0,
+                                       y=1,))
 
-    st.markdown("Pour cet exercice, nous nous concentrerons plus tard sur la Switch car ces données d'actualités sont disponibles depuis la création de la console. Mais au départ, nous avons du récupérer les données pour chaque consoles. Aussi pour avoir la dimension temporelle, nous nous aiderons du site [Wayback Machine](http://web.archive.org/). Cet outil permet de retrouver des archives d’autres sites. Ainsi, nous pouvons remonter dans le temps afin de retrouver les meilleures ventes à un moment donné. Petite particularité, la date de l’archive diffère de la date du rapport.")
-    
-    # %%%% Sélection des jeux
-    
-    st.subheader('Sélection des jeux')
+        bestFive.add_layout_image(dict(source=imgbotwlink,
+                                       xref="x",
+                                       yref="y",
+                                       x=1,
+                                       y=1,))
+        
+        bestFive.add_layout_image(dict(source=imgssbumario,
+                                       xref="x",
+                                       yref="y",
+                                       x=2,
+                                       y=1,))
+        
+        bestFive.add_layout_image(dict(source=imgacnhnook,
+                                       xref="x",
+                                       yref="y",
+                                       x=3,
+                                       y=1,))
+        
+        bestFive.add_layout_image(dict(source=imgmkd8splt,
+                                       xref="x",
+                                       yref="y",
+                                       x=4,
+                                       y=1,))
+        
+        bestFive.update_layout_images(dict(sizex=0.9,
+                                           sizey=20,
+                                           xanchor="center",
+                                           yanchor="bottom"))
+        
+        # Réglages
+        bestFive.update_traces(textfont_size=12,
+                               textangle=0, 
+                               textposition="inside", 
+                               cliponaxis=False,
+                               showlegend=False,
+                               texttemplate = "%{text:.2s}M")
+        
+        bestFive.update_yaxes(title="Unités vendues (en M)")
+        bestFive.update_xaxes(visible=False)
+        
+        bestFive.update_layout(title="Meilleures ventes de la Nintendo Switch",
+                               yaxis=dict(range=[0, 59]))
+        
+        # Affichage
+        st.plotly_chart(bestFive)
+        
+        
+        # %%%% Scrap Twitter
+        
+    with tabt:
+        
+        # Image
+        imgtwitter = Image.open("medias/imgtwitter.png")
+        st.image(imgtwitter,width=250)
+        
+        st.subheader('Scrap Twitter')
+        
+        st.markdown(" * insert text here * ")
+        
+        # %%%% Scrap Comments
+        
+    with tabc:
 
-    st.markdown("Après analyse des bestsellers, nous avons décider de prendre les cinqs meilleurs ventes de la Nintendo Switch. Pour plusieurs raison. \n - **Complétude** : les données sont mieux archivés et sur une plus longue période. Le suivi n'en sera que meilleur. \n -  **Actualité** : les données sont d'actualité et sont des notre problèmatique. \n - **Pertinence** : les données concerne cinq jeu avec des patterns très différents. Cela permettra de comprendre au mieux les facteurs décisifs.")    
+        # Scrap Metacritic
+        
+        # Image
+        imgMtc = Image.open("medias/imgmetacritic.png")
+        st.image(imgMtc,width=250)
+        
+        st.subheader('Scrap Metacritic')
+        st.markdown(" * insert text here * ")        
 
-    # Graphique TOP5
-    dfMax = df.groupby("Game").agg({"Sales":"max"}).reset_index().drop([5,6]).sort_values(by="Sales")
-    bestFive = go.Figure()
-    bestFive.add_trace(go.Bar(x = dfMax['Game'], 
-                              y = dfMax['Sales'],
-                              text = dfMax['Sales'],
-                              marker_color = ["crimson","cornflowerblue","lightsteelblue","lightgreen","ivory"],
-                              name = "TOP 5 Nintendo Switch"))
-    bestFive.update_traces(textfont_size=12,
-                           textangle=0, 
-                           textposition="inside", 
-                           cliponaxis=False,
-                           showlegend=False,
-                           texttemplate = "%{text:.2s}")
-    bestFive.update_layout(title_text="Meilleures ventes de la Nintendo Switch")
-    st.plotly_chart(bestFive)
+        # Scrap Amazon
+        
+        # Image
+        imgAmz = Image.open("medias/imgamazon.png")
+        st.image(imgAmz,width=250)
     
+        st.subheader('Scrap Amazon')
+        st.markdown(" * insert text here * ")
+        
+        
+        # %%%% Sentiment Analysis
+        
+    with tabm:
+        
+        st.subheader('Sentiment Analysis')
+        st.markdown(" * insert text here * ")
+        
+        # %%%% Création du Dataset Final
+        
+    with tabd:
     
-    # %%%% Scrap Twitter
-    st.subheader('Scrap Twitter')
-    st.markdown(" * insert text here * ")
-    
-    # %%%% Scrap Amazon
-    st.subheader('Scrap Amazon')
-    st.markdown(" * insert text here * ")
-    
-    # %%%% Scrap Metacritic
-    st.subheader('Scrap Metacritic')
-    st.markdown(" * insert text here * ")
-    
-    # %%%% Sentiment Analysis
-    st.subheader('Sentiment Analysis')
-    st.markdown(" * insert text here * ")
-
-    # %%%% Création du Dataset Final
-    st.subheader('Dataset Final')
-    st.markdown("La particularité de notre dataset final est sa cohérence. En effet les périodes étudiées pour un même jeu n'ont pas la même **périodicité** ni la même **plage** selon leur origine. Nous avons fait le choix de sacrifié un peu de cohérence pour avoir une donnée mensuelle de qualité regroupant le maximum d'information. Ainsi par exemple, nous pourrons voir les effets d'annonces via Twitter avant la commercialisation d'un jeu et les comparer avec le rapport trimestriel officiel de Nintendo.")
-    
-    st.markdown("* schéma pipeline serait cool *")
+        st.subheader('Dataset Final')
+        st.markdown("La particularité de notre dataset final est sa cohérence. En effet les périodes étudiées pour un même jeu n'ont pas la même **périodicité** ni la même **plage** selon leur origine. Nous avons fait le choix de sacrifié un peu de cohérence pour avoir une donnée mensuelle de qualité regroupant le maximum d'information. Ainsi par exemple, nous pourrons voir les effets d'annonces via Twitter avant la commercialisation d'un jeu et les comparer avec le rapport trimestriel officiel de Nintendo.")
+        
+        # Image
+        imgPipeline = Image.open("medias/imgpipeline.png")
+        st.image(imgPipeline)
     
 # %%% Analyses
 
 if selectedMenu == "Analyses":
 
-    st.title("Let's see what we got here")
+    st.title("Analyses")
     
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["SSBU", "POKE", "ACNH", "MKD8", "BOTW"])
+    tabs, tabp, taba, tabm, tabb = st.tabs(["SSBU", "POKE", "ACNH", "MKD8", "BOTW"])
     
     # %%%% SSBU
-    with tab1:
-        st.header("Super Smash Bros. Ultimate")
-        st.caption("2018 Dec 7 – 30 M Units (#3)")
+    with tabs:
+        
+        # Image
+        bannerssbu = Image.open("medias/bannerssbu.png")
+        st.image(bannerssbu)
         
         # %%%%% Intro
         
@@ -488,9 +582,11 @@ if selectedMenu == "Analyses":
         st.markdown("Connaissant ce pattern classique, certains jeux ont décidé une stratégie bien particulière, c’est ce que nous allons voir avec la franchise Pokémon.")
         
         # %%%% POKE
-    with tab2:
-        st.header("Franchise Pokémon")
-        st.caption("2020 Dec 20 – 36 M Units (#5) \n Chiffres pour Épée / Bouclier ")
+    with tabp:
+
+        # Image
+        bannerpoke = Image.open("medias/bannerpoke.png")
+        st.image(bannerpoke)
         
         # %%%%% Intro
         
@@ -579,8 +675,8 @@ if selectedMenu == "Analyses":
                                 text="Sortie de<br>'Legends : Arceus'",
                                 showarrow=True,
                                 arrowhead=1,
-                                ax=-40,
-                                ay=-130,
+                                ax=-50,
+                                ay=-110,
                                 xanchor="right")
         
         pokeLike.add_annotation(x=datetime.date(2022,11,1), 
@@ -615,7 +711,11 @@ if selectedMenu == "Analyses":
         
         
         # Titre et y Axis Réglages
-        pokeLike.update_layout(legend=dict(orientation="h"),
+        pokeLike.update_layout(legend=dict(orientation="h",
+                                           yanchor="bottom",
+                                           y=-0.3,
+                                           xanchor="right",
+                                           x=1),
                                title_text="Franchise Pokémon - Ventes et activité Twitter",
                                yaxis=dict(side="right",
                                           range=[0, 30],
@@ -724,9 +824,11 @@ if selectedMenu == "Analyses":
         st.markdown("Même si on dénote une lassitude, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de bases de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté.  Mais est-ce qu’une grande communauté est toujours une bonne pub ? C’est ce que nous allons voir avec Animal Crossing.")
         
     # %%%% ACNH
-    with tab3:
-        st.header("Animal Crossing : New Horizons")
-        st.caption("2020 Mar 20 – 42 M Units (#2)")
+    with taba:
+
+        # Image
+        banneracnh = Image.open("medias/banneracnh.png")
+        st.image(banneracnh)
         
         # %%%%% Intro
         
@@ -874,9 +976,11 @@ if selectedMenu == "Analyses":
         st.markdown("Enfaite, ACNH a été victime de son succès. Cela se voit aussi par l’augmentation de la note moyenne au fil du temps. Après l’effet de mode, les joueurs savaient dans quoi ils « s’embarquaient ». La tendance s’inverse alors petit à petit. Mais alors peut-on prévoir les ventes et/ou les notes de jeu grâce au réseau sociaux ? Peut-on émettre une « metric », un « facteur » ou un algorithme qui pourrait nous aider à prévoir. Mario Kart Deluxe 8 a peut-être la réponse à cette question.")
         
     # %%%% MKD8
-    with tab4:
-        st.header("Mario Kart 8 Deluxe")
-        st.caption("2020 Avr 27 – 52 M Units (#1)")
+    with tabm:
+
+        # Image
+        bannermkd8 = Image.open("medias/bannermkd8.png")
+        st.image(bannermkd8)
         
         # %%%%% Intro
         
@@ -1023,9 +1127,11 @@ if selectedMenu == "Analyses":
         st.markdown("On a pu voir que chacun des jeux présentés ont eu des patterns différents. Au final, on commence à comprendre que le réseaux social Twitter ne doit pas être vu comme un facteur mais comme un plus comme un outil qui servirait à comprendre et à vendre son jeu. Et si un bon élève utiliserait cet outil, que se passerait-il ?")
         
     # %%%% BOTW
-    with tab5:
-        st.header("The Legend of Zelda : Breath of the Wild")
-        st.caption("2017 Mar 3 – 29 M Units (#4)")
+    with tabb:
+
+        # Image
+        bannerbotw = Image.open("medias/bannerbotw.png")
+        st.image(bannerbotw)
         
         # %%%%% Outro
         
@@ -1209,7 +1315,11 @@ if selectedMenu == "Analyses":
         
         
         # Titre et yRange
-        botwLike.update_layout(legend=dict(orientation="h"),
+        botwLike.update_layout(legend=dict(orientation="h",
+                                           yanchor="bottom",
+                                           y=-0.3,
+                                           xanchor="right",
+                                           x=1),
                                title_text="The Legend of Zelda: Breath of the Wild - Likes et ventes du jeux",
                                yaxis=dict(range=[0, 500000]),
                                yaxis2=dict(tickmode='auto',
@@ -1232,8 +1342,75 @@ if selectedMenu == "Analyses":
         st.subheader("Une petite communauté active")
         st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de se jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de publique. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant créera un nouveau pique d’activité pour ce deuxième opus.")
         
+                # Chargement des images
+        imgocarina = Image.open("medias/imgocarina.png")
+        imgskullkid = Image.open("medias/imgskullkid.png")
+        imgbotwlink = Image.open("medias/imgbotwlink.png")
+        imgtotkmark = Image.open("medias/imgtotkmark.png")
+        
+        botw_z01 = ["Ocarina of Time (1998)","Majora's Mask (2000)"]
+        botw_z02 = ["Breath of the Wild (2017)","Tears of the Kingdom (2023)"]
+        
+        botw_s01 = [7.6,3.36]
+        botw_s02 = [29,0]
+        
+        botwprev = make_subplots(rows=1, cols=2,
+                                 subplot_titles=("Nintendo 64","Nintendo Switch"))
+        
+        botwprev.add_trace(go.Bar(x = botw_z01, 
+                                  y = botw_s01,
+                                  marker_color = ["#2ecc71","#af7ac5"]),
+                                  row=1, col=1)
+        
+        botwprev.add_trace(go.Bar(x = botw_z02, 
+                                  y = botw_s02,
+                                  marker_color = ["cornflowerblue","grey"]),
+                                  row=1, col=2)
+        
+        botwprev.update_traces(textfont_size=18,
+                               textangle=0, 
+                               textposition="inside", 
+                               cliponaxis=False,
+                               showlegend=False,
+                               texttemplate = "               %{y:.2s}M")
+        
+        botwprev.add_layout_image(dict(source=imgocarina,
+                                       xref="x",
+                                       x=-0.1,
+                                       y=0.02,))
+        
+        botwprev.add_layout_image(dict(source=imgskullkid,
+                                       xref="x",
+                                       x=0.8,
+                                       y=0.02,))
+        
+        botwprev.add_layout_image(dict(source=imgbotwlink,
+                                       xref="x2",
+                                       x=-0.1,
+                                       y=0.02,))
+        
+        botwprev.add_layout_image(dict(source=imgtotkmark,
+                                       xref="x2",
+                                       x=1,
+                                       y=0.02,))
+        
+        botwprev.update_layout_images(dict(sizex=0.9,
+                                           sizey=0.5,
+                                           xanchor="center",
+                                           yanchor="bottom"))
+        
+        
+        botwprev.update_layout(title="The Legend of Zelda, seconds opus et prévisions",
+                               yaxis=dict(range=[0, 9],
+                                          title="Ventes en M$"),
+                               yaxis2=dict(range=[0, 35],
+                                           title="Ventes en M Units"))
+
+        st.plotly_chart(botwprev)
+        
         st.subheader("Un nouveau cycle")
-        st.markdown("Si BOTW fut un franc succès tant par la critique que par ses notes, on voit bien que le publique intègre de plus en plus le nouveau titre (TOTK) en délaissant l’ancien sur l’activité Twitter. Si on ne peut pas prévoir exactement les ventes de celui-ci sur la durée. On peut tout de même deviner que sa sortie le 12 mai 2023 sera un énorme succès et qu’il va exploser les ventes de son prédécesseur.\nCependant ses ventes totales ne seront pas forcément meilleures que le premier opus. Effectivement, la série Zelda a déjà connu un cas similaire avec The Legend of Zelda: Ocarina of Time. Là encore succès incontestable dans le monde du jeu vidéo, sa suite The Legend of Zelda: Majora's Mask aura explosé les ventes lors de sa sortie mais aura été vendu presque deux fois moins que son prédécesseur (chiffres du premier dataset). Être une suite direct n’est pas forcément une bonne stratégie et sortir de sa timeline pour le prochain opus est des fois une meilleure stratégie.")
+        st.markdown("Si BOTW fut un franc succès tant par la critique que par ses notes, on voit bien que le publique intègre de plus en plus le nouveau titre (TOTK) en délaissant l’ancien sur l’activité Twitter. Si on ne peut pas prévoir exactement les ventes de celui-ci sur la durée. On peut tout de même deviner que sa sortie le 12 mai 2023 sera un énorme succès et qu’il va exploser les ventes de son prédécesseur.")
+        st.markdown("Cependant ses ventes totales ne seront pas forcément meilleures que le premier opus. Effectivement, la série Zelda a déjà connu un cas similaire avec The Legend of Zelda: Ocarina of Time. Là encore succès incontestable dans le monde du jeu vidéo, sa suite The Legend of Zelda: Majora's Mask aura explosé les ventes lors de sa sortie mais aura été vendu presque deux fois moins que son prédécesseur (chiffres du premier dataset). Être une suite direct n’est pas forcément une bonne stratégie et sortir de sa timeline pour le prochain opus est des fois une meilleure stratégie.")
         
 # %%% Conclusion
 

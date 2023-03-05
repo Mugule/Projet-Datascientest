@@ -1,3 +1,5 @@
 # Librairies
+
 streamlit_option_menu
 plotly
+PIL
