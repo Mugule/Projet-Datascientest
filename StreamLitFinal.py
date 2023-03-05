@@ -280,6 +280,13 @@ if selectedMenu == "Methodologie":
         # Création du graphique
         bestFive = go.Figure()
         
+        # Images
+        imgpokeshield = Image.open("medias/imgpokeshield.png")
+        imgbotwlink = Image.open("medias/imgbotwlink.png")
+        imgssbumario = Image.open("medias/imgssbumario.png")
+        imgacnhnook = Image.open("medias/imgacnhnook.png")
+        imgmkd8splt = Image.open("medias/imgmkd8splt.png")
+        
         bestFive.add_trace(go.Bar(x = dfMax['Game'], 
                                   y = dfMax['Sales'],
                                   text = dfMax['Sales'],
@@ -288,31 +295,31 @@ if selectedMenu == "Methodologie":
                                   hovertemplate = '%{x}'))
         
         # Ajout des images
-        bestFive.add_layout_image(dict(source="medias/imgpokeshield.png",
+        bestFive.add_layout_image(dict(source=imgpokeshield,
                                        xref="x",
                                        yref="y",
                                        x=0,
                                        y=1,))
 
-        bestFive.add_layout_image(dict(source="medias/imgbotwlink.png",
+        bestFive.add_layout_image(dict(source=imgbotwlink,
                                        xref="x",
                                        yref="y",
                                        x=1,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source="medias/imgssbumario.png",
+        bestFive.add_layout_image(dict(source=imgssbumario,
                                        xref="x",
                                        yref="y",
                                        x=2,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source="medias/imgacnhnook.png",
+        bestFive.add_layout_image(dict(source=imgacnhnook,
                                        xref="x",
                                        yref="y",
                                        x=3,
                                        y=1,))
         
-        bestFive.add_layout_image(dict(source="medias/imgmkd8splt.png",
+        bestFive.add_layout_image(dict(source=imgmkd8splt,
                                        xref="x",
                                        yref="y",
                                        x=4,
@@ -1326,11 +1333,17 @@ if selectedMenu == "Analyses":
         st.subheader("Une petite communauté active")
         st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de se jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de publique. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant créera un nouveau pique d’activité pour ce deuxième opus.")
         
+        # Données
         botw_z01 = ["Ocarina of Time (1998)","Majora's Mask (2000)"]
         botw_z02 = ["Breath of the Wild (2017)","Tears of the Kingdom (2023)"]
-        
         botw_s01 = [7.6,3.36]
         botw_s02 = [29,0]
+        
+        # Images
+        imgocarina = Image.open("medias/imgocarina.png")
+        imgskullkid = Image.open("medias/imgskullkid.png")
+        imgbotwlink = Image.open("medias/imgbotwlink.png")
+        imgtotkmark = Image.open("medias/imgtotkmark.png")
         
         botwprev = make_subplots(rows=1, cols=2,
                                  subplot_titles=("Nintendo 64","Nintendo Switch"))
@@ -1352,22 +1365,22 @@ if selectedMenu == "Analyses":
                                showlegend=False,
                                texttemplate = "               %{y:.2s}M")
         
-        botwprev.add_layout_image(dict(source="medias/imgocarina.png",
+        botwprev.add_layout_image(dict(source=imgocarina,
                                        xref="x",
                                        x=-0.1,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source="medias/imgskullkid.png",
+        botwprev.add_layout_image(dict(source=imgskullkid,
                                        xref="x",
                                        x=0.8,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source="medias/imgbotwlink.png",
+        botwprev.add_layout_image(dict(source=imgbotwlink,
                                        xref="x2",
                                        x=-0.1,
                                        y=0.02,))
         
-        botwprev.add_layout_image(dict(source="medias/imgtotkmark.png",
+        botwprev.add_layout_image(dict(source=imgtotkmark,
                                        xref="x2",
                                        x=1,
                                        y=0.02,))
