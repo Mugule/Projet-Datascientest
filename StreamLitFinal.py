@@ -18,15 +18,16 @@ from plotly import tools
 loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. '
 
 
-# %% (_.~" METHODES "~._) 
+# %% (_.~" INSTANCES "~._) 
 
+# %%% Méthodes
 def weighted_average(group):
         weights_sum = np.sum(group[qty])
         if weights_sum > 0:
             return np.average(group[qly], weights=group[qty])
         else:
             return np.nan
-
+        
 # %% (_.~" DATAFRAMES "~._)  
 # %%% Import
 # DataFrame principal
@@ -63,7 +64,21 @@ dfmean = pd.concat([dfmean,
 # Suppression de SWCH et TOTL
 dfmean = dfmean.drop([5,6])
 
-# %%% ColorDict
+# %% (_.~" STREAMLIT "~._) 
+
+# %%% Configs
+
+st.set_page_config(page_title="Switch Bestsellers",
+                   page_icon=":video_game:")
+
+# %%% Couleurs
+
+colorTwitter = "#08A0E9"
+colorTwitterSec = "#E8F5FD"
+
+colorSales = "#FF4B4B"
+colorSalesSec = "F18989"
+
 colorDict = {}
 
 for name in dfVGSales.Publisher.unique():
@@ -76,12 +91,7 @@ for name in dfVGSales.Publisher.unique():
     else:
         colorDict[name] = "grey"
 
-# %% (_.~" STREAMLIT "~._) 
-
 # %%% Navigation
-
-st.set_page_config(page_title="Switch Bestsellers",
-                   page_icon=":video_game:")
 
 with st.sidebar:
     selectedMenu = option_menu(
@@ -286,15 +296,16 @@ if selectedMenu == "Methodologie":
         imgssbumario = Image.open("medias/imgssbumario.png")
         imgacnhnook = Image.open("medias/imgacnhnook.png")
         imgmkd8splt = Image.open("medias/imgmkd8splt.png")
+        logoswitch = Image.open("medias/logoswitch.png")
         
         bestFive.add_trace(go.Bar(x = dfMax['Game'], 
                                   y = dfMax['Sales'],
                                   text = dfMax['Sales'],
                                   marker_color = ["crimson","cornflowerblue","lightsteelblue","lightgreen","ivory"],
                                   name = "TOP 5 Nintendo Switch",
-                                  hovertemplate = '%{x}'))
+                                  hovertemplate = '%{x}<br><b>%{text:.2s}M</b> unités vendues'))
         
-        # Ajout des images
+        # Ajout des images de jeux
         bestFive.add_layout_image(dict(source=imgpokeshield,
                                        xref="x",
                                        yref="y",
@@ -330,6 +341,17 @@ if selectedMenu == "Methodologie":
                                            xanchor="center",
                                            yanchor="bottom"))
         
+        # Logo Switch
+        bestFive.add_layout_image(dict(source=logoswitch,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
+        
         # Réglages
         bestFive.update_traces(textfont_size=12,
                                textangle=0, 
@@ -339,7 +361,7 @@ if selectedMenu == "Methodologie":
                                texttemplate = "%{text:.2s}M")
         
         bestFive.update_yaxes(title="Unités vendues (en M)")
-        bestFive.update_xaxes(visible=False)
+        #bestFive.update_xaxes(visible=False)
         
         bestFive.update_layout(title="Meilleures ventes de la Nintendo Switch",
                                yaxis=dict(range=[0, 59]))
@@ -416,6 +438,9 @@ if selectedMenu == "Analyses":
         st.subheader("Un bon exemple ")
         st.markdown("Jeu de combat le plus vendu de l’histoire, Super Smash Bros. Ultimate (SSBU) sera notre porte d’entrée pour notre analyse. En effet, si ses chiffres semblent astronomiques, son pattern représente bien une tendance générales des jeux non présents dans cette étude. Dans le premier graphique, nous pouvons voir les ventes par trimestres du jeu ainsi que son activité Twitter (représenté par la somme des Likes par tweets associés).")
         
+        # Logo pour les graphs
+        logossbu = Image.open("medias/logossbu.png")
+        
         # %%%%% Graph Like/Sales
         
         # Like_SUM et Diff
@@ -425,6 +450,7 @@ if selectedMenu == "Analyses":
         ssbuLike.add_trace(go.Scatter(x = df['Date'][df["Game"]=="SSBU"], 
                                       y = df['Like_SUM'][df["Game"]=="SSBU"],
                                       name = "Likes",
+                                      marker_color = colorTwitter,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Likes</br>'),
                                      secondary_y=False)
@@ -436,6 +462,7 @@ if selectedMenu == "Analyses":
                                       hovertemplate = '%{x|%Y %b}'+
                                                       '<br><b>%{y}M</b> Units</br>',
                                       name = "Ventes",
+                                      marker_color = colorSales,
                                       line_shape='vh',
                                       connectgaps=True),
                                      secondary_y=True)
@@ -487,6 +514,17 @@ if selectedMenu == "Analyses":
                                 ay=-70,
                                 xanchor="center")
         
+        # Logo SSBU
+        ssbuLike.add_layout_image(dict(source=logossbu,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
+        
         # Titre et yRange
         ssbuLike.update_layout(legend=dict(orientation="h"),
                                title_text="Super Smash Bros. Ultimate - Likes et ventes du jeux",
@@ -524,6 +562,8 @@ if selectedMenu == "Analyses":
         ssbuBlob.add_trace(go.Scatter(x = df['Date'][df["Game"]=="SSBU"], 
                                       y = df['Sentiment_TEXTBLOB_MEAN'][df["Game"]=="SSBU"],
                                       name = "TextBlob",
+                                      marker_color = df['Sentiment_TEXTBLOB_MEAN'][df["Game"]=="SSBU"],
+                                      marker_coloraxis="coloraxis",
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y}</b></br>'),
                                      secondary_y=False)
@@ -532,6 +572,7 @@ if selectedMenu == "Analyses":
         ssbuBlob.add_trace(go.Scatter(x = [datetime.date(2017,1,1),datetime.date(2018,12,1),datetime.date(2021,8,1),datetime.date(2023,1,1)], 
                                       y = [0.9,0.9,0.6,1],
                                       name = "Tendance",
+                                      marker_color = colorSales,
                                       hoverinfo='skip'),
                                      secondary_y=False)
         
@@ -554,9 +595,21 @@ if selectedMenu == "Analyses":
                                 ay=10,
                                 xanchor="left")
         
+        # Logo SSBU
+        ssbuBlob.add_layout_image(dict(source=logossbu,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
+        
         # Titre 
         ssbuBlob.update_layout(legend=dict(orientation="h"),
-                               title_text="Super Smash Bros. Ultimate - Sentiment Analysis par TextBlob")
+                               title_text="Super Smash Bros. Ultimate - Sentiment Analysis par TextBlob",
+                               coloraxis=dict(colorscale='Rdylgn'))
         
         # X-axis Titre
         ssbuBlob.update_xaxes(title_text="Date")
@@ -587,6 +640,9 @@ if selectedMenu == "Analyses":
         st.subheader("Une mécanique bien huilée")
         st.markdown("La franchise Pokémon est connue de tous ! Mais peut-on décelée une certaine stratégie derrière cette franchise ? Si Pokémon Épée / Bouclier est le cinquième jeu le plus vendus sur Switch, chaque sortie Pokémon semble battre son record précédent. Regardons les chiffres et tentons de comprendre tout cela. ")
                 
+        # Logo pour les graphs
+        logopoke = Image.open("medias/logopoke.png")
+        
         # %%%%% Graph Like/Sales
         
         # Like_SUM / Diff / User Mean
@@ -596,6 +652,7 @@ if selectedMenu == "Analyses":
         pokeLike.add_trace(go.Scatter(x = df['Date'][df["Game"]=="POKE"], 
                                       y = df['Like_SUM'][df["Game"]=="POKE"],
                                       name = "Likes",
+                                      marker_color = colorTwitter,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Likes</br>'),
                                      secondary_y=True)
@@ -605,6 +662,7 @@ if selectedMenu == "Analyses":
         pokeLike.add_trace(go.Scatter(x = df['Date'][df["Game"]=="POKE"], 
                                       y = df['User Followers count_MEAN'][df["Game"]=="POKE"],
                                       name = "Moyenne des followers",
+                                      marker_color = colorTwitterSec,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Follows</br>'),
                                      secondary_y=True)
@@ -612,6 +670,9 @@ if selectedMenu == "Analyses":
         # Diff
         pokeLike.add_trace(go.Bar(x = df['Date'][df["Game"]=="POKE"], 
                                   y = df['Diff'][df["Game"]=="POKE"],
+                                  marker_color = colorSales,
+                                  width = 3*30*24*3600*1000,
+                                  offset = -3*30*24*3600*1000,
                                   hovertemplate = '%{x|%Y %b}'+
                                                   '<br><b>%{y}M</b> Units</br>',
                                   name = "Ventes"),
@@ -682,14 +743,16 @@ if selectedMenu == "Analyses":
                                 ay=10,
                                 xanchor="right")
         
-        pokeLike.add_annotation(x=datetime.date(2022,6,1), 
-                                y=6,
-                                text="<i>estimation</i>",
-                                showarrow=True,
-                                arrowhead=1,
-                                ax=20,
-                                ay=-50,
-                                xanchor="center")
+        #Estimation Annotation
+        #pokeLike.add_annotation(x=datetime.date(2022,6,1), 
+        #                        y=6,
+        #                        text="<i>estimation</i>",
+        #                        showarrow=True,
+        #                        arrowhead=1,
+        #                        ax=20,
+        #                        ay=-50,
+        #                        xanchor="center")
+
         
         # Ajout Pokemon Arceus
         pokeLike.add_trace(go.Scatter(x=[datetime.date(2022,3,1),
@@ -699,6 +762,17 @@ if selectedMenu == "Analyses":
                                       hoverinfo='skip',
                                       mode="lines",
                                       name="Estimation recherche 'Legends : Arceus'"))
+        
+        # Logo POKE
+        pokeLike.add_layout_image(dict(source=logopoke,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
         
         # X-axis Titre
         pokeLike.update_xaxes(title_text="Date")
@@ -763,6 +837,7 @@ if selectedMenu == "Analyses":
                                            datetime.date(2022,1,1),
                                            datetime.date(2023,1,1)], 
                                       y = [0.3,0.26,0.23,0.27,0.21,0.21],
+                                      marker_color = colorSales,
                                       hoverinfo='skip',
                                       name = "Tendance",
                                       mode="lines"),
@@ -770,27 +845,62 @@ if selectedMenu == "Analyses":
         
         # Highlight Pokemon "Let's Go, Pikachu / Évoli"
         pokeSent.add_vrect(x0=datetime.date(2018,11,1), x1=datetime.date(2019,11,1), 
-                           annotation_text="Let's Go<br>Pikachu / Évoli", 
-                           annotation_position="top right",  
-                           annotation_font_size=11,
-                           annotation_font_color="Black",
                            fillcolor="yellow", opacity=0.1, line_width=0)
         
-        # Highlight Pokemon "remake"
-        pokeSent.add_vrect(x0=datetime.date(2019,11,1), x1=datetime.date(2021,11,1), 
-                           annotation_text="Épée / Bouclier", 
-                           annotation_position="top right",  
-                           annotation_font_size=11,
-                           annotation_font_color="Black",
-                           fillcolor="green", opacity=0.1, line_width=0)
+        # Logo "Let's Go, Pikachu / Évoli"
+        logoletsgo = Image.open("medias/logoletsgo.png")
+        pokeSent.add_layout_image(dict(source=logoletsgo,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=0.45, 
+                                       y=0.98,
+                                       sizey=0.15,
+                                       sizex=0.15,
+                                       xanchor="right", 
+                                       yanchor="top"))
+        
+        # Highlight Pokemon "Sword Shield"
+        pokeSent.add_vrect(x0=datetime.date(2019,11,1), x1=datetime.date(2022,1,1),
+                           fillcolor="red", opacity=0.1, line_width=0)
+        
+        # Logo "Sword Shield"
+        logoswordshield = Image.open("medias/logoswordshield.png")
+        pokeSent.add_layout_image(dict(source=logoswordshield,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=0.75, 
+                                       y=0.98,
+                                       sizey=0.15,
+                                       sizex=0.15,
+                                       xanchor="right", 
+                                       yanchor="top"))
         
         # Highlight Pokemon "Arceus"
         pokeSent.add_vrect(x0=datetime.date(2022,1,1), x1=datetime.date(2023,1,1), 
-                           annotation_text="Legends : Arceus", 
-                           annotation_position="top right",  
-                           annotation_font_size=11,
-                           annotation_font_color="Black",
-                           fillcolor="blue", opacity=0.1, line_width=0)
+                           fillcolor="purple", opacity=0.1, line_width=0)
+        
+        # Logo "Arceus"
+        logoarceus = Image.open("medias/logoarceus.png")
+        pokeSent.add_layout_image(dict(source=logoarceus,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=0.92, 
+                                       y=0.98,
+                                       sizey=0.15,
+                                       sizex=0.15,
+                                       xanchor="right", 
+                                       yanchor="top"))
+        
+        # Logo POKE
+        pokeSent.add_layout_image(dict(source=logopoke,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
         
         # X-axis Titre
         pokeSent.update_xaxes(title_text="Date")
@@ -812,7 +922,7 @@ if selectedMenu == "Analyses":
         # %%%%% Outro
         
         st.subheader("Un nouveau jeu à l’ancienne")
-        st.markdown("Sur ce graph nous voyons encore une fois la lassitude qui s’installe au fil du temps. Vader et TextBlob sont deux modèles différents qui offriront à peu prêt les même tendance au fil du temps selon leur échelle respective. Il faut noter que Legends : Arceus est un pokémon bien particulier qui aura tenté des choses nouvelles sur son gameplay. Malheureusement « nouveautés » n’est pas forcément gage de « qualité ».")
+        st.markdown("Sur ce graph nous voyons encore une fois la lassitude qui s’installe au fil du temps. Vader et TextBlob sont deux modèles différents qui offriront à peu prêt les même tendance au fil du temps selon leur échelle respective. Il faut noter que Legends : Arceus est un pokémon bien particulier qui aura tenté des choses nouvelles sur son gameplay. Malheureusement « nouveautés » n’est pas forcément gage de « satisfaction ».")
         
         st.subheader("Les vieux pots")
         st.markdown("Même si on dénote une lassitude, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de bases de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté.  Mais est-ce qu’une grande communauté est toujours une bonne pub ? C’est ce que nous allons voir avec Animal Crossing.")
@@ -828,6 +938,9 @@ if selectedMenu == "Analyses":
         st.subheader("Le feu des projecteurs")
         st.markdown("Animal Crossing : New Horizons (ACNH) est un jeu « niche » dans le monde du jeu vidéo. Deux facteurs principaux ont catapulté sa vente : sa sortie en plein confinement et sa mise en lumière par la presse spécialisée. Mais si les joueurs niches ont adorés, qu’en est-il des joueurs en général ? ")
         
+        # Logo pour les graphs
+        logoacnh = Image.open("medias/logoacnh.png")
+        
         # %%%%% Graph Like/Sales
 
         # Like_SUM et Diff
@@ -837,6 +950,7 @@ if selectedMenu == "Analyses":
         acnhLike.add_trace(go.Scatter(x = df['Date'][df["Game"]=="ACNH"], 
                                       y = df['Like_SUM'][df["Game"]=="ACNH"],
                                       name = "Likes",
+                                      marker_color = colorTwitter,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Likes</br>'),
                                      secondary_y=False)
@@ -881,9 +995,21 @@ if selectedMenu == "Analyses":
                                       hovertemplate = '%{x|%Y %b}'+
                                                       '<br><b>%{y}M</b> Units</br>',
                                       name = "Ventes",
+                                      marker_color = colorSales,
                                       line_shape='vh',
                                       connectgaps=True),
                                      secondary_y=True)
+        
+        # Logo ACNH
+        acnhLike.add_layout_image(dict(source=logoacnh,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
         
         # Titre et yRange
         acnhLike.update_layout(legend=dict(orientation="h"),
@@ -921,6 +1047,7 @@ if selectedMenu == "Analyses":
         acnhMtc.add_trace(go.Scatter(x = df['Date'][df["Game"]=="ACNH"], 
                                       y = df['meanMTC'][df["Game"]=="ACNH"],
                                       name = "Moyenne",
+                                      marker_color = colorTwitter,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y}</b> /10</br>'),
                                      secondary_y=True)
@@ -930,6 +1057,7 @@ if selectedMenu == "Analyses":
                                       y = df['countMTC'][df["Game"]=="ACNH"],
                                       hovertemplate = '%{x|%Y %b}'+
                                                       '<br><b>%{y}</b> comments</br>',
+                                      marker_color = colorSales,
                                       name = "Quantité",
                                       yaxis='y2'),
                                      secondary_y=False)
@@ -946,6 +1074,17 @@ if selectedMenu == "Analyses":
                                 ax=20,
                                 ay=50,
                                 xanchor="left")
+        
+        # Logo ACNH
+        acnhMtc.add_layout_image(dict(source=logoacnh,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))
         
         # Titre et yRange
         acnhMtc.update_layout(legend=dict(orientation="h"),
@@ -979,6 +1118,9 @@ if selectedMenu == "Analyses":
         st.subheader("Un classique")
         st.markdown("La franchise Mario Kart est un classique. Chaque console Nintendo depuis la super NES à eu le droit à son opus. Attendu au tournant, les développeurs ont pris le parti cette fois de sortir un bon jeu et de continuer à le développer dans une politique de Game as Service avec de nombreux contenus additionnels. Il faut rappeler que Mario Kart 8 Deluxe (MKD8) est un remake de Mario Kart 8 sorti sur WiiU.")
         
+        # Logo pour les graphs
+        logomkd8 = Image.open("medias/logomkd8.png")
+        
         # %%%%% Graph Like/Sales
         
         # Like_SUM et Diff
@@ -988,6 +1130,7 @@ if selectedMenu == "Analyses":
         mkd8Like.add_trace(go.Scatter(x = df['Date'][df["Game"]=="MKD8"], 
                                       y = df['Like_SUM'][df["Game"]=="MKD8"],
                                       name = "Likes",
+                                      marker_color = colorTwitter,
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Likes</br>'),
                                      secondary_y=False)
@@ -1012,12 +1155,12 @@ if selectedMenu == "Analyses":
                                 xanchor="right")
         
         # Highlight augmentation likes 
-        mkd8Like.add_vrect(x0=datetime.date(2021,4,1), x1=datetime.date(2022,12,1), 
-                           annotation_text="Augmentation de l'activité Twitter", 
-                           annotation_position="top right",  
-                           annotation_font_size=11,
-                           annotation_font_color="Black",
-                           fillcolor="green", opacity=0.1, line_width=0)
+        #mkd8Like.add_vrect(x0=datetime.date(2021,4,1), x1=datetime.date(2022,12,1), 
+        #                   annotation_text="Augmentation de l'activité Twitter", 
+        #                   annotation_position="top right",  
+        #                   annotation_font_size=11,
+        #                   annotation_font_color="Black",
+        #                   fillcolor="green", opacity=0.1, line_width=0)
         
         
         # Diff
@@ -1026,9 +1169,21 @@ if selectedMenu == "Analyses":
                                       hovertemplate = '%{x|%Y %b}'+
                                                       '<br><b>%{y}M</b> Units</br>',
                                       name = "Ventes",
+                                      marker_color = colorSales,
                                       line_shape='vh',
                                       connectgaps=True),
                                      secondary_y=True)
+        
+        # Logo MKD8
+        mkd8Like.add_layout_image(dict(source=logomkd8,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))
         
         # Titre et yRange
         mkd8Like.update_layout(legend=dict(orientation="h"),
@@ -1092,6 +1247,17 @@ if selectedMenu == "Analyses":
                                                     "bottom right",
                                                     "top left"]))
         
+        # Logo MKD8
+        mkd8Sent.add_layout_image(dict(source=logomkd8,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1.2, 
+                                      y=1.15,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="top"))
+        
         # Titre et yRange
         mkd8Sent.update_layout(legend=dict(orientation="h"),
                                title_text="Mario Kart 8 Deluxe - La force tranquille")
@@ -1124,23 +1290,41 @@ if selectedMenu == "Analyses":
         # Image
         st.image("medias/bannerbotw.png")
         
-        # %%%%% Outro
+        # %%%%% Intro
         
         st.subheader("Chef d’œuvre")
         st.markdown("The Legend of Zelda : Breath Of The Wild (BOTW) est un jeu très populaire qui a su durer dans le temps. Marathonien des ventes, il n’atteint aucun chiffre astronomique mais il sera en cible sur tout son parcours. C’est ainsi qu’il reste toujours en quatrième position alors que son premier trimestre n’atteignait que faiblement 2.76M (jeux au plus faible lancement parmi tout ceux étudié).")
+        
+        # Logo pour les graphs
+        logobotw = Image.open("medias/logobotw.png")
             
         # %%%%% Graph Camembert
 
         # Sortie du jeu attendu 
-        labels = ['Nintendo Switch','Others Software','Breath Of The Wild']
-        values = [2.74,2.7,2.76]
+        pieBotwLabels = ['Nintendo Switch','Others Software','Breath Of The Wild']
+        pieBotwValues = [2.74,2.7,2.76]
+        pieBotwColors = [colorSales, colorSalesSec, "#EFDD7D"]
         
         # Camembert
-        botwPreS = go.Figure(data=[go.Pie(labels=labels, values=values, pull=[0, 0, 0.2])])
+        botwPreS = go.Figure(data=[go.Pie(labels = pieBotwLabels, 
+                                          values = pieBotwValues, 
+                                          pull=[0, 0, 0.2])])
         
         # Personnalisation
         botwPreS.update_traces(hoverinfo='label+percent', textinfo='label+value', textfont_size=16,
-                               showlegend=False)
+                               showlegend=False,
+                               marker=dict(colors=pieBotwColors))
+        
+        # Logo BOTW
+        botwPreS.add_layout_image(dict(source=logobotw,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))
         
         # Titre
         botwPreS.update_layout(title_text="The Legend of Zelda: Breath of the Wild - Ventes selon Nintendo au 30 Mars 2017")
@@ -1187,6 +1371,17 @@ if selectedMenu == "Analyses":
         botwNote.update_yaxes(title_text="Quantité",range=[0, 6000], row=1, col=1)
         botwNote.update_yaxes(title_text="Quantité",range=[0, 9000], row=1, col=2)
         
+        # Logo BOTW
+        botwNote.add_layout_image(dict(source=logobotw,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1.1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))
+        
         # Legend
         botwNote.update_layout(legend=dict(orientation="h",
                                            yanchor="bottom",
@@ -1222,6 +1417,7 @@ if selectedMenu == "Analyses":
         botwLike.add_trace(go.Scatter(x = df['Date'][df["Game"]=="BOTW"], 
                                       y = df['Like_SUM'][df["Game"]=="BOTW"],
                                       name = "Likes",
+                                      marker_color = colorTwitter, 
                                       hovertemplate = '%{x|%Y %B}'+
                                                       '<br><b>%{y:.2s}</b> Likes</br>'),
                                      secondary_y=False)
@@ -1236,6 +1432,7 @@ if selectedMenu == "Analyses":
         botwLike.add_trace(go.Scatter(x=df['Date'][df["Game"]=="BOTW"], 
                                       y=trendline,
                                       name="Tendance des likes",
+                                      marker_color = colorTwitterSec,
                                       hoverinfo='skip'))
         
         
@@ -1245,6 +1442,7 @@ if selectedMenu == "Analyses":
                                       hovertemplate = '%{x|%Y %b}'+
                                                       '<br><b>%{y}M</b> Units</br>',
                                       name = "Ventes",
+                                      marker_color = colorSales,
                                       line_shape='vh',
                                       connectgaps=True),
                                      secondary_y=True)
@@ -1304,6 +1502,16 @@ if selectedMenu == "Analyses":
                                 ay=-30,
                                 xanchor="left")
         
+        # Logo BOTW
+        botwLike.add_layout_image(dict(source=logobotw,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))        
         
         # Titre et yRange
         botwLike.update_layout(legend=dict(orientation="h",
@@ -1328,10 +1536,13 @@ if selectedMenu == "Analyses":
         
         # ----
         
-        # %%%%% Outro
+        # %%%%% Analyse 2
         
         st.subheader("Une petite communauté active")
         st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de se jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de publique. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant créera un nouveau pique d’activité pour ce deuxième opus.")
+        
+        
+        # %%%%% Graph Opus
         
         # Données
         botw_z01 = ["Ocarina of Time (1998)","Majora's Mask (2000)"]
@@ -1348,11 +1559,14 @@ if selectedMenu == "Analyses":
         botwprev = make_subplots(rows=1, cols=2,
                                  subplot_titles=("Nintendo 64","Nintendo Switch"))
         
+        # Barpremier opus
         botwprev.add_trace(go.Bar(x = botw_z01, 
                                   y = botw_s01,
                                   marker_color = ["#2ecc71","#af7ac5"]),
                                   row=1, col=1)
         
+        
+        # Bar deuxième opus
         botwprev.add_trace(go.Bar(x = botw_z02, 
                                   y = botw_s02,
                                   marker_color = ["cornflowerblue","grey"]),
@@ -1365,6 +1579,7 @@ if selectedMenu == "Analyses":
                                showlegend=False,
                                texttemplate = "               %{y:.2s}M")
         
+        # Image Links
         botwprev.add_layout_image(dict(source=imgocarina,
                                        xref="x",
                                        x=-0.1,
@@ -1380,15 +1595,28 @@ if selectedMenu == "Analyses":
                                        x=-0.1,
                                        y=0.02,))
         
+        # Image question mark
         botwprev.add_layout_image(dict(source=imgtotkmark,
                                        xref="x2",
                                        x=1,
                                        y=0.02,))
         
+        # Réglages
         botwprev.update_layout_images(dict(sizex=0.9,
                                            sizey=0.5,
                                            xanchor="center",
                                            yanchor="bottom"))
+        
+        # Logo
+        botwprev.add_layout_image(dict(source=logobotw,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))   
         
         
         botwprev.update_layout(title="The Legend of Zelda, seconds opus et prévisions",
@@ -1398,6 +1626,8 @@ if selectedMenu == "Analyses":
                                            title="Ventes en M Units"))
 
         st.plotly_chart(botwprev)
+        
+        # %%%%% Outro
         
         st.subheader("Un nouveau cycle")
         st.markdown("Si BOTW fut un franc succès tant par la critique que par ses notes, on voit bien que le publique intègre de plus en plus le nouveau titre (TOTK) en délaissant l’ancien sur l’activité Twitter. Si on ne peut pas prévoir exactement les ventes de celui-ci sur la durée. On peut tout de même deviner que sa sortie le 12 mai 2023 sera un énorme succès et qu’il va exploser les ventes de son prédécesseur.")
