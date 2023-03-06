@@ -381,8 +381,7 @@ if selectedMenu == "Methodologie":
         
         st.markdown("Nous sommes partis des 5 jeux sélectionnés parmi les jeux les plus vendus de Nintendo sur la Switch.")
         
-        st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un résultat optimal. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, obligeant à constamment être à jour de ses codes python. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.
-")
+        st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un résultat optimal. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, obligeant à constamment être à jour de ses codes python. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.")
         
         # %%%% Scrap Comments
         
