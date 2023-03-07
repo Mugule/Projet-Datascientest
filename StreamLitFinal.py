@@ -415,10 +415,6 @@ if selectedMenu == "Methodologie":
         st.image("medias/datasets_scrapp_twitter.jpg",width=600)
        
 
-
-# Use Streamlit to display the dataframe as a table
-st.write("Tableau des données", df_dataset_scrapp_twitter)
-
 # %%%% Scrap Comments
         
     with tabc:
