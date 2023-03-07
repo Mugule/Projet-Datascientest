@@ -413,7 +413,7 @@ if selectedMenu == "Methodologie":
         
         # Image
         st.image("medias/datasets_scrapp_twitter.jpg",width=600)
-        
+       
 # %%%% Scrap Comments
         
     with tabc:
