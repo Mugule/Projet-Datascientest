@@ -453,6 +453,24 @@ if selectedMenu == "Methodologie":
         
         # Image
         st.image("medias/imgpipeline.png")
+        
+# Create a dictionary with the data
+dataset_scrapp_twitter = {["top_tweets_2017_to_2022_ACNH.csv",
+         "top_tweets_2017_to_2022_botw.csv",
+         "top_tweets_2017_to_2022_mariokart.csv",
+         "top_tweets_2017_to_2022_supersmashbros.csv",
+         "top_tweets_2017_to_2022_pokemon.csv"],
+    ["6 575 lignes x 14 colonnes",
+     "14 261 lignes x 14 colonnes",
+     "1 593 lignes x 14 colonnes",
+     "10 151 lignes x 14 colonnes",
+     "18 991 lignes x 14 colonnes"]}
+
+# Create a Pandas dataframe from the dictionary
+df_dataset_scrapp_twitter = pd.DataFrame(dataset_scrapp_twitter)
+
+# Use Streamlit to display the dataframe as a table
+st.write("Tableau des données", df_dataset_scrapp_twitter)
     
 # %%% Analyses
 
