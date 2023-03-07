@@ -2,8 +2,12 @@
 # %% (_.~" IMPORT "~._) 
 
 import datetime
+from datetime import timedelta
 import numpy as np
 import pandas as pd
+
+from stqdm import stqdm
+import snscrape.modules.twitter as sntwitter
 
 from PIL import Image
 
@@ -13,7 +17,6 @@ from streamlit_option_menu import option_menu
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
-from plotly import tools
 
 loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. '
 
@@ -79,6 +82,23 @@ colorTwitterSec = "#E8F5FD"
 colorSales = "#FF4B4B"
 colorSalesSec = "F18989"
 
+colorsTop5 = ["#ff7b00",
+              "#ff9500",
+              "#ffaa00",
+              "#ffc300",
+              "#ffd000"]
+
+colorsTop10 = ["#184e77",
+               "#1e6091",
+               "#1a759f",
+               "#168aad",
+               "#34a0a4",
+               "#52b69a",
+               "#76c893",
+               "#99d98c",
+               "#b5e48c",
+               "#d9ed92"]
+
 colorDict = {}
 
 for name in dfVGSales.Publisher.unique():
@@ -102,7 +122,7 @@ with st.sidebar:
                    "Methodologie",
                    "Analyses",
                    "Conclusion",
-                   "Scrap-App"],
+                   "Scrapp-App"],
         icons = ["easel",
                  "info",
                  "cloud-download",
@@ -274,7 +294,7 @@ if selectedMenu == "Methodologie":
         
         st.subheader('Scrapping Nintendo')
         
-        st.markdown("Nous avons vu que Nintendo savait vendre des jeux. Nous allons donc scraper leur données et analyser les ventes de ses best sellers. Pour ce faire nous irons directement scrapper les données sur le [site officiel de Nintendo](https://www.nintendo.co.jp/ir/en/finance/software/index.html). Celui-ci liste ses meilleurs jeux par vente totale sur une plateforme pour chaque trimestre. ")
+        st.markdown("Nous avons vu que Nintendo savait vendre des jeux. Nous allons donc scraper leur données et analyser les ventes de ses best sellers. Pour ce faire nous irons directement scrapper les données sur le [site officiel de Nintendo](https://www.nintendo.co.jp/ir/en/finance/software/index.html) avec l'API Beautifulsoup. Celui-ci liste ses meilleurs jeux par vente totale sur une plateforme pour chaque trimestre. ")
         
         st.markdown("Pour cet exercice, nous nous concentrerons plus tard sur la Switch car ces données d'actualités sont disponibles depuis la création de la console. Mais au départ, nous avons du récupérer les données pour chaque consoles. Aussi pour avoir la dimension temporelle, nous nous aiderons du site [Wayback Machine](http://web.archive.org/). Cet outil permet de retrouver des archives d’autres sites. Ainsi, nous pouvons remonter dans le temps afin de retrouver les meilleures ventes à un moment donné. Petite particularité, la date de l’archive diffère de la date du rapport.")
         
@@ -377,10 +397,9 @@ if selectedMenu == "Methodologie":
         # Image
         st.image("medias/imgtwitter.png",width=250)
         
-        st.subheader('Scrap Twitter')
+        st.subheader('Scrapping Twitter')
         
         st.markdown("Nous sommes partis des 5 jeux sélectionnés parmi les jeux les plus vendus de Nintendo sur la Switch.")
-        
         st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un résultat optimal. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, obligeant à constamment être à jour de ses codes python. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.")
         
         # %%%% Scrap Comments
@@ -1648,6 +1667,143 @@ if selectedMenu == "Conclusion":
 
 # %%% Scrapp-App
 
-if selectedMenu == "Scrap-App":
-    st.title("Incomming !")
-    st.subheader('voilà voilà')
+if selectedMenu == "Scrapp-App":
+    
+    st.title("Scrapp-App")
+    
+    # %%%% Inputs
+    
+    # Présentation
+    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise snscrape")
+    
+    # Notes pour l'utilisateur
+    st.markdown("Pour les Hashtags très populaires, pensez à bien limiter le nombre maximal. En effet le temps de recherche sera très long et le scrapping s'arrêtera une fois avoir atteint le nombre maximum de tweets. Attention, si vous modifiez votre requête, vous perdrez les résultats de votre recherche.")
+    
+    # Séparation en deux colonnes
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Recherche
+        scrapInput = st.text_input('Hashtag', 'KSP')
+        # Date de début
+        scrapStart = st.date_input("Début",datetime.date(2023, 2, 1))
+    with col2:
+        # Tweets maximum dans la recherche
+        maxTweets = st.number_input('Tweets maximum',min_value = 100, value=3000, format = "%d")
+        # Date de fin
+        scrapEnd = st.date_input("Fin",datetime.date(2023, 3, 1))
+    
+    # Etendue de la recherche
+    scrapRange = scrapEnd-scrapStart
+    
+    # Vérification des dates
+    if scrapRange.days <= 0:
+        dateTest = True
+        buttonName = "Date incorrecte"
+    else:
+        dateTest = False
+        buttonName = "Scrapp-App"
+    
+    # Lancement de la requête
+    if st.button(buttonName, disabled=dateTest):
+        # Retrait du # si il est mis par l'utilisateur 
+        if scrapInput[0]=="#":
+            scrapInput = scrapInput[1:]
+    
+    # %%%% Scrapping
+    
+        querryList = []
+        tweets_list = []
+        
+        for i in range(0,scrapRange.days):
+            start = (scrapStart+timedelta(days=i)).strftime('%Y-%m-%d')
+            end = (scrapStart+timedelta(days=i+1)).strftime('%Y-%m-%d')
+            querryList.append('#' + scrapInput + " since:" + start + " until:" + end)
+        
+            
+        for query in stqdm(querryList):
+            for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
+                if i >= maxTweets:
+                    break
+                tweets_list.append([tweet.date, tweet.likeCount, tweet.hashtags, tweet.lang])
+        
+        # Création dataframe
+        dfScrap = pd.DataFrame(tweets_list, columns=['Datetime', 'Like', 'Hashtags','Langue'])
+        dfScrap_x, dfScrap_y = dfScrap.shape
+             
+        # %%%% Results
+        if dfScrap_x == 0:
+            
+            st.error('Aucun tweet trouvé')
+            
+        if dfScrap_x > 0:
+            
+            # Likes sur le temps
+            
+            # Préparation des données
+            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap.Like.sum()) + " Likes"
+            
+            dfLikes = dfScrap.groupby([dfScrap['Datetime'].dt.date]).sum().reset_index()
+            
+            # Graphique Instance
+            figLikes = go.Figure()
+            figLikes.add_trace(go.Bar(x = dfLikes['Datetime'], 
+                                      y = dfLikes['Like'],
+                                      hovertemplate="%{x}<br><b>%{y:.2s}<b> Likes",
+                                      name ="",
+                                      marker_color = colorTwitter))
+            # Réglages
+            figLikes.update_layout(showlegend=False,
+                                   title = figLikesTitle)
+        
+            # Affichage
+            st.plotly_chart(figLikes)
+            
+            # Camembert TOP5 Langues et TOP10 Hashtags
+            
+            # Préparation des données
+            dfLtag = dfScrap.explode('Langue').reset_index(drop=True).drop(['Datetime','Like','Hashtags'], axis=1)
+            dfLtag['Langue'] = dfLtag['Langue'].str.upper()
+            dfLtop = dfLtag.value_counts().head(5).reset_index()
+        
+            dfHtag = dfScrap.explode('Hashtags').reset_index(drop=True).drop(['Datetime','Like','Langue'], axis=1)
+            dfHtag['Hashtags'] = dfHtag['Hashtags'].str.upper()
+            dfHtop = dfHtag.value_counts().head(10).drop([scrapInput.upper()]).reset_index()
+        
+            figPiesTitle = "#" + scrapInput +" ("+ scrapStart.strftime('%d %b %Y') + " - "+ scrapEnd.strftime('%d %b %Y') +")"
+            
+            # Graphique Instance
+            figPies = make_subplots(rows=1, cols=2,    
+                                    specs=[[{"type": "pie"}, {"type": "pie"}]],
+                                    subplot_titles=("Langues les plus utilisées","Hashtags associés populaires"))
+        
+            # Pie TOP5 Langues
+            figPies.add_trace(go.Pie(values=dfLtop[0],
+                                     labels=dfLtop["Langue"],
+                                     name="TOP5<br>Langues",
+                                     marker_colors=colorsTop5),
+                              row=1, col=1)
+        
+            # Pie TOP10 Hashtags
+            figPies.add_trace(go.Pie(values=dfHtop[0],
+                                     labels=dfHtop["Hashtags"],
+                                     name="TOP10<br>Hashtags",
+                                     marker_colors=colorsTop10),
+                              row=1, col=2)
+        
+            #Règlages
+            figPies.update_traces(textposition='inside',
+                                  insidetextorientation='radial', 
+                                  textinfo='percent+label',
+                                  hovertemplate="<b>%{label}</b><br>%{value:.2s}")
+        
+            figPies.update_layout(showlegend = False,
+                                   title = figPiesTitle)
+        
+            # Affichage
+            st.plotly_chart(figPies)  
+
+    
+    
+
+    
