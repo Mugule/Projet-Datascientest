@@ -412,7 +412,7 @@ if selectedMenu == "Methodologie":
         st.image("medias/imgmetacritic.png",width=250)
         
         st.subheader('Scrap Metacritic')
-        st.markdown(" * insert text here * ")        
+        st.markdown("Pour collecter les notes attribuées aux jeux sur Metacritic, nous avons utilisé la bibliothèque Selenium pour automatiser le processus de scrapping. Nous avons dû passer par un navigateur Web pour accéder à la page de chaque jeu et collecter les informations. Le volume de données collectées varie selon le jeu et la popularité du jeu sur Metacritic.")        
 
         # Scrap Amazon
         
@@ -420,15 +420,17 @@ if selectedMenu == "Methodologie":
         st.image("medias/imgamazon.png",width=250)
     
         st.subheader('Scrap Amazon')
-        st.markdown(" * insert text here * ")
+        st.markdown("Pour collecter les commentaires des utilisateurs sur Amazon, nous avons utilisé la bibliothèque Beautiful Soup en Python pour extraire les informations à partir de l'URL de chaque jeu sur le site Amazon. Nous avons collecté les commentaires ainsi que les notes attribuées aux jeux. Le volume de données collectées varie selon le jeu et la popularité du jeu sur Amazon.")
         
         
         # %%%% Sentiment Analysis
         
     with tabm:
         
-        st.subheader('Sentiment Analysis')
-        st.markdown(" * insert text here * ")
+        st.subheader('Analyse de sentiment')
+        st.markdown("Pour analyser le sentiment des commentaires et notes, nous avons utilisé la bibliothèque VADER (Valence Aware Dictionary and sentiment Reasoner) en Python. Cette bibliothèque permet d'attribuer une note de positivité, de négativité et de neutralité à chaque commentaire en fonction du choix de mots utilisés.")
+        st.markdown("Après avoir utilisé la bibliothèque VADER, nous avons constaté que les résultats étaient peu concluants. En effet, la bibliothèque classait en négatif certains commentaires alors que la note associée était très positive, et vice versa. Pour corriger ce biais, nous avons mis en place une fonction de correction qui crée une nouvelle variable en croisant l'avis de VADER et la note laissée par l'utilisateur. Cette fonction permet d'attribuer une note finale de positivité, de négativité ou de neutralité à chaque commentaire en prenant en compte à la fois l'avis de VADER et la note laissée. Cette méthode a permis d'obtenir des résultats plus fiables pour notre analyse de sentiment.")
+        st.markdown("En plus de la bibliothèque VADER, il est donc nécessaire d'utiliser une autre technique d'analyse de texte plus avancée pour obtenir des résultats plus fiables. Parmi les autres techniques d'analyse de texte, on peut citer l'utilisation de réseaux de neurones, de modèles de langage comme BERT ou encore de méthodes de classification supervisées telles que les SVM (Support Vector Machines) ou les arbres de décision.")
         
         # %%%% Création du Dataset Final
         
@@ -1674,7 +1676,7 @@ if selectedMenu == "Scrapp-App":
     # %%%% Inputs
     
     # Présentation
-    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise snscrape")
+    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise [snscrape]https://github.com/JustAnotherArchivist/snscrape).")
     
     # Notes pour l'utilisateur
     st.markdown("Pour les Hashtags très populaires, pensez à bien limiter le nombre maximal. En effet le temps de recherche sera très long et le scrapping s'arrêtera une fois avoir atteint le nombre maximum de tweets. Attention, si vous modifiez votre requête, vous perdrez les résultats de votre recherche.")
