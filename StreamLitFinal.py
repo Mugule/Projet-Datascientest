@@ -400,8 +400,25 @@ if selectedMenu == "Methodologie":
         st.subheader('Scrapping Twitter')
         
         st.markdown("Nous sommes partis des 5 jeux sélectionnés parmi les jeux les plus vendus de Nintendo sur la Switch.")
-        st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un **résultat optimal**. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, obligeant à constamment être à jour de ses codes python. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.")
+        st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un **résultat optimal**. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, **obligeant à constamment être à jour de ses codes python**. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.")
+        st.markdown("De nombreuses bibliothèques python pour scraper Twitter existent, mais très peu sont réellement fonctionnelles. Certaines utilisent l’API Twitter et d’autres non. Nous nous sommes évidemment intéressés à celles qui s’affranchissent de ces limites. Nos recherches nous ont permis de sélectionner la bibliothèque snscrap (SNS) https://github.com/JustAnotherArchivist/snscrape avec une communauté d’utilisateurs active et un outil fonctionnel et à jour.")
+        st.markdown("Les premiers tests ont permis de récupérer un dataset très propre et complet de tous les tweets avec un essai sur un mot clé sur une journée. Pour autant, notre échelle de temps pour récupérer les tweets étant fixée sur la période de 2017 à 2022, il s’est avéré que le nombre de tweets potentiellement récupérable était exceptionnellement élevé. Par exemple pour une échelle de 6 mois avec les mots clé “Zelda OR #Zelda OR #Breathofthewild OR breath of the wild OR #BOTW”, le temps de scraping était d’environ une dizaine d’heure avec un tweet toutes les secondes environ récupérés.")
+        st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
+        st.markdown("Afin de conserver le plus de cohérence statistique avec les autres jeux Nintendo, nous avons uniquement réévalué la sélection des tweets par rapport à leur nombre de likes. Après plusieurs essais pour évaluer la bonne jauge, nous modifions le nombre de likes de 100 likes à 1 000 likes par tweets. Avec ce nouveau filtre, nous pouvons bien distinguer une première tendance exponentielle du nombre de tweets pour le jeu Pokemon.")
         
+        st.markdown("Un dataset a été récupéré pour chaque jeu :")
+        
+        # Image
+        st.image("medias/datasets_scrapp_twitter.jpg",width=250)
+        
+
+                        
+Cette contrainte nous a décidé à filtrer les tweets et à créer des boucles pour réduire le nombre de tweets à scraper tout en conservant une pertinence des données pour notre projet :  
+
+100 likes minimum pour les tweets les plus likés par jour. 
+50 tweets par jour maximum.
+
+Pour une année, cela permet de récupérer au maximum près de 18 000 tweets parmi les plus likés et donc les plus partagés par les communautés de joueurs. Cela réduit le biais d’opinion et permet de toucher un maximum de joueurs qui partagent la même opinion en likant le tweet (positif, neutre ou négatif).
         # %%%% Scrap Comments
         
     with tabc:
