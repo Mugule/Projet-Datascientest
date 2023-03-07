@@ -412,7 +412,7 @@ if selectedMenu == "Methodologie":
         st.markdown("Un dataset a été récupéré pour chaque jeu :")
         
         # Image
-        st.image("medias/datasets_scrapp_twitter.jpg")
+        st.image("medias/datasets_scrapp_twitter.jpg",width=400)
         
 # %%%% Scrap Comments
         
