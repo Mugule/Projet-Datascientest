@@ -406,14 +406,35 @@ if selectedMenu == "Methodologie":
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
         st.markdown("Afin de conserver le plus de cohérence statistique avec les autres jeux Nintendo, nous avons uniquement réévalué la sélection des tweets par rapport à leur nombre de likes. Après plusieurs essais pour évaluer la bonne jauge, nous modifions le nombre de likes de 100 likes à 1 000 likes par tweets. Avec ce nouveau filtre, nous pouvons bien distinguer une première tendance exponentielle du nombre de tweets pour le jeu Pokemon.")                       
         st.markdown("Cette contrainte nous a décidé à filtrer les tweets et à créer des boucles pour réduire le nombre de tweets à scraper tout en conservant une pertinence des données pour notre projet :")
-        st.markdown("100 likes minimum pour les tweets les plus likés par jour.")
-        st.markdown("50 tweets par jour maximum.")
+        st.markdown("- 100 likes minimum pour les tweets les plus likés par jour.")
+        st.markdown("- 50 tweets par jour maximum.")
         st.markdown("Pour une année, cela permet de récupérer au maximum près de 18 000 tweets parmi les plus likés et donc les plus partagés par les communautés de joueurs. Cela réduit le biais d’opinion et permet de toucher un maximum de joueurs qui partagent la même opinion en likant le tweet (positif, neutre ou négatif).")
         st.markdown("Un dataset a été récupéré pour chaque jeu :")
         
         # Image
         st.image("medias/datasets_scrapp_twitter.jpg",width=600)
        
+        st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
+
+        st.markdown("Afin de conserver le plus de cohérence statistique avec les autres jeux Nintendo, nous avons uniquement réévalué la sélection des tweets par rapport à leur nombre de likes. Après plusieurs essais pour évaluer la bonne jauge, nous modifions le nombre de likes de 100 likes à 1 000 likes par tweets. Avec ce nouveau filtre, nous pouvons bien distinguer une première tendance exponentielle du nombre de tweets pour le jeu Pokemon.")
+
+        st.markdown("Nous avons procédé au pré-traitement de chaque dataset pour obtenir des données propres à la réalisation de Sentiment Analysis. Un dataset final top5_nintendo_games.csv concaténant les 5 dataset a été créé à partir de cette étape.")
+
+        st.markdown("Tout d’abord, il a été nécessaire de traduire les tweets non anglophones en anglais, afin de réaliser l’ensemble de nos analyses avec des outils et des librairies utilisant la même langue. Il n’a pas été aisé de trouver une méthode fonctionnelle et viable. Malgré de nombreuses librairies (Google translate, Yandex, Google-translate, Bing, Reverso…) de traduction existante sur python, aucune n’a été opérationnelle malgré nos multiples tests. En cause, des restrictions trop fortes au niveau des API, au niveau des serveurs hébergeant les solutions (bloquant les grands nombre de requêtes) et au niveau des mises à jour (Google translate notamment).")
+
+        st.markdown("La solution choisie a été une solution de repli, mais efficace, en utilisant Google Sheets et en appliquant à l’ensemble de la colonne ‘Tweet’ contenant le texte des tweets, la formule suivante :")
+        st.code("=GOOGLETRANS(“Nom colonne”; “auto”; “en”)", language='python')
+        st.markdown("- “auto” : détection automatique de la langue")
+        st.markdown("- “en” : langue ciblée à traduire")
+        st.markdown("Le fichier a ensuite été exporté en csv pour le récupérer afin de poursuivre le pré-traitement des données.")
+
+        st.markdown("Les valeurs manquantes identifiées sont des cellules où les données n’ont pas été récoltées par le scrapping car non présentes dans le tweets (location, hashtags, liens). Ces valeurs ont été remplacées par ‘No location’, ‘No Hashtags’ et ’No links’.")
+
+        st.markdown("Une nouvelle colonne ‘Clean_Tweet_Text’ a été créée pour nettoyer le texte des caractères spéciaux, de la ponctuation, des url, des emojis, des hashtags, d’une liste de stopwords et d’uniformiser en minuscule.")
+
+        st.markdown("L’analyse des sentiments a été effectuée avec Textblob et NLTK pour comparer les résultats.")
+
+        st.markdown("Il apparaît que Textblob n’identifie presque pas les sentiments neutres contrairement à NLTK qui place les sentiments neutres et positifs presque au même niveau. L’étape du Machine Learning devrait pouvoir nous éclairer sur le modèle le plus efficient, voir à ajouter une ou plusieurs variables pour ajuster l’analyse.")
 
 # %%%% Scrap Comments
         
