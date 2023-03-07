@@ -3,3 +3,6 @@
 streamlit_option_menu
 plotly
 pillow
+snscrape
+timedelta
+stqdm
