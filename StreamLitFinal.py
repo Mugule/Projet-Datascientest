@@ -33,9 +33,9 @@ def weighted_average(group):
 # %% (_.~" DATAFRAMES "~._)  
 # %%% Import
 # DataFrame principal
-df = pd.read_csv("finalDataset.csv")
+df = pd.read_csv("data/finalDataset.csv")
 # Dataframe de base venant de VGChartz
-dfVGSales = pd.read_csv("vgsales.csv", index_col=[0]) 
+dfVGSales = pd.read_csv("data/vgsales.csv", index_col=[0]) 
 # %%% Formatage df
 # Création de la colonne Date
 df["Date"] = pd.to_datetime(df['Year'].astype("str")+" "+df['Month'].astype("str"),format="%Y %m")
