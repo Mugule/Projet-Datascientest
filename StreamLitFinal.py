@@ -991,8 +991,9 @@ if selectedMenu == "Analyses":
         pokeText.add_trace(go.Bar(x=pokeTextValues, 
                                   y=pokeTextLabels,
                                   text=pokeTextLabels,
+                                  texttemplate = "%<b>{text}</b>",
                                   orientation = "h",
-                                  marker_color = colorTwitter,
+                                  marker_color = colorTwitterSec,
                                   name=""))
         
         # Logo POKE
@@ -1221,6 +1222,7 @@ if selectedMenu == "Analyses":
         acnhText.add_trace(go.Bar(x=acnhBad01Values, 
                                   y=acnhBad01Labels,
                                   text=acnhBad01Labels,
+                                  texttemplate = "%<b>{text}</b>",
                                   marker_color = colorTwitter,
                                   orientation = "h",
                                   name=""),
@@ -1229,6 +1231,7 @@ if selectedMenu == "Analyses":
         acnhText.add_trace(go.Bar(x=acnhBad02Values, 
                                   y=acnhBad02Labels,
                                   text=acnhBad02Labels,
+                                  texttemplate = "%<b>{text}</b>",
                                   marker_color = colorTwitterSec,
                                   orientation = "h",
                                   name=""),
