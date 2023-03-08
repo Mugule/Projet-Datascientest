@@ -994,6 +994,18 @@ if selectedMenu == "Analyses":
                                   orientation = "h",
                                   marker_color = colorTwitter,
                                   name=""))
+        
+        # Logo POKE
+        pokeText.add_layout_image(dict(source=logopoke,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
+        
         # Réglages
         pokeText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs")
         
@@ -1223,15 +1235,15 @@ if selectedMenu == "Analyses":
                           1, 2)
         
         # Logo ACNH
-        acnhMtc.add_layout_image(dict(source=logoacnh,
-                                      xref="paper", 
-                                      yref="paper",
-                                      x=1, 
-                                      y=1.05,
-                                      sizex=0.2, 
-                                      sizey=0.2,
-                                      xanchor="right", 
-                                      yanchor="bottom"))
+        acnhText.add_layout_image(dict(source=logoacnh,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
         
         # Réglages
         acnhText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs",
