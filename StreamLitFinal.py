@@ -1,4 +1,3 @@
-
 # %% (_.~" IMPORT "~._) 
 
 import datetime
@@ -982,8 +981,31 @@ if selectedMenu == "Analyses":
         st.subheader("Un nouveau jeu à l’ancienne")
         st.markdown("Sur ce graph nous voyons encore une fois la lassitude qui s’installe au fil du temps. Vader et TextBlob sont deux modèles différents qui offriront à peu prêt les même tendance au fil du temps selon leur échelle respective. Il faut noter que Legends : Arceus est un pokémon bien particulier qui aura tenté des choses nouvelles sur son gameplay. Malheureusement « nouveautés » n’est pas forcément gage de « satisfaction ».")
         
-        st.subheader("Les vieux pots")
-        st.markdown("Même si on dénote une lassitude, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de bases de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté.  Mais est-ce qu’une grande communauté est toujours une bonne pub ? C’est ce que nous allons voir avec Animal Crossing.")
+        # %%%%% Graph mots
+        pokeTextValues = [18,19,19,27,32,42,53,65,67,103]
+        pokeTextLabels = ["cheap","bland","rushed","awful","mediocre","disappointing","lazy","empty","repetitive","boring"]
+        
+        # Instance
+        pokeText = go.Figure()
+        
+        pokeText.add_trace(go.Bar(x=pokeTextValues, 
+                                  y=pokeTextLabels,
+                                  text=pokeTextLabels,
+                                  orientation = "h",
+                                  marker_color = colorTwitter,
+                                  name=""))
+        # Réglages
+        pokeText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs")
+        
+        pokeText.update_traces(hovertemplate="<b>%{x}</b>")
+        pokeText.update_yaxes(showticklabels=False)
+
+        st.plotly_chart(pokeText)
+        
+        
+        # %%%%% Outro
+        st.subheader("Une lassitude")
+        st.markdown("Même si on dénote une lassitude notemment dans les commentaires négatifs, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de bases de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté.  Mais est-ce qu’une grande communauté est toujours une bonne pub ? C’est ce que nous allons voir avec Animal Crossing.")
         
     # %%%% ACNH
     with taba:
@@ -1157,10 +1179,77 @@ if selectedMenu == "Analyses":
         
         # ----
         
-        # %%%%% Outro
+        # %%%%% Analyse
         
         st.subheader("Un jeu prisé mais mal aimé")
         st.markdown("Si vous n’êtes pas habitué aux notes dans les jeux vidéo, sachez que 6 n’est pas très bon. En regardant ce graphique vous comprendrez alors qu’ACNH n’a pas été bien accueilli par les joueurs. Et c’est grâce à ça que l’on comprend que le confinement et l’effet de mode a joué en faveur des ventes d’ACNH. Cependant une fois acheté et testé, énormément de joueurs n’ont pas compris le but du jeu et l’ont bien fait comprendre sur différents réseaux. Il faudra attendre presque un an pour atteindre enfin 6/10 de moyenne (devenir un jeu correct).")
+        
+        # %%%%% Graphique mots
+        
+        # Datas
+        acnhBad01Values = [103,72,52,51,48,41,39,38,31,30]
+        acnhBad01Labels = ["wait","boring","slow","disappointing","stupid","waiting","frustrating","unplayable","broken","quarantine"]
+        acnhBad01Values.reverse()
+        acnhBad01Labels.reverse()   
+        acnhBad02Values = [119,90,36,35,35,33,24,21,21,19]
+        acnhBad02Labels = ["one island per console","one island per switch","One island per console","1 island per console","1 island per switch","one island per Switch","island per console one","console one island per","per console one island","One island per switch"] 
+        acnhBad02Values.reverse()
+        acnhBad02Labels.reverse()
+        
+        # Instance
+        acnhText = make_subplots(rows=1, cols=2,
+                                 subplot_titles=("Mots seuls","Quadrigrammes"),
+                                 horizontal_spacing = 0.30)
+        
+        # Graphique mots
+        acnhText = make_subplots(rows=1, cols=2,
+                                 subplot_titles=("Mots seuls","Quadrigrammes"))
+        
+        # Mots
+        acnhText.add_trace(go.Bar(x=acnhBad01Values, 
+                                  y=acnhBad01Labels,
+                                  text=acnhBad01Labels,
+                                  marker_color = colorTwitter,
+                                  orientation = "h",
+                                  name=""),
+                          1, 1)
+        # Quadrigrammes
+        acnhText.add_trace(go.Bar(x=acnhBad02Values, 
+                                  y=acnhBad02Labels,
+                                  text=acnhBad02Labels,
+                                  marker_color = colorTwitterSec,
+                                  orientation = "h",
+                                  name=""),
+                          1, 2)
+        
+        # Logo ACNH
+        acnhMtc.add_layout_image(dict(source=logoacnh,
+                                      xref="paper", 
+                                      yref="paper",
+                                      x=1, 
+                                      y=1.05,
+                                      sizex=0.2, 
+                                      sizey=0.2,
+                                      xanchor="right", 
+                                      yanchor="bottom"))
+        
+        # Réglages
+        acnhText.update_layout(height=500, width=900, 
+                               title_text="Mots les plus fréquents dans les commentaires négatifs",
+                               coloraxis=dict(colorscale='Bluered_r'), showlegend=False)
+        
+        acnhText.update_traces(hovertemplate="<b>%{x}</b><br>%{y}",
+                              textposition = 'inside')
+        
+        acnhText.update_yaxes(showticklabels=False)
+        
+        # Affichage
+        st.plotly_chart(acnhText)
+        
+        # %%%%% Outro
+        
+        st.subheader("Explications")
+        st.markdown("En regardant de plus prêt les mots utilisés dans les commentaires négatifs, on décèle clairement la frustration des joueurs. On comprend alors qu’ACNH déçoit par son gameplay et sa conception. Aussi, il est intéressant de noter dans les quadrigrammes l’omniprésence d’un feedback particulier, celui où les joueurs se plaignent de n’avoir qu’une île par console (une seule partie si vous préférez).")
         
         st.subheader("Peut-on prévoir ?")
         st.markdown("Enfaite, ACNH a été victime de son succès. Cela se voit aussi par l’augmentation de la note moyenne au fil du temps. Après l’effet de mode, les joueurs savaient dans quoi ils « s’embarquaient ». La tendance s’inverse alors petit à petit. Mais alors peut-on prévoir les ventes et/ou les notes de jeu grâce au réseau sociaux ? Peut-on émettre une « metric », un « facteur » ou un algorithme qui pourrait nous aider à prévoir. Mario Kart Deluxe 8 a peut-être la réponse à cette question.")
@@ -1839,8 +1928,3 @@ if selectedMenu == "Scrapp-App":
         
             # Affichage
             st.plotly_chart(figPies)  
-
-    
-    
-
-    
