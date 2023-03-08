@@ -1234,8 +1234,7 @@ if selectedMenu == "Analyses":
                                       yanchor="bottom"))
         
         # Réglages
-        acnhText.update_layout(height=500, width=900, 
-                               title_text="Mots les plus fréquents dans les commentaires négatifs",
+        acnhText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs",
                                coloraxis=dict(colorscale='Bluered_r'), showlegend=False)
         
         acnhText.update_traces(hovertemplate="<b>%{x}</b><br>%{y}",
