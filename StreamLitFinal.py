@@ -1007,7 +1007,7 @@ if selectedMenu == "Analyses":
                                        yanchor="bottom"))
         
         # Réglages
-        pokeText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs")
+        pokeText.update_layout(title_text="Franchise Pokémon - Mots les plus fréquents dans les commentaires négatifs")
         
         pokeText.update_traces(hovertemplate="<b>%{x}</b>")
         pokeText.update_yaxes(showticklabels=False)
@@ -1246,7 +1246,7 @@ if selectedMenu == "Analyses":
                                        yanchor="bottom"))
         
         # Réglages
-        acnhText.update_layout(title_text="Mots les plus fréquents dans les commentaires négatifs",
+        acnhText.update_layout(title_text="Animal Crossing: New Horizons - Mots les plus fréquents dans les commentaires négatifs",
                                coloraxis=dict(colorscale='Bluered_r'), showlegend=False)
         
         acnhText.update_traces(hovertemplate="<b>%{x}</b><br>%{y}",
