@@ -75,11 +75,13 @@ st.set_page_config(page_title="Switch Bestsellers",
 
 # %%% Couleurs
 
-colorTwitter = "#08A0E9"
-colorTwitterSec = "#6495ED"
+colorTwitter = "#00B4D8"
+colorTwitterSec = "#0077B6"
 
 colorSales = "#FF4B4B"
 colorSalesSec = "F18989"
+
+colorHoverBg = "#EDF2F4"
 
 colorsTop5 = ["#ff7b00",
               "#ff9500",
@@ -320,8 +322,8 @@ if selectedMenu == "Methodologie":
         bestFive.add_trace(go.Bar(x = dfMax['Game'], 
                                   y = dfMax['Sales'],
                                   text = dfMax['Sales'],
-                                  marker_color = ["crimson","cornflowerblue","lightsteelblue","lightgreen","ivory"],
-                                  name = "TOP 5 Nintendo Switch",
+                                  marker_color = colorsTop5,
+                                  name = "",
                                   hovertemplate = '%{x}<br><b>%{text:.2s}M</b> unités vendues'))
         
         # Ajout des images de jeux
@@ -383,6 +385,7 @@ if selectedMenu == "Methodologie":
         #bestFive.update_xaxes(visible=False)
         
         bestFive.update_layout(title="Meilleures ventes de la Nintendo Switch",
+                               hoverlabel=dict(bgcolor = colorHoverBg),
                                yaxis=dict(range=[0, 59]))
         
         # Affichage
@@ -1421,6 +1424,7 @@ if selectedMenu == "Analyses":
         
         # Titre et yRange
         mkd8Sent.update_layout(legend=dict(orientation="h"),
+                               hoverlabel=dict(bgcolor = colorHoverBg),
                                title_text="Mario Kart 8 Deluxe - La force tranquille")
         
         # X-axis Titre
@@ -1922,14 +1926,14 @@ if selectedMenu == "Scrapp-App":
             # Pie TOP5 Langues
             figPies.add_trace(go.Pie(values=dfLtop[0],
                                      labels=dfLtop["Langue"],
-                                     name="TOP5<br>Langues",
+                                     name="",
                                      marker_colors=colorsTop5),
                               row=1, col=1)
         
             # Pie TOP10 Hashtags
             figPies.add_trace(go.Pie(values=dfHtop[0],
                                      labels=dfHtop["Hashtags"],
-                                     name="TOP10<br>Hashtags",
+                                     name="",
                                      marker_colors=colorsTop10),
                               row=1, col=2)
         
@@ -1940,7 +1944,8 @@ if selectedMenu == "Scrapp-App":
                                   hovertemplate="<b>%{label}</b><br>%{value:.2s}")
         
             figPies.update_layout(showlegend = False,
-                                   title = figPiesTitle)
+                                  hoverlabel=dict(bgcolor = colorHoverBg),
+                                  title = figPiesTitle)
         
             # Affichage
             st.plotly_chart(figPies)  
