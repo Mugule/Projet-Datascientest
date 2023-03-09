@@ -1815,7 +1815,7 @@ if selectedMenu == "Scrapp-App":
     # %%%% Inputs
     
     # Présentation
-    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise [snscrape]https://github.com/JustAnotherArchivist/snscrape).")
+    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise [snscrape](https://github.com/JustAnotherArchivist/snscrape).")
     
     # Notes pour l'utilisateur
     st.markdown("Pour les Hashtags très populaires, pensez à bien limiter le nombre maximal. En effet le temps de recherche sera très long et le scrapping s'arrêtera une fois avoir atteint le nombre maximum de tweets. Attention, si vous modifiez votre requête, vous perdrez les résultats de votre recherche.")
