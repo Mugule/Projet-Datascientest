@@ -76,7 +76,7 @@ st.set_page_config(page_title="Switch Bestsellers",
 # %%% Couleurs
 
 colorTwitter = "#08A0E9"
-colorTwitterSec = "#E8F5FD"
+colorTwitterSec = "#6495ED"
 
 colorSales = "#FF4B4B"
 colorSalesSec = "F18989"
@@ -85,7 +85,7 @@ colorsTop5 = ["#ff7b00",
               "#ff9500",
               "#ffaa00",
               "#ffc300",
-              "#ffd000"]
+              "#9932CC"]
 
 colorsTop10 = ["#184e77",
                "#1e6091",
@@ -167,8 +167,7 @@ if selectedMenu == "Contexte":
     st.header("Les premières données")
     
     # imageVGChartz
-    imageVGChartz = "https://www.vgchartz.com/assets/images/vgchartz-logo-horizontal.png"
-    st.image(imageVGChartz)
+    st.image("medias/logovgch.png")
     
     st.markdown("Les données fournies par DataScientest viennent d'un scrapping réalisé sur le site VGChartz par 'GregorySmith' disponible sur le site Kaggle ([ou ici](https://www.kaggle.com/datasets/gregorut/videogamesales)). Après une première visualisation des données, nous verrons pourquoi nous avons décidé d'obtenir nos propres données pour réaliser une analyse. Vous trouverez ci-dessous les données brutes et notre première exploration de données.")
               
@@ -1725,6 +1724,7 @@ if selectedMenu == "Analyses":
         botwprev.add_trace(go.Bar(x = botw_z01, 
                                   y = botw_s01,
                                   marker_color = ["#2ecc71","#af7ac5"]),
+                                  name = "",
                                   row=1, col=1)
         
         
@@ -1732,6 +1732,7 @@ if selectedMenu == "Analyses":
         botwprev.add_trace(go.Bar(x = botw_z02, 
                                   y = botw_s02,
                                   marker_color = ["cornflowerblue","grey"]),
+                                  name = "",
                                   row=1, col=2)
         
         botwprev.update_traces(textfont_size=18,
@@ -1825,7 +1826,7 @@ if selectedMenu == "Scrapp-App":
     
     with col1:
         # Recherche
-        scrapInput = st.text_input('Hashtag', 'KSP')
+        scrapInput = st.text_input('Hashtag', 'Coromon')
         # Date de début
         scrapStart = st.date_input("Début",datetime.date(2023, 2, 1))
     with col2:
