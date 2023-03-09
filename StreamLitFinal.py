@@ -1810,10 +1810,6 @@ if selectedMenu == "Conclusion":
     st.subheader("Marketing et Développement")
     st.markdown("En résumé, les données sont essentielles pour comprendre le marché des jeux vidéo et pour développer des stratégies efficaces de marketing et de vente. Les éditeurs doivent utiliser une combinaison d'outils, y compris les réseaux sociaux, les analyses de données de jeu, les sondages en ligne et les techniques de segmentation de marché, pour obtenir une image complète de leur public et de ses besoins. En travaillant en étroite collaboration avec les développeurs et les équipes marketing, les éditeurs peuvent développer des jeux qui répondent aux attentes des joueurs et qui ont toutes les chances de réussir.")
 
-    imgMario = Image.open('https://mario.wiki.gallery/images/3/3e/MPSS_Mario.png')
-    
-    st.image(imgMario)
-
 # %%% Scrapp-App
 
 if selectedMenu == "Scrapp-App":
