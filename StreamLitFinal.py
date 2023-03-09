@@ -212,7 +212,6 @@ if selectedMenu == "Contexte":
                  color_discrete_map = colorDict,
                  labels={"Publisher": "Editeurs",
                          "Titles": "Total des titres sortis"},
-                 hovertemplate ="test <br> %{x}",
                  title="Nombre de titres uniques sortis par éditeurs",
                  text_auto='.2s',
                  orientation='h')
@@ -239,7 +238,6 @@ if selectedMenu == "Contexte":
                         color_discrete_map = colorDict,
                         labels={"Publisher": "Editeurs",
                                 "Global_Sales": "Total des ventes mondiales (M$)"},
-                        hovertemplate ="test <br> %{x}",
                         title="Ventes par éditeur",
                         text_auto='.2s',
                         orientation='h')
@@ -271,7 +269,6 @@ if selectedMenu == "Contexte":
                         labels={"Publisher": "Editeurs",
                         "Global_Sales" : "Ventes total (M$)",
                         "Year": "Année"},
-                        hovertemplate ="test <br> %{x}",
                         title="Meilleur titre de l'année",
                         hover_name="Name")
     
@@ -297,7 +294,6 @@ if selectedMenu == "Contexte":
                         labels={"Genre": "Genre",
                                 "Global_Sales" : "Ventes total (M$)",
                                 "Year": "Année"},
-                        hovertemplate ="test <br> %{x}",
                         title="Total des ventes par genres")
 
     # Logo VGCHARTZ
