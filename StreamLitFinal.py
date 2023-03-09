@@ -1723,16 +1723,16 @@ if selectedMenu == "Analyses":
         # Barpremier opus
         botwprev.add_trace(go.Bar(x = botw_z01, 
                                   y = botw_s01,
-                                  marker_color = ["#2ecc71","#af7ac5"]),
                                   name = "",
+                                  marker_color = ["#2ecc71","#af7ac5"]),
                                   row=1, col=1)
         
         
         # Bar deuxième opus
         botwprev.add_trace(go.Bar(x = botw_z02, 
                                   y = botw_s02,
-                                  marker_color = ["cornflowerblue","grey"]),
                                   name = "",
+                                  marker_color = ["cornflowerblue","grey"]),
                                   row=1, col=2)
         
         botwprev.update_traces(textfont_size=18,
