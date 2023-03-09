@@ -497,7 +497,7 @@ if selectedMenu == "Analyses":
         # %%%%% Intro
         
         st.subheader("Un bon exemple ")
-        st.markdown("Jeu de combat le plus vendu de l’histoire, Super Smash Bros. Ultimate (SSBU) sera notre porte d’entrée pour notre analyse. En effet, si ses chiffres semblent astronomiques, son pattern représente bien une tendance générales des jeux non présents dans cette étude. Dans le premier graphique, nous pouvons voir les ventes par trimestres du jeu ainsi que son activité Twitter (représenté par la somme des Likes par tweets associés).")
+        st.markdown("Jeu de combat le plus vendu de l’histoire, Super Smash Bros. Ultimate (SSBU) sera notre porte d’entrée pour notre analyse. En effet, si ses chiffres semblent astronomiques, son pattern représente bien une tendance générale des jeux non présents dans cette étude. En bref, c’est un bon exemple. Dans le premier graphique, nous pouvons voir les ventes par trimestres du jeu ainsi que son activité Twitter (représenté par la somme des Likes par tweets associés).")
         
         # Logo pour les graphs
         logossbu = Image.open("medias/logossbu.png")
@@ -612,7 +612,7 @@ if selectedMenu == "Analyses":
         st.markdown("Dans cet exemple, trois choses importantes sont à noter et se confirment pour la plupart des ventes des jeux vidéo : \n - Le premier trimestre est généralement le meilleur, représentant jusqu’à 10 fois les ventes moyennes des trimestres suivants, puis baissant ; \n - Le dernier trimestre de l’année est souvent supérieur aux autres, notamment dû aux fêtes de fin d’année qui représente une bonne opportunité commerciale ; \n - Le confinement lié au COVID19 boostera la ventes des jeux vidéo en général.")
         
         st.subheader("Twitter et les annonces")
-        st.markdown("Pour ce qui est de l’activité Twitter, on peu voir la stratégie générale marketing de Nintendo avec ses annonces via les Nintendo Direct. Ces Directs permettent de présenter les nouveautés et les sorties sur leur plateforme. Pour SSBU, on voit son effet d’annonce et ses balbutiements jusqu’à sa sortie. Aussi on pourra noter certains piques d’activité lié aux mis à jour annoncées aux Nintendo Directs. Cependant il ne faut pas confondre activité et sentiment.")
+        st.markdown("Pour ce qui est de l’activité Twitter, on peut voir la stratégie générale marketing de Nintendo avec ces annonces via les Nintendo Direct. Ces Directs permettent de présenter les nouveautés et les sorties sur leur plateforme. Pour SSBU, on voit son effet d’annonce et ses balbutiements jusqu’à sa sortie. Aussi on pourra noter certains pics d’activités liés aux mises à jour annoncées aux Nintendo Directs. Cependant il ne faut pas confondre activité et sentiment.")
         
         # %%%%% Graph TextBlob
         
@@ -685,7 +685,7 @@ if selectedMenu == "Analyses":
         # %%%%% Outro
         
         st.subheader("L’Esport, une renaissance ?")
-        st.markdown("Tout d’abord, il faut comprendre que les algorithmes sont mis à mal par les jeux à cause du vocabulaire utilisé par les joueurs. En effet parler d’un jeu de combat, d’action ou d’aventure aura énormément de mots classés normalement comme négatif (par exemple : « death », « punch » ou encore « ennemies »). L’échelle de TextBlob allant de -1 à 1, cela reste un bon score même pour la pointe à 0.4. Ceci étant dit nous pouvons quand même voir des tendances. Sur le graphique si contre par exemple, on peut voir une lassitude s’installant petit à petit jusqu’à la reprise de la scène E-sport de SSBU. Arrêté jusqu’à mi-2021 dû au diverses contraintes liés au COVID19.")
+        st.markdown("Tout d’abord, il faut comprendre que les algorithmes sont mis à mal par les jeux à cause du vocabulaire utilisé par les joueurs. En effet parler d’un jeu de combat, d’action ou d’aventure aura énormément de mots classés normalement comme négatif (par exemple : « death », « punch » ou encore « ennemies »). L’échelle de TextBlob allant de -1 à 1, cela reste un bon score même pour la pointe à 0.4. Ceci étant dit, nous pouvons quand même voir des tendances. Sur le graphique ci-contre par exemple, on peut voir une lassitude s’installant petit-à-petit jusqu’à la reprise de la scène E-sport de SSBU. Arrêtée jusqu’à mi-2021 dûe aux diverses contraintes liées au COVID19.")
         
         st.subheader("Un pattern symbolique")
         st.markdown("Connaissant ce pattern classique, certains jeux ont décidé une stratégie bien particulière, c’est ce que nous allons voir avec la franchise Pokémon.")
@@ -699,7 +699,7 @@ if selectedMenu == "Analyses":
         # %%%%% Intro
         
         st.subheader("Une mécanique bien huilée")
-        st.markdown("La franchise Pokémon est connue de tous ! Mais peut-on décelée une certaine stratégie derrière cette franchise ? Si Pokémon Épée / Bouclier est le cinquième jeu le plus vendus sur Switch, chaque sortie Pokémon semble battre son record précédent. Regardons les chiffres et tentons de comprendre tout cela. ")
+        st.markdown("La franchise Pokémon est connue de tous ! Mais peut-on déceler une certaine stratégie derrière cette franchise ? Si Pokémon Épée / Bouclier est le cinquième jeu le plus vendu sur Switch, chaque sortie Pokémon semble battre son précédent record. Regardons les chiffres et tentons de comprendre tout cela.")
                 
         # Logo pour les graphs
         logopoke = Image.open("medias/logopoke.png")
@@ -864,10 +864,10 @@ if selectedMenu == "Analyses":
         # %%%%% Analyse
         
         st.subheader("Miser sur la fin d’année")
-        st.markdown("On peut voir les ventes totales de la franchise par trimestre mais surtout, on voit que Pokémon ne sort pas n’importe quand. Il profite en effet de l’opportunité des fêtes de fins d’année et de Noël pour sortir pour tous les opus. Un seul déroge à la règle, c’est Pokémon Legends : Arceus qui sortira le 28 janvier 2022. D’ailleurs, lors du scrapping, il ne sera pas présent n’étant pas dans les top ventes pour Nintendo (même si il bat certains record de ventes lors de sa première semaine). Ainsi on peut voir l’importance pour Pokémon de sortir à la bonne période pour maximiser ses ventes !")
+        st.markdown("On peut voir les ventes totales de la franchise par trimestre mais surtout, on voit que Pokémon ne sort pas n’importe quand. Il profite en effet de l’opportunité des fêtes de fin d’année et de Noël pour sortir pour tous les opus. Un seul déroge à la règle, c’est Pokémon Legends : Arceus qui sortira le 28 janvier 2022. D’ailleurs, lors du scrapping, il ne sera pas présent n’étant pas dans les top ventes pour Nintendo (même s' il bat certains record de ventes lors de sa première semaine). Ainsi on peut voir l’importance pour Pokémon de sortir à la bonne période pour maximiser ses ventes !")
         
         st.subheader("Une grande communauté")
-        st.markdown("La communauté Pokémon est tout simplement énorme, bien que le scrapping récupère la communauté pokémon général, on voit des tendances fortes. Le nombre de likes est astronomique ! Notons le fait que chaque opus sortis ramène toujours plus de Likes. Mais si on regarde le nombre de follower moyen, on peut distinguer une certaine lassitude au fil du temps. Lassitude qui se remarquera d’autant plus sur le sentiment analysis.")
+        st.markdown("La communauté Pokémon est tout simplement énorme, bien que le scrapping récupère la communauté Pokémon général, on voit des tendances fortes. Le nombre de likes est astronomique ! Notons le fait que chaque opus sorti ramène toujours plus de Likes. Mais si on regarde le nombre de followers moyen, on peut distinguer une certaine lassitude au fil du temps. Lassitude qui se remarquera d’autant plus sur le sentiment analysis.")
         
         # %%%%% Graph Vader/TextBlob
         
@@ -983,7 +983,8 @@ if selectedMenu == "Analyses":
         # %%%%% Outro
         
         st.subheader("Un nouveau jeu à l’ancienne")
-        st.markdown("Sur ce graph nous voyons encore une fois la lassitude qui s’installe au fil du temps. Vader et TextBlob sont deux modèles différents qui offriront à peu prêt les même tendance au fil du temps selon leur échelle respective. Il faut noter que Legends : Arceus est un pokémon bien particulier qui aura tenté des choses nouvelles sur son gameplay. Malheureusement « nouveautés » n’est pas forcément gage de « satisfaction ».")
+        st.markdown("Sur ce graph nous voyons encore une fois la lassitude qui s’installe au fil du temps. Vader et TextBlob sont deux modèles différents qui offrent à peu près les mêmes tendances au fil du temps selon leur échelle respective. Il faut noter que Legends : Arceus est un pokémon bien particulier qui aura tenté des choses nouvelles sur son gameplay. Malheureusement « nouveautés » n’est pas forcément gage de « satisfaction ».")
+        
         
         # %%%%% Graph mots
         pokeTextValues = [18,19,19,27,32,42,53,65,67,103]
@@ -1022,7 +1023,7 @@ if selectedMenu == "Analyses":
         
         # %%%%% Outro
         st.subheader("Une lassitude")
-        st.markdown("Même si on dénote une lassitude notemment dans les commentaires négatifs, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de bases de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté.  Mais est-ce qu’une grande communauté est toujours une bonne pub ? C’est ce que nous allons voir avec Animal Crossing.")
+        st.markdown("Même si on dénote une lassitude, les ventes Pokémon sont toujours au beau fixe. Jusqu’à 20.6M pour le premier trimestre de Pokémon Ecarlate / Violet qui reprend les mécaniques de base de la franchise (qu’elles soient marketing ou sur le gameplay). Les jeux Pokémon ne doivent pas sortir de leur axe pour marcher efficacement et toujours agrandir leur communauté. Mais est-ce qu’une grande visibilité est synonyme d’une bonne vente ? C’est ce que nous allons voir avec Animal Crossing.")
         
     # %%%% ACNH
     with taba:
@@ -1033,7 +1034,7 @@ if selectedMenu == "Analyses":
         # %%%%% Intro
         
         st.subheader("Le feu des projecteurs")
-        st.markdown("Animal Crossing : New Horizons (ACNH) est un jeu « niche » dans le monde du jeu vidéo. Deux facteurs principaux ont catapulté sa vente : sa sortie en plein confinement et sa mise en lumière par la presse spécialisée. Mais si les joueurs niches ont adorés, qu’en est-il des joueurs en général ? ")
+        st.markdown("Animal Crossing : New Horizons (ACNH) est un jeu « niche » dans le monde du jeu vidéo. Deux facteurs principaux ont catapulté sa vente : sa sortie en plein confinement et sa mise en lumière par la presse spécialisée. Mais si les joueurs niches ont adoré, qu’en est-il des joueurs en général ?")
         
         # Logo pour les graphs
         logoacnh = Image.open("medias/logoacnh.png")
@@ -1130,10 +1131,10 @@ if selectedMenu == "Analyses":
         # %%%%% Analyse
         
         st.subheader("Un bon départ")
-        st.markdown("Ici on peut voir l’énorme activité d’ACNH avant et pendant sa sortie. Après la franchise Pokémon (qui ne comprends pas que les jeux vidéo) ACNH atteint un maximum de 1.5M de likes devant tous les autres jeux étudiés.")
+        st.markdown("Ici on peut voir l’énorme activité d’ACNH avant et pendant sa sortie. Après la franchise Pokémon (qui ne comprend pas que les jeux vidéo) ACNH atteint un maximum de 1.5M de likes devant tous les autres jeux étudiés.")
         
         st.subheader("Un ralentissement visible")
-        st.markdown("ACNH restera premier des ventes par trimestres pendant un an puis va décéléré de plus en plus. On peut voir que la sortie du DLC payant « Happy Home Paradise » en Novembre 2021, en plus de sortir en fin d’année, boostera un peu les ventes. Cependant on vient bien qu’il y a une grosse baisse d’activité. Essayons de comprendre pourquoi.")
+        st.markdown("ACNH restera premier des ventes par trimestres pendant un an puis va décéléré de plus en plus. On peut voir que la sortie du DLC payant «Happy Home Paradise» en Novembre 2021, en plus de sortir en fin d’année, boostera un peu les ventes. Cependant on voit bien qu’il y a une grosse baisse d’activité. Qu’elle soit dans les ventes ou sur Twitter. Que s’est-il passé après sa sortie? Essayons de comprendre.")
         
         # %%%%% Graph MTC
         
@@ -1199,7 +1200,7 @@ if selectedMenu == "Analyses":
         # %%%%% Analyse
         
         st.subheader("Un jeu prisé mais mal aimé")
-        st.markdown("Si vous n’êtes pas habitué aux notes dans les jeux vidéo, sachez que 6 n’est pas très bon. En regardant ce graphique vous comprendrez alors qu’ACNH n’a pas été bien accueilli par les joueurs. Et c’est grâce à ça que l’on comprend que le confinement et l’effet de mode a joué en faveur des ventes d’ACNH. Cependant une fois acheté et testé, énormément de joueurs n’ont pas compris le but du jeu et l’ont bien fait comprendre sur différents réseaux. Il faudra attendre presque un an pour atteindre enfin 6/10 de moyenne (devenir un jeu correct).")
+        st.markdown("Si vous n’êtes pas habitué aux notes dans les jeux vidéo, sachez que 6 n’est pas très bon. En regardant ce graphique vous comprendrez alors qu’ACNH n’a pas été bien accueilli par les joueurs. Et c’est grâce à ça que l’on comprend que le confinement et l’effet de mode ont joué en faveur des ventes d’ACNH. Cependant une fois acheté et testé, énormément de joueurs n’ont pas compris le but du jeu et l’ont bien fait comprendre sur différents réseaux. Il faudra attendre presque un an pour atteindre enfin 6/10 de moyenne (devenir un jeu correct) et cela par un nombre limité de joueurs.")
         
         # %%%%% Graphique mots
         
@@ -1270,7 +1271,7 @@ if selectedMenu == "Analyses":
         st.markdown("En regardant de plus prêt les mots utilisés dans les commentaires négatifs, on décèle clairement la frustration des joueurs. On comprend alors qu’ACNH déçoit par son gameplay et sa conception. Aussi, il est intéressant de noter dans les quadrigrammes l’omniprésence d’un feedback particulier, celui où les joueurs se plaignent de n’avoir qu’une île par console (une seule partie si vous préférez).")
         
         st.subheader("Peut-on prévoir ?")
-        st.markdown("Enfaite, ACNH a été victime de son succès. Cela se voit aussi par l’augmentation de la note moyenne au fil du temps. Après l’effet de mode, les joueurs savaient dans quoi ils « s’embarquaient ». La tendance s’inverse alors petit à petit. Mais alors peut-on prévoir les ventes et/ou les notes de jeu grâce au réseau sociaux ? Peut-on émettre une « metric », un « facteur » ou un algorithme qui pourrait nous aider à prévoir. Mario Kart Deluxe 8 a peut-être la réponse à cette question.")
+        st.markdown("En fait, ACNH a été victime de son succès. Cela se voit aussi par l’augmentation de la note moyenne au fil du temps. Après l’effet de mode, les joueurs savaient dans quoi ils « s’embarquaient ». La tendance s’inverse alors petit à petit. Mais alors peut-on prévoir les ventes et/ou les notes de jeu grâce aux réseaux sociaux ? Peut-on émettre une « metric », un « facteur » ou un algorithme qui pourrait nous aider à prévoir. Mario Kart Deluxe 8 a peut-être la réponse à cette question.")
         
     # %%%% MKD8
     with tabm:
@@ -1281,7 +1282,7 @@ if selectedMenu == "Analyses":
         # %%%%% Intro
         
         st.subheader("Un classique")
-        st.markdown("La franchise Mario Kart est un classique. Chaque console Nintendo depuis la super NES à eu le droit à son opus. Attendu au tournant, les développeurs ont pris le parti cette fois de sortir un bon jeu et de continuer à le développer dans une politique de Game as Service avec de nombreux contenus additionnels. Il faut rappeler que Mario Kart 8 Deluxe (MKD8) est un remake de Mario Kart 8 sorti sur WiiU.")
+        st.markdown("La franchise Mario Kart est un classique. Chaque console Nintendo depuis la Super NES à eu le droit à son opus. Attendus au tournant, les développeurs ont pris le parti cette fois de sortir un bon jeu et de continuer à le développer dans une politique de Game as Service avec de nombreux contenus additionnels. Il faut rappeler que Mario Kart 8 Deluxe (MKD8) est un remake de Mario Kart 8 sorti sur WiiU.")
         
         # Logo pour les graphs
         logomkd8 = Image.open("medias/logomkd8.png")
@@ -1376,7 +1377,7 @@ if selectedMenu == "Analyses":
         st.markdown("Comment savoir que c’est un bon jeu ? Les ventes augmentent au fur et à mesure du temps (hors sortie et pour chaque trimestre). Depuis notre étude, c’est la première fois que cela se produit. Mais qu’en est-il de Twitter ?")
         
         st.subheader("Twitter hors cible")
-        st.markdown("Comme vous pouvez le voir, l’activité Twitter est au plus bas ! Ce « partygame » familial a surement dû préférer orienter son marketing vers des plateformes plus familial (spot TV par exemple). Pour notre étude, on est presque aveugle. Mais cela veut dire que les joueurs en cible ne sont pas sur Twitter. Et ça MKD8 l’avait compris dès le départ. Cependant, plus de gens achetaient MKD8, plus de potentiel Twitter existait. C’est comme cela que l’on peut remarquer une hausse au milieu de 2021. Le maximum aura fait parler de lui car les nombreux joueurs ont partager les informations autour de la mise-à-jour V.2.0 tant attendue.")
+        st.markdown("Comme vous pouvez le voir, l’activité Twitter est au plus bas ! Ce «Party Game» familial a sûrement dû préférer orienter son marketing vers des plateformes plus familiales (spot TV par exemple). Pour notre étude, on est presque aveugle. Mais cela veut dire que les joueurs en cible ne sont pas sur Twitter. Et ça MKD8 l’avait compris dès le départ. Cependant, plus de gens achetaient MKD8, plus de potentiel Twitter existait. C’est comme cela que l’on peut remarquer une hausse au milieu de 2021. Le maximum aura fait parler de lui car les nombreux joueurs ont partagé les informations autour de la mise-à-jour V.2.0 tant attendue.")
         
         # %%%%% Graph TextBlob/Sales
         
@@ -1440,10 +1441,10 @@ if selectedMenu == "Analyses":
         # %%%%% Outro
         
         st.subheader("Une communauté uniquement de fan")
-        st.markdown("Au final, ceux qui communiquent sur Twitter sont très peu mais son des fans du jeu. Sur ce graphique, on peut voir le sentiment analysis selon l’API TextBlob. Alors, comme dit auparavant pour Super Smash Bros. Ultimate (SSBU), il faut le prendre avec des pincettes. Mais on voit clairement la tendance au vert pour MK8D alors que la communauté n’a que très peu d’activités.")
+        st.markdown("Finalement, ceux qui communiquent sur Twitter pour MKD8 sont très peu mais sont des fans du jeu. Sur le graphique précédent, on peut voir le sentiment analysis selon l’API TextBlob. Alors, comme dit auparavant pour Super Smash Bros. Ultimate (SSBU), il faut le prendre avec des pincettes. Mais on voit clairement la tendance au vert pour MK8D alors que la communauté n’a que très peu d’activités.")
         
         st.subheader("Les réseaux sociaux, un outil")
-        st.markdown("On a pu voir que chacun des jeux présentés ont eu des patterns différents. Au final, on commence à comprendre que le réseaux social Twitter ne doit pas être vu comme un facteur mais comme un plus comme un outil qui servirait à comprendre et à vendre son jeu. Et si un bon élève utiliserait cet outil, que se passerait-il ?")
+        st.markdown("On a pu voir que chacun des jeux présentés ont eu des patterns différents. Au final, on commence à comprendre que le réseau social Twitter ne doit pas être vu comme un facteur mais comme un plus comme un outil qui servirait à comprendre et à vendre son jeu. Et si un bon élève utilisait cet outil, que se passerait-il ?")
         
     # %%%% BOTW
     with tabb:
@@ -1454,7 +1455,7 @@ if selectedMenu == "Analyses":
         # %%%%% Intro
         
         st.subheader("Chef d’œuvre")
-        st.markdown("The Legend of Zelda : Breath Of The Wild (BOTW) est un jeu très populaire qui a su durer dans le temps. Marathonien des ventes, il n’atteint aucun chiffre astronomique mais il sera en cible sur tout son parcours. C’est ainsi qu’il reste toujours en quatrième position alors que son premier trimestre n’atteignait que faiblement 2.76M (jeux au plus faible lancement parmi tout ceux étudié).")
+        st.markdown("The Legend of Zelda : Breath Of The Wild (BOTW) est un jeu très populaire qui a su durer dans le temps. Marathonien des ventes, il n’atteint aucun chiffre astronomique mais il sera en cible sur tout son parcours. C’est ainsi qu’il reste toujours en quatrième position alors que son premier trimestre n’atteignait que faiblement 2.76M (jeux au plus faible lancement parmi tous ceux étudiés).")
         
         # Logo pour les graphs
         logobotw = Image.open("medias/logobotw.png")
@@ -1498,7 +1499,7 @@ if selectedMenu == "Analyses":
         # %%%%% Commentaire
         
         st.subheader("Un jeu attendu")
-        st.markdown("Pour comprendre à quel point BOTW a été attendu, il faut regarder du point de vue des ventes lors du premier mois. Les chiffres sont aux bons endroits, il y a eu plus de jeu BOTW vendus que de Switch pour le faire fonctionner. Fait très rare, on peut lier à la manie de certains d’acheter une version normale et une version collector lorsque l’on sait qu’il sera bon. Et de se point de vue, BOTW ne laisse personne indifférent.")
+        st.markdown("Pour comprendre à quel point BOTW a été attendu, il faut regarder du point de vue des ventes lors du premier mois (sorti le 3 Mars). Les chiffres sont au bon endroit, il y a eu plus de jeux BOTW vendus que de consoles Switch pour le faire fonctionner. Fait très rare, on peut lier à la manie de certains d’acheter une version normale et une version collector lorsque l’on sait qu’il sera bon. Et de ce point de vue, BOTW ne laisse personne indifférent.")
         
         # %%%%% Graph Notes
 
@@ -1567,7 +1568,7 @@ if selectedMenu == "Analyses":
         # %%%%% Analyse
         
         st.subheader("Ovation du public")
-        st.markdown("Au-delà de la quantité astronomique des notes déposées sur Metacritic ou Amazon, le fait remarquable est que la moyenne reste la plus haute malgré cela ! Qui plus est, internet a cet effet de ne voir apparaitre que l’avis des joueurs mécontents. Ce qui se vérifie bien sur le site Metacritic avec Animal Crossing : New Horizons qui se fait descendre par la critique ou encore Pokémon Épée / Bouclier qui peine avec ses 6.38 de moyennes. Ici, BOTW trône fièrement avec plus de 5 000 commentaires avec 9 de moyenne ! Notons que l’avis Amazon est quelque peu biaisé, en effet beaucoup de commentaire et notes associés concerne les livraisons. Mais même avec ça, BOTW reste bien au-dessus. Observons maintenant les ventes et l’activité Twitter.")
+        st.markdown("Au-delà de la quantité astronomique des notes déposées sur Metacritic ou Amazon, le fait remarquable est que la moyenne reste la plus haute malgré cela ! Qui plus est, internet a cet effet de ne voir apparaître que l’avis des joueurs mécontents. Ce qui se vérifie bien sur le site Metacritic avec Animal Crossing : New Horizons qui se fait descendre par la critique ou encore Pokémon Épée / Bouclier qui peine avec ses 6.38 de moyenne. Ici, BOTW trône fièrement avec plus de 5 000 commentaires avec 9 de moyenne ! Notons que l’avis Amazon est quelque peu biaisé, en effet beaucoup de commentaires et notes associés concernent les livraisons. Mais même avec ça, BOTW reste bien au-dessus. ")
         
         # %%%%% Graph Like/Sales
 
@@ -1700,7 +1701,7 @@ if selectedMenu == "Analyses":
         # %%%%% Analyse 2
         
         st.subheader("Une petite communauté active")
-        st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de se jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de publique. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant créera un nouveau pique d’activité pour ce deuxième opus.")
+        st.markdown("Si les ventes stagnent au fil du temps, on remarque une vraie tendance au niveau de l’activité Twitter. Attisant la curiosité des nouveaux joueurs ayant entendu parler de ce jeu si bien noté, on peut comprendre que BOTW a su gagner de plus en plus de public. Un moyen de bien le voir est par la différence entre l’annonce du premier BOTW (62K Likes) et l’annonce de sa suite The Legend of Zelda : Tears Of The Kingdom (TOTK) qui culmine à 490k Likes ! Et chaque nouvelle information fuitant crée un nouveau pic d’activité pour ce deuxième opus.")
         
         
         # %%%%% Graph Opus
@@ -1793,8 +1794,8 @@ if selectedMenu == "Analyses":
         # %%%%% Outro
         
         st.subheader("Un nouveau cycle")
-        st.markdown("Si BOTW fut un franc succès tant par la critique que par ses notes, on voit bien que le publique intègre de plus en plus le nouveau titre (TOTK) en délaissant l’ancien sur l’activité Twitter. Si on ne peut pas prévoir exactement les ventes de celui-ci sur la durée. On peut tout de même deviner que sa sortie le 12 mai 2023 sera un énorme succès et qu’il va exploser les ventes de son prédécesseur.")
-        st.markdown("Cependant ses ventes totales ne seront pas forcément meilleures que le premier opus. Effectivement, la série Zelda a déjà connu un cas similaire avec The Legend of Zelda: Ocarina of Time. Là encore succès incontestable dans le monde du jeu vidéo, sa suite The Legend of Zelda: Majora's Mask aura explosé les ventes lors de sa sortie mais aura été vendu presque deux fois moins que son prédécesseur (chiffres du premier dataset). Être une suite direct n’est pas forcément une bonne stratégie et sortir de sa timeline pour le prochain opus est des fois une meilleure stratégie.")
+        st.markdown("Si BOTW fut un franc succès tant par la critique que par ses notes, on voit bien que le public intègre de plus en plus le nouveau titre (TOTK) en délaissant l’ancien sur l’activité Twitter. Si on ne peut pas prévoir exactement les ventes de celui-ci sur la durée. On peut tout de même deviner que sa sortie le 12 mai 2023 sera un énorme succès et qu’il va exploser les ventes de son prédécesseur.")
+        st.markdown("Cependant ses ventes totales ne seront pas forcément meilleures que le premier opus. Effectivement, la série Zelda a déjà connu un cas similaire avec The Legend of Zelda: Ocarina of Time. Là encore succès incontestable dans le monde du jeu vidéo, sa suite The Legend of Zelda: Majora's Mask aura explosé les ventes lors de sa sortie mais aura été vendu presque deux fois moins que son prédécesseur (chiffres du premier dataset). Être une suite directe n’est pas forcément une bonne chose et sortir de sa timeline pour le prochain opus est parfois une meilleure stratégie.")
         
 # %%% Conclusion
 
