@@ -1421,7 +1421,6 @@ if selectedMenu == "Analyses":
         
         # Titre et yRange
         mkd8Sent.update_layout(legend=dict(orientation="h"),
-                               hoverlabel=dict(bgcolor = colorHoverBg),
                                title_text="Mario Kart 8 Deluxe - La force tranquille")
         
         # X-axis Titre
