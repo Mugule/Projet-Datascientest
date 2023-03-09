@@ -83,10 +83,10 @@ colorSalesSec = "F18989"
 
 colorHoverBg = "#EDF2F4"
 
-colorsTop5 = ["#ff7b00",
-              "#ff9500",
-              "#ffaa00",
-              "#ffc300",
+colorsTop5 = ["#D62828",
+              "#0077B6",
+              "#E9C46A",
+              "#2A9D8F",
               "#9932CC"]
 
 colorsTop10 = ["#184e77",
@@ -187,7 +187,8 @@ if selectedMenu == "Contexte":
     
     st.markdown("Après analyse, nous avons pu voir que Nintendo sort des jeux extrêmement qualitatifs. En effet, si on le compare avec Activision et EA (Electronic Arts) qui sont des mastodontes, nous allons voir que les chiffres de ventes ne suit pas de la même manière. Sur ces deux premiers graphiques. Nous allons voir le nombre de titres uniques vendus par éditeur en comparaison avec le nombre total des ventes (en millions de dollars).")
 
-    
+    logovgch = Image.open("medias/logovgch.png")
+        
     bestPublisherSales = dfVGSales[dfVGSales["Publisher"].isin(dfVGSales["Publisher"] \
                                                      .value_counts()[0:10].index)] \
                                                      .groupby(["Publisher"]) \
@@ -211,9 +212,21 @@ if selectedMenu == "Contexte":
                  color_discrete_map = colorDict,
                  labels={"Publisher": "Editeurs",
                          "Titles": "Total des titres sortis"},
+                 hovertemplate ="test <br> %{x}",
                  title="Nombre de titres uniques sortis par éditeurs",
                  text_auto='.2s',
                  orientation='h')
+        
+    # Logo VGCHARTZ
+    vgPublUnit.add_layout_image(dict(source=logovgch,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
     
     st.plotly_chart(vgPublUnit)
     
@@ -226,9 +239,21 @@ if selectedMenu == "Contexte":
                         color_discrete_map = colorDict,
                         labels={"Publisher": "Editeurs",
                                 "Global_Sales": "Total des ventes mondiales (M$)"},
+                        hovertemplate ="test <br> %{x}",
                         title="Ventes par éditeur",
                         text_auto='.2s',
                         orientation='h')
+        
+    # Logo VGCHARTZ
+    vgPublSals.add_layout_image(dict(source=logovgch,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
     
     st.plotly_chart(vgPublSals)
 
@@ -246,9 +271,22 @@ if selectedMenu == "Contexte":
                         labels={"Publisher": "Editeurs",
                         "Global_Sales" : "Ventes total (M$)",
                         "Year": "Année"},
+                        hovertemplate ="test <br> %{x}",
                         title="Meilleur titre de l'année",
                         hover_name="Name")
     
+    # Logo VGCHARTZ
+    vgBestTitl.add_layout_image(dict(source=logovgch,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
+
+
     st.plotly_chart(vgBestTitl)
     
     st.markdown("Ici on peut voir que Nintendo domine avec ses best-sellers. A savoir que l’on à regroupé les même titres sortis sur des consoles différentes. C’est d’ailleurs pour cela qu’un éditeur comme Activision tire son épingle du jeu grâce notamment à sa franchise Call Of Duty sortie sur toutes les consoles respectives selon les années. En comparaison nous avons laissé EA Sports qui restait un gros éditeur des premiers graphiques. Comme on peut le voir, il n’est plus aussi présent.")
@@ -259,7 +297,19 @@ if selectedMenu == "Contexte":
                         labels={"Genre": "Genre",
                                 "Global_Sales" : "Ventes total (M$)",
                                 "Year": "Année"},
+                        hovertemplate ="test <br> %{x}",
                         title="Total des ventes par genres")
+
+    # Logo VGCHARTZ
+    vgGenrSals.add_layout_image(dict(source=logovgch,
+                                       xref="paper", 
+                                       yref="paper",
+                                       x=1, 
+                                       y=1.05,
+                                       sizex=0.2, 
+                                       sizey=0.2,
+                                       xanchor="right", 
+                                       yanchor="bottom"))
     
     st.plotly_chart(vgGenrSals)
     
@@ -385,7 +435,6 @@ if selectedMenu == "Methodologie":
         #bestFive.update_xaxes(visible=False)
         
         bestFive.update_layout(title="Meilleures ventes de la Nintendo Switch",
-                               hoverlabel=dict(bgcolor = colorHoverBg),
                                yaxis=dict(range=[0, 59]))
         
         # Affichage
@@ -1389,11 +1438,7 @@ if selectedMenu == "Analyses":
         mkd8Sent = px.scatter(dfcomp, x="Like_SUM", y="Sales", hover_name="Game",
                               log_x=True,
                               color="TextBlob Note",
-                              color_continuous_scale="Rdylgn",
-                              hover_data={'Game':False,
-                                          'TextBlob Note':':.3',
-                                          'Like_SUM':':.2s',
-                                          'Sales':':.2f'})
+                              color_continuous_scale="Rdylgn")
         
         mkd8Sent.update_traces(marker=dict(size=16, symbol="diamond"),
                                selector=dict(mode="markers"))
@@ -1944,7 +1989,6 @@ if selectedMenu == "Scrapp-App":
                                   hovertemplate="<b>%{label}</b><br>%{value:.2s}")
         
             figPies.update_layout(showlegend = False,
-                                  hoverlabel=dict(bgcolor = colorHoverBg),
                                   title = figPiesTitle)
         
             # Affichage
