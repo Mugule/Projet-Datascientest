@@ -206,26 +206,15 @@ if selectedMenu == "Contexte":
     # Graph Titre par éditeur
 
     vgPublUnit = px.bar(bestPublisherUnits, 
-                 x="Titles", 
-                 y="Publisher",
-                 color="Publisher",
-                 color_discrete_map = colorDict,
-                 labels={"Publisher": "Editeurs",
-                         "Titles": "Total des titres sortis"},
-                 title="Nombre de titres uniques sortis par éditeurs",
-                 text_auto='.2s',
-                 orientation='h')
-        
-    # Logo VGCHARTZ
-    vgPublUnit.add_layout_image(dict(source=logovgch,
-                                       xref="paper", 
-                                       yref="paper",
-                                       x=1, 
-                                       y=1.05,
-                                       sizex=0.2, 
-                                       sizey=0.2,
-                                       xanchor="right", 
-                                       yanchor="bottom"))
+                         x="Titles", 
+                         y="Publisher",
+                         color="Publisher",
+                         color_discrete_map = colorDict,
+                         labels={"Publisher": "Editeurs",
+                                 "Titles": "Total des titres sortis"},
+                         title="Nombre de titres uniques sortis par éditeurs",
+                         text_auto='.2s',
+                         orientation='h')
     
     st.plotly_chart(vgPublUnit)
     
@@ -241,17 +230,7 @@ if selectedMenu == "Contexte":
                         title="Ventes par éditeur",
                         text_auto='.2s',
                         orientation='h')
-        
-    # Logo VGCHARTZ
-    vgPublSals.add_layout_image(dict(source=logovgch,
-                                       xref="paper", 
-                                       yref="paper",
-                                       x=1, 
-                                       y=1.05,
-                                       sizex=0.2, 
-                                       sizey=0.2,
-                                       xanchor="right", 
-                                       yanchor="bottom"))
+
     
     st.plotly_chart(vgPublSals)
 
@@ -271,18 +250,6 @@ if selectedMenu == "Contexte":
                         "Year": "Année"},
                         title="Meilleur titre de l'année",
                         hover_name="Name")
-    
-    # Logo VGCHARTZ
-    vgBestTitl.add_layout_image(dict(source=logovgch,
-                                       xref="paper", 
-                                       yref="paper",
-                                       x=1, 
-                                       y=1.05,
-                                       sizex=0.2, 
-                                       sizey=0.2,
-                                       xanchor="right", 
-                                       yanchor="bottom"))
-
 
     st.plotly_chart(vgBestTitl)
     
@@ -295,17 +262,6 @@ if selectedMenu == "Contexte":
                                 "Global_Sales" : "Ventes total (M$)",
                                 "Year": "Année"},
                         title="Total des ventes par genres")
-
-    # Logo VGCHARTZ
-    vgGenrSals.add_layout_image(dict(source=logovgch,
-                                       xref="paper", 
-                                       yref="paper",
-                                       x=1, 
-                                       y=1.05,
-                                       sizex=0.2, 
-                                       sizey=0.2,
-                                       xanchor="right", 
-                                       yanchor="bottom"))
     
     st.plotly_chart(vgGenrSals)
     
