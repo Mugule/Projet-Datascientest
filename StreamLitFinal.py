@@ -1802,11 +1802,17 @@ if selectedMenu == "Analyses":
 if selectedMenu == "Conclusion":
     st.title("Twitter ?")
     
-    st.subheader("Un outil mais pas une métric fiable")
-    st.markdown("On ne peut émettre de prévision des ventes directement grâce à Twitter. Cependant, on peut y déceler des tendances. Twitter reste un très bon moyen de « prendre la température » lors d’annonces et d’évènement pour voir si le publique répond positivement ou négativement à celles-ci.")
-    
+    st.subheader("Un témoin du passé")
+    st.markdown("Il est évident que Twitter ne permet pas de prédire directement les ventes. C’est principalement un réseau social axé sur le partage et la réaction à des contenus. Pour autant, on peut y déceler des tendances qui peuvent réellement accompagner voire influencer une stratégie marketing. Il sera toujours difficile de prédire le succès d’un jeu même si de nombreux facteurs peuvent rassurer et y concourir (notoriété de l’éditeur, suite d’un jeu à succès, publicité massive, innovation technologique…).")
+        
+    st.markdown("Et si l’enjeu consistait plutôt à utiliser des outils analytiques les mieux adaptés pour pouvoir accompagner la vie d’un jeu pour qu’il puisse rester le plus longtemps en haut de l’affiche ? Et s’accorder le plus fidèlement possible aux besoins et ressentis des joueurs pour être… joué !")
+
     st.subheader("Marketing et Développement")
-    st.markdown("Les réseaux sociaux sont un outil incontournable pour toucher le maximum de personne ! C’est indéniable mais pour durer dans le temps, les éditeurs doivent penser à cibler leur publique tant par le gameplay que par les outils utilisés. Il faudra donc mettre les équipes marketing en phase avec les développeurs pour une bonne efficacité. C’est comme cela qu’un jeu, connaitra un succès.")
+    st.markdown("En résumé, les données sont essentielles pour comprendre le marché des jeux vidéo et pour développer des stratégies efficaces de marketing et de vente. Les éditeurs doivent utiliser une combinaison d'outils, y compris les réseaux sociaux, les analyses de données de jeu, les sondages en ligne et les techniques de segmentation de marché, pour obtenir une image complète de leur public et de ses besoins. En travaillant en étroite collaboration avec les développeurs et les équipes marketing, les éditeurs peuvent développer des jeux qui répondent aux attentes des joueurs et qui ont toutes les chances de réussir.")
+
+    imgMario = Image.open('https://mario.wiki.gallery/images/3/3e/MPSS_Mario.png')
+    
+    st.image(imgMario)
 
 # %%% Scrapp-App
 
