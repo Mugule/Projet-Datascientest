@@ -153,6 +153,8 @@ if selectedMenu == "Projet":
     with col3:
        st.subheader("Julien Petit")
     
+    st.info('Merci de régler le thème en DarkMode ou bien de passer sur une fenêtre de navigation privée si votre site apparait blanc. Bonne lecture !', icon="ℹ️")    
+    
     st.caption('_ - Promotion JAN 2023 Datascientest - _') 
 
 # %%% Contexte
