@@ -2043,7 +2043,7 @@ if selectedMenu == "Scrapp-App":
             figPies.update_traces(textposition='inside',
                                   insidetextorientation='radial', 
                                   textinfo='percent+label',
-                                  hovertemplate="%{label}<br><b>%{value:.2s}</b>"))
+                                  hovertemplate="%{label}<br><b>%{value:.2s}</b>")
         
             figPies.update_layout(showlegend = False,
                                   title = figPiesTitle)
