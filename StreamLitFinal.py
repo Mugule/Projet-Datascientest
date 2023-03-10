@@ -415,7 +415,21 @@ if selectedMenu == "Methodologie":
         
         st.markdown(">**Un dataset a été récupéré pour chaque jeu :**\n>- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
 
-        
+        # %%%%% Graph Tweets Count per Game
+                
+        # Load data from CSV file
+        df_ScrapTwitter_Tweets_Count = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games.csv')
+
+        # Group by game name and date (month)
+        df_grouped_ScrapTwitter_Tweets_Count = df_ScrapTwitter_Tweets_Count.groupby(['Game Name', pd.Grouper(key='Date', freq='M')]).size().reset_index(name='nombre_de_tweets')
+        df_grouped_ScrapTwitter_Tweets_Count["Date"] = pd.to_datetime(df_grouped_ScrapTwitter_Tweets_Count["Date"])
+        df_grouped_ScrapTwitter_Tweets_Count["Date"] = df_grouped_ScrapTwitter_Tweets_Count["Date"].dt.strftime("%Y-%m")
+
+        # Trace the curves for each game
+        fig_ScrapTwitter_Tweets_Count = px.line(df_grouped_ScrapTwitter_Tweets_Count, x="Date", y="nombre_de_tweets", color="Game Name",
+            color_discrete_map=colorsTop5, title="Nombre de tweets par mois pour chaque jeu")
+        st.plotly_chart(fig_ScrapTwitter_Tweets_Count)
+
           
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
 
