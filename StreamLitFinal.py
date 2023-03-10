@@ -419,7 +419,7 @@ if selectedMenu == "Methodologie":
         # %%%%% Graph Tweets Count per Game
                 
         # Load data from CSV file
-        df_ScrapTwitter_Tweets_Count = pd.read_csv('/data/Scrap Twitter/top5_nintendo_games.csv')
+        df_ScrapTwitter_Tweets_Count = pd.read_csv('data/Scrap Twitter/top5_nintendo_games.csv')
 
         # Group games by month
         df_grouped_ScrapTwitter_Tweets_Count = df_ScrapTwitter_Tweets_Count.groupby(['Game Name', pd.Grouper(key='Date', freq='M')]).size().reset_index(name='nombre_de_tweets')
