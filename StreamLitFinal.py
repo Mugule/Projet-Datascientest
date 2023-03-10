@@ -9,6 +9,8 @@ from stqdm import stqdm
 import snscrape.modules.twitter as sntwitter
 
 from PIL import Image
+import requests
+import streamlit.components.v1 as components
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -23,12 +25,32 @@ loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non r
 # %% (_.~" INSTANCES "~._) 
 
 # %%% Méthodes
+
 def weighted_average(group):
         weights_sum = np.sum(group[qty])
         if weights_sum > 0:
             return np.average(group[qly], weights=group[qty])
         else:
             return np.nan
+        
+class Tweet(object):
+    def __init__(self, s, embed_str=False):
+        if not embed_str:
+            # Use Twitter's oEmbed API
+            # https://dev.twitter.com/web/embedded-tweets
+            api = "https://publish.twitter.com/oembed?url={}".format(s)
+            response = requests.get(api)
+            self.text = response.json()["html"]
+        else:
+            self.text = s
+
+    def _repr_html_(self):
+        return self.text
+
+    def component(self):
+        return components.html(self.text,
+                               scrolling=True,
+                               height=500)
         
 # %% (_.~" DATAFRAMES "~._)  
 # %%% Import
@@ -82,6 +104,10 @@ colorSales = "#FF4B4B"
 colorSalesSec = "F18989"
 
 colorHoverBg = "#EDF2F4"
+
+colorsTop3 = ["#DDB892",
+              "#D8E2DC",
+              "#FFC857"]
 
 colorsTop5 = ["#D62828",
               "#0077B6",
@@ -1815,19 +1841,18 @@ if selectedMenu == "Scrapp-App":
     st.title("Scrapp-App")
     
     # %%%% Inputs
-    
-    # Présentation
-    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise [snscrape](https://github.com/JustAnotherArchivist/snscrape).")
-    
+
+    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira différents indicateurs utiles pour de futures analyses. L'application utilise [snscrape](https://github.com/JustAnotherArchivist/snscrape).")
+
     # Notes pour l'utilisateur
-    st.markdown("Pour les Hashtags très populaires, pensez à bien limiter le nombre maximal. En effet le temps de recherche sera très long et le scrapping s'arrêtera une fois avoir atteint le nombre maximum de tweets. Attention, si vous modifiez votre requête, vous perdrez les résultats de votre recherche.")
-    
+    st.markdown("Conseils : \n - Limitez le **nombre maximal** de tweets pour les # populaires; \n - Si vous modifiez votre requête, vous **perdrez les résultats** de votre recherche.")
+
     # Séparation en deux colonnes
     col1, col2 = st.columns(2)
-    
+
     with col1:
         # Recherche
-        scrapInput = st.text_input('Hashtag', 'Coromon')
+        scrapInput = st.text_input('Hashtag', 'TemTem')
         # Date de début
         scrapStart = st.date_input("Début",datetime.date(2023, 2, 1))
     with col2:
@@ -1835,10 +1860,10 @@ if selectedMenu == "Scrapp-App":
         maxTweets = st.number_input('Tweets maximum',min_value = 100, value=3000, format = "%d")
         # Date de fin
         scrapEnd = st.date_input("Fin",datetime.date(2023, 3, 1))
-    
+
     # Etendue de la recherche
     scrapRange = scrapEnd-scrapStart
-    
+
     # Vérification des dates
     if scrapRange.days <= 0:
         dateTest = True
@@ -1846,15 +1871,16 @@ if selectedMenu == "Scrapp-App":
     else:
         dateTest = False
         buttonName = "Scrapp-App"
-    
+
     # Lancement de la requête
+
     if st.button(buttonName, disabled=dateTest):
         # Retrait du # si il est mis par l'utilisateur 
         if scrapInput[0]=="#":
             scrapInput = scrapInput[1:]
-    
+
     # %%%% Scrapping
-    
+
         querryList = []
         tweets_list = []
         
@@ -1868,80 +1894,166 @@ if selectedMenu == "Scrapp-App":
             for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
                 if i >= maxTweets:
                     break
-                tweets_list.append([tweet.date, tweet.likeCount, tweet.hashtags, tweet.lang])
+                tweets_list.append([tweet.date, tweet.user, tweet.hashtags, tweet.likeCount, tweet.lang, tweet.url])
         
         # Création dataframe
-        dfScrap = pd.DataFrame(tweets_list, columns=['Datetime', 'Like', 'Hashtags','Langue'])
+        dfScrap = pd.DataFrame(tweets_list, columns=['Datetime','User','Hashtags','Like','Langue','url'])
         dfScrap_x, dfScrap_y = dfScrap.shape
+        dfScrap["User"] = dfScrap["User"].astype(str).apply(lambda x: x[20:])
+        
              
-        # %%%% Results
+        # %%%% Check
         if dfScrap_x == 0:
             
             st.error('Aucun tweet trouvé')
             
         if dfScrap_x > 0:
+
+            # %%%% Results
+
+            # %%%%% TOP3 Best Tweets 
+
+            colL, colR = st.columns([2,3])
             
-            # Likes sur le temps
+            with colL:
+                
+                # Data
+                # Plus influents
+                top3Liks = dfScrap.groupby(["User"]).agg({'Like':'sum'}).reset_index().sort_values(by="Like",ascending=False)[0:3]
+                # Reverse influents
+                top3Liks = top3Liks.sort_values(by="Like")
+                # Plus actifs
+                top3Twts = dfScrap.groupby(["User"]).agg({'Datetime':'count'}).reset_index().sort_values(by="Datetime",ascending=False)[0:3]
+                # Reverse actifs
+                top3Twts = top3Twts.sort_values(by="Datetime")
+                
+                # Graphique Instance
+                figUser = make_subplots(rows=2, cols=1,
+                                        subplot_titles=("<b>Influenceurs</b>","<b>Activité</b>"))
+                
+                figUser.add_trace(go.Bar(x=[1, 1, 1],
+                                         y=top3Liks["User"],
+                                         text=top3Liks["Like"],
+                                         texttemplate="%{y} - %{text} Likes",
+                                         insidetextanchor="middle",
+                                         marker_color=colorsTop3,
+                                         orientation='h',
+                                         insidetextfont_size=16,
+                                         hoverinfo='skip'),
+                                  row=1, col=1)
+                
+                figUser.add_trace(go.Bar(x=[1, 1, 1],
+                                         y=top3Twts["User"],
+                                         text=top3Twts["Datetime"],
+                                         texttemplate="%{y} - %{text} Tweets",
+                                         insidetextanchor="middle",
+                                         marker_color=colorsTop3,
+                                         orientation='h',
+                                         insidetextfont_size=16,
+                                         hoverinfo='skip'),
+                                  row=2, col=1)
+                
+                figUser.update_layout(title = "TOP 3",
+                                      showlegend=False)
+                
+                figUser.update_xaxes(showticklabels=False,showgrid=False, zeroline=False,
+                                     range=[0,1])
+                figUser.update_yaxes(showticklabels=False,showgrid=False, zeroline=False)
+                
+                colL.plotly_chart(figUser, height=500,use_container_width=True)
+            
+            with colR:
+                # Meilleur tweet
+                st.markdown("**Meilleur Tweet**")
+                bestTweet = dfScrap.sort_values(by=["Like"],ascending=False).reset_index()["url"][0]
+                t = Tweet(bestTweet).component()
+                
+            # %%%%% Likes / Tweets
+            
             
             # Préparation des données
-            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap.Like.sum()) + " Likes"
+            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap_x) + " Tweets avec " + str(dfScrap.Like.sum()) + " Likes"
             
             dfLikes = dfScrap.groupby([dfScrap['Datetime'].dt.date]).sum().reset_index()
             
             # Graphique Instance
-            figLikes = go.Figure()
-            figLikes.add_trace(go.Bar(x = dfLikes['Datetime'], 
-                                      y = dfLikes['Like'],
-                                      hovertemplate="%{x}<br><b>%{y:.2s}<b> Likes",
-                                      name ="",
-                                      marker_color = colorTwitter))
+            figLikes = make_subplots(specs=[[{"secondary_y": True}]])
+            
+            # Courbes Likes
+            figLikes.add_trace(go.Scatter(x = dfLikes['Datetime'], 
+                                          y = dfLikes['Like'],
+                                          marker_color=colorSales,
+                                          hovertemplate="<b>%{y:.2s}</b> Likes",
+                                          name =""),
+                                          secondary_y=True)
+            
+            # Bar Tweets
+            figLikes.add_trace(go.Histogram(x = dfScrap['Datetime'],
+                                            marker_color=colorTwitter,
+                                            xbins=dict(size='D1'),
+                                            hovertemplate="<b>%{y:.2s}</b> Tweets",
+                                            name ="",
+                                            opacity = 0.75),
+                                            secondary_y=False)
+            
+            
             # Réglages
             figLikes.update_layout(showlegend=False,
+                                   hovermode="x unified",
                                    title = figLikesTitle)
-        
+            
+            
+            figLikes.update_yaxes(title_text="Tweets", secondary_y=False)
+            figLikes.update_yaxes(title_text="Likes", secondary_y=True)
+            
             # Affichage
             st.plotly_chart(figLikes)
             
-            # Camembert TOP5 Langues et TOP10 Hashtags
+            # %%%%% Camembert
             
+            # Camembert TOP5 Langues et TOP10 Hashtags
+
             # Préparation des données
-            dfLtag = dfScrap.explode('Langue').reset_index(drop=True).drop(['Datetime','Like','Hashtags'], axis=1)
+            dfLtag = dfScrap.explode('Langue').reset_index(drop=True).drop(['Datetime','Like','Hashtags','url','User'], axis=1)
             dfLtag['Langue'] = dfLtag['Langue'].str.upper()
             dfLtop = dfLtag.value_counts().head(5).reset_index()
-        
-            dfHtag = dfScrap.explode('Hashtags').reset_index(drop=True).drop(['Datetime','Like','Langue'], axis=1)
+            
+            dfHtag = dfScrap.explode('Hashtags').reset_index(drop=True).drop(['Datetime','Like','Langue','url','User'], axis=1)
             dfHtag['Hashtags'] = dfHtag['Hashtags'].str.upper()
             dfHtop = dfHtag.value_counts().head(10).drop([scrapInput.upper()]).reset_index()
-        
+            
             figPiesTitle = "#" + scrapInput +" ("+ scrapStart.strftime('%d %b %Y') + " - "+ scrapEnd.strftime('%d %b %Y') +")"
             
             # Graphique Instance
             figPies = make_subplots(rows=1, cols=2,    
                                     specs=[[{"type": "pie"}, {"type": "pie"}]],
-                                    subplot_titles=("Langues les plus utilisées","Hashtags associés populaires"))
-        
+                                    subplot_titles=("Langues les plus utilisées","Hashtags associés récurents"))
+            
             # Pie TOP5 Langues
             figPies.add_trace(go.Pie(values=dfLtop[0],
                                      labels=dfLtop["Langue"],
-                                     name="",
-                                     marker_colors=colorsTop5),
+                                     marker_colors=colorsTop5,
+                                     name=""),
                               row=1, col=1)
-        
+            
             # Pie TOP10 Hashtags
             figPies.add_trace(go.Pie(values=dfHtop[0],
                                      labels=dfHtop["Hashtags"],
-                                     name="",
-                                     marker_colors=colorsTop10),
+                                     marker_colors=colorsTop10,
+                                     name=""),
                               row=1, col=2)
-        
+            
             #Règlages
             figPies.update_traces(textposition='inside',
                                   insidetextorientation='radial', 
                                   textinfo='percent+label',
-                                  hovertemplate="<b>%{label}</b><br>%{value:.2s}")
-        
+                                  hovertemplate="%{label}<br><b>%{value:.2s}</b>")
+            
+            
+                
+            
             figPies.update_layout(showlegend = False,
                                   title = figPiesTitle)
-        
+            
             # Affichage
-            st.plotly_chart(figPies)  
+            st.plotly_chart(figPies)
