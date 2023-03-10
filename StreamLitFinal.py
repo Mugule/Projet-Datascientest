@@ -421,15 +421,13 @@ if selectedMenu == "Methodologie":
         # Load data from CSV file
         df_ScrapTwitter_Tweets_Count = pd.read_csv('data/Scrap Twitter/top5_nintendo_games.csv')
 
-        # Group games by month
-        df_grouped_ScrapTwitter_Tweets_Count = df_ScrapTwitter_Tweets_Count.groupby(['Game Name', pd.Grouper(key='Date', freq='M')]).size().reset_index(name='nombre_de_tweets')
-        df_grouped_ScrapTwitter_Tweets_Count['Date'] = df_grouped_ScrapTwitter_Tweets_Count['Date'].dt.strftime("%Y-%m")
+        # Grouper les jeux par mois
+        df_grouped_ScrapTwitter_Tweets_Count["Date"] = pd.to_datetime(df_grouped_ScrapTwitter_Tweets_Count["Date"])
+        df_grouped_ScrapTwitter_Tweets_Count["Date"] = df_grouped["Date"].dt.strftime("%Y-%m")
 
-        # Set custom colors for the games
-        colorsTop5 = {'Game 1': 'blue', 'Game 2': 'red', 'Game 3': 'green', 'Game 4': 'purple', 'Game 5': 'orange'}
-
-        # Plot tweets count per game
-        fig_ScrapTwitter_Tweets_Count = px.line(df_grouped_ScrapTwitter_Tweets_Count, x="Date", y="nombre_de_tweets", color="Game Name", color_discrete_map=colorsTop5, title="Nombre de tweets par mois pour chaque jeu")
+        #Tracer les courbes pour chaque jeu
+        fig_ScrapTwitter_Tweets_Count = px.line(df_grouped_ScrapTwitter_Tweets_Count, x="Date", y="nombre_de_tweets", color="Game Name",
+        color_discrete_map=colorsTop5, title="Nombre de tweets par mois pour chaque jeu")
         st.plotly_chart(fig_ScrapTwitter_Tweets_Count)
         
           
