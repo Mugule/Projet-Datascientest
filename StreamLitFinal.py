@@ -9,8 +9,6 @@ from stqdm import stqdm
 import snscrape.modules.twitter as sntwitter
 
 from PIL import Image
-import requests
-import streamlit.components.v1 as components
 
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -25,32 +23,12 @@ loremIpsum = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non r
 # %% (_.~" INSTANCES "~._) 
 
 # %%% Méthodes
-
 def weighted_average(group):
         weights_sum = np.sum(group[qty])
         if weights_sum > 0:
             return np.average(group[qly], weights=group[qty])
         else:
             return np.nan
-        
-class Tweet(object):
-    def __init__(self, s, embed_str=False):
-        if not embed_str:
-            # Use Twitter's oEmbed API
-            # https://dev.twitter.com/web/embedded-tweets
-            api = "https://publish.twitter.com/oembed?url={}".format(s)
-            response = requests.get(api)
-            self.text = response.json()["html"]
-        else:
-            self.text = s
-
-    def _repr_html_(self):
-        return self.text
-
-    def component(self):
-        return components.html(self.text,
-                               scrolling=True,
-                               height=500)
         
 # %% (_.~" DATAFRAMES "~._)  
 # %%% Import
@@ -104,10 +82,6 @@ colorSales = "#FF4B4B"
 colorSalesSec = "F18989"
 
 colorHoverBg = "#EDF2F4"
-
-colorsTop3 = ["#DDB892",
-              "#D8E2DC",
-              "#FFC857"]
 
 colorsTop5 = ["#D62828",
               "#0077B6",
@@ -430,7 +404,7 @@ if selectedMenu == "Methodologie":
         
         st.markdown("Nous sommes partis des 5 jeux sélectionnés parmi les jeux les plus vendus de Nintendo sur la Switch.")
         st.markdown("De nombreuses recherches ont été nécessaires pour obtenir un dataset avec un **résultat optimal**. Twitter et les autres plateformes limitent de plus en plus la possibilité de scraper leurs données en mettant à jour régulièrement leur site et leur API, **obligeant à constamment être à jour de ses codes python**. Une autre contrainte et non des moindres pour notre projet : Twitter ne permet pas la récupération des données historiques, limités à 10 jours, et le nombre de tweets est également limité.")
-        st.markdown("De nombreuses bibliothèques python pour scraper Twitter existent, mais très peu sont réellement fonctionnelles. Certaines utilisent l’API Twitter et d’autres non. Nous nous sommes évidemment intéressés à celles qui s’affranchissent de ces limites. Nos recherches nous ont permis de sélectionner la bibliothèque [snscrap (SNS)](https://github.com/JustAnotherArchivist/snscrape) avec une communauté d’utilisateurs active et un outil fonctionnel et à jour.")
+        st.markdown("De nombreuses bibliothèques python pour scraper Twitter existent, mais très peu sont réellement fonctionnelles. Certaines utilisent l’API Twitter et d’autres non. Nous nous sommes évidemment intéressés à celles qui s’affranchissent de ces limites. Nos recherches nous ont permis de sélectionner la bibliothèque snscrap (SNS) https://github.com/JustAnotherArchivist/snscrape avec une communauté d’utilisateurs active et un outil fonctionnel et à jour.")
         st.markdown("Les premiers tests ont permis de récupérer un dataset très propre et complet de tous les tweets avec un essai sur un mot clé sur une journée. Pour autant, notre échelle de temps pour récupérer les tweets étant fixée sur la période de 2017 à 2022, il s’est avéré que le nombre de tweets potentiellement récupérable était exceptionnellement élevé. Par exemple pour une échelle de 6 mois avec les mots clé “Zelda OR #Zelda OR #Breathofthewild OR breath of the wild OR #BOTW”, le temps de scraping était d’environ une dizaine d’heure avec un tweet toutes les secondes environ récupérés.")
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
         st.markdown("Afin de conserver le plus de cohérence statistique avec les autres jeux Nintendo, nous avons uniquement réévalué la sélection des tweets par rapport à leur nombre de likes. Après plusieurs essais pour évaluer la bonne jauge, nous modifions le nombre de likes de 100 likes à 1 000 likes par tweets. Avec ce nouveau filtre, nous pouvons bien distinguer une première tendance exponentielle du nombre de tweets pour le jeu Pokemon.")                       
@@ -442,6 +416,19 @@ if selectedMenu == "Methodologie":
         st.markdown(">**Un dataset a été récupéré pour chaque jeu :**\n>- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
 
       
+df_ScrapTwitter_Tweets_Count = pd.read_csv('/data/Scrap Twitter/top5_nintendo_games.csv')
+
+# Grouper les jeux par mois
+df_grouped_ScrapTwitter_Tweets_Count["Date"] = pd.to_datetime(df_grouped_ScrapTwitter_Tweets_Count["Date"])
+df_grouped_ScrapTwitter_Tweets_Count["Date"] = df_grouped["Date"].dt.strftime("%Y-%m")
+
+
+#Tracer les courbes pour chaque jeu
+fig_ScrapTwitter_Tweets_Count = px.line(df_grouped_ScrapTwitter_Tweets_Count, x="Date", y="nombre_de_tweets", color="Game Name",
+color_discrete_map=colorsTop5, title="Nombre de tweets par mois pour chaque jeu")
+st.plotly_chart(fig_ScrapTwitter_Tweets_Count)
+
+
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
 
         st.markdown("Afin de conserver le plus de cohérence statistique avec les autres jeux Nintendo, nous avons uniquement réévalué la sélection des tweets par rapport à leur nombre de likes. Après plusieurs essais pour évaluer la bonne jauge, nous modifions le nombre de likes de 100 likes à 1 000 likes par tweets. Avec ce nouveau filtre, nous pouvons bien distinguer une première tendance exponentielle du nombre de tweets pour le jeu Pokemon.")
@@ -1841,15 +1828,16 @@ if selectedMenu == "Scrapp-App":
     st.title("Scrapp-App")
     
     # %%%% Inputs
-
-    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira différents indicateurs utiles pour de futures analyses. L'application utilise [snscrape](https://github.com/JustAnotherArchivist/snscrape).")
-
+    
+    # Présentation
+    st.markdown("Bienvenu sur Scrapp-App. Entrez un hashtag, sélectionnez deux dates et c'est parti ! L'application vous fournira un graphique du nombre de Likes dans le temps, les 5 langues les plus utilisées et les hashtags associés les plus populaires. L'application utilise [snscrape](https://github.com/JustAnotherArchivist/snscrape).")
+    
     # Notes pour l'utilisateur
-    st.markdown("Conseils : \n - Limitez le **nombre maximal** de tweets pour les # populaires; \n - Si vous modifiez votre requête, vous **perdrez les résultats** de votre recherche.")
-
+    st.markdown("Pour les Hashtags très populaires, pensez à bien limiter le nombre maximal. En effet le temps de recherche sera très long et le scrapping s'arrêtera une fois avoir atteint le nombre maximum de tweets. Attention, si vous modifiez votre requête, vous perdrez les résultats de votre recherche.")
+    
     # Séparation en deux colonnes
     col1, col2 = st.columns(2)
-
+    
     with col1:
         # Recherche
         scrapInput = st.text_input('Hashtag', 'Coromon')
@@ -1860,10 +1848,10 @@ if selectedMenu == "Scrapp-App":
         maxTweets = st.number_input('Tweets maximum',min_value = 100, value=3000, format = "%d")
         # Date de fin
         scrapEnd = st.date_input("Fin",datetime.date(2023, 3, 1))
-
+    
     # Etendue de la recherche
     scrapRange = scrapEnd-scrapStart
-
+    
     # Vérification des dates
     if scrapRange.days <= 0:
         dateTest = True
@@ -1871,16 +1859,15 @@ if selectedMenu == "Scrapp-App":
     else:
         dateTest = False
         buttonName = "Scrapp-App"
-
+    
     # Lancement de la requête
-
     if st.button(buttonName, disabled=dateTest):
         # Retrait du # si il est mis par l'utilisateur 
         if scrapInput[0]=="#":
             scrapInput = scrapInput[1:]
-
+    
     # %%%% Scrapping
-
+    
         querryList = []
         tweets_list = []
         
@@ -1894,166 +1881,80 @@ if selectedMenu == "Scrapp-App":
             for i, tweet in enumerate(sntwitter.TwitterSearchScraper(query).get_items()):
                 if i >= maxTweets:
                     break
-                tweets_list.append([tweet.date, tweet.user, tweet.hashtags, tweet.likeCount, tweet.lang, tweet.url])
+                tweets_list.append([tweet.date, tweet.likeCount, tweet.hashtags, tweet.lang])
         
         # Création dataframe
-        dfScrap = pd.DataFrame(tweets_list, columns=['Datetime','User','Hashtags','Like','Langue','url'])
+        dfScrap = pd.DataFrame(tweets_list, columns=['Datetime', 'Like', 'Hashtags','Langue'])
         dfScrap_x, dfScrap_y = dfScrap.shape
-        dfScrap["User"] = dfScrap["User"].astype(str).apply(lambda x: x[20:])
-        
              
-        # %%%% Check
+        # %%%% Results
         if dfScrap_x == 0:
             
             st.error('Aucun tweet trouvé')
             
         if dfScrap_x > 0:
-
-            # %%%% Results
-
-            # %%%%% TOP3 Best Tweets 
-
-            colL, colR = st.columns([2,3])
             
-            with colL:
-                
-                # Data
-                # Plus influents
-                top3Liks = dfScrap.groupby(["User"]).agg({'Like':'sum'}).reset_index().sort_values(by="Like",ascending=False)[0:3]
-                # Reverse influents
-                top3Liks = top3Liks.sort_values(by="Like")
-                # Plus actifs
-                top3Twts = dfScrap.groupby(["User"]).agg({'Datetime':'count'}).reset_index().sort_values(by="Datetime",ascending=False)[0:3]
-                # Reverse actifs
-                top3Twts = top3Twts.sort_values(by="Datetime")
-                
-                # Graphique Instance
-                figUser = make_subplots(rows=2, cols=1,
-                                        subplot_titles=("<b>Influenceurs</b>","<b>Activité</b>"))
-                
-                figUser.add_trace(go.Bar(x=[1, 1, 1],
-                                         y=top3Liks["User"],
-                                         text=top3Liks["Like"],
-                                         texttemplate="%{y} - %{text} Likes",
-                                         insidetextanchor="middle",
-                                         marker_color=colorsTop3,
-                                         orientation='h',
-                                         insidetextfont_size=16,
-                                         hoverinfo='skip'),
-                                  row=1, col=1)
-                
-                figUser.add_trace(go.Bar(x=[1, 1, 1],
-                                         y=top3Twts["User"],
-                                         text=top3Twts["Datetime"],
-                                         texttemplate="%{y} - %{text} Tweets",
-                                         insidetextanchor="middle",
-                                         marker_color=colorsTop3,
-                                         orientation='h',
-                                         insidetextfont_size=16,
-                                         hoverinfo='skip'),
-                                  row=2, col=1)
-                
-                figUser.update_layout(title = "TOP 3",
-                                      showlegend=False)
-                
-                figUser.update_xaxes(showticklabels=False,showgrid=False, zeroline=False,
-                                     range=[0,1])
-                figUser.update_yaxes(showticklabels=False,showgrid=False, zeroline=False)
-                
-                colL.plotly_chart(figUser, height=500,use_container_width=True)
-            
-            with colR:
-                # Meilleur tweet
-                st.markdown("**Meilleur Tweet**")
-                bestTweet = dfScrap.sort_values(by=["Like"],ascending=False).reset_index()["url"][0]
-                t = Tweet(bestTweet).component()
-                
-            # %%%%% Likes / Tweets
-            
+            # Likes sur le temps
             
             # Préparation des données
-            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap_x) + " Tweets avec " + str(dfScrap.Like.sum()) + " Likes"
+            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap.Like.sum()) + " Likes"
             
             dfLikes = dfScrap.groupby([dfScrap['Datetime'].dt.date]).sum().reset_index()
             
             # Graphique Instance
-            figLikes = make_subplots(specs=[[{"secondary_y": True}]])
-            
-            # Courbes Likes
-            figLikes.add_trace(go.Scatter(x = dfLikes['Datetime'], 
-                                          y = dfLikes['Like'],
-                                          marker_color=colorSales,
-                                          hovertemplate="<b>%{y:.2s}</b> Likes",
-                                          name =""),
-                                          secondary_y=True)
-            
-            # Bar Tweets
-            figLikes.add_trace(go.Histogram(x = dfScrap['Datetime'],
-                                            marker_color=colorTwitter,
-                                            xbins=dict(size='D1'),
-                                            hovertemplate="<b>%{y:.2s}</b> Tweets",
-                                            name ="",
-                                            opacity = 0.75),
-                                            secondary_y=False)
-            
-            
+            figLikes = go.Figure()
+            figLikes.add_trace(go.Bar(x = dfLikes['Datetime'], 
+                                      y = dfLikes['Like'],
+                                      hovertemplate="%{x}<br><b>%{y:.2s}<b> Likes",
+                                      name ="",
+                                      marker_color = colorTwitter))
             # Réglages
             figLikes.update_layout(showlegend=False,
-                                   hovermode="x unified",
                                    title = figLikesTitle)
-            
-            
-            figLikes.update_yaxes(title_text="Tweets", secondary_y=False)
-            figLikes.update_yaxes(title_text="Likes", secondary_y=True)
-            
+        
             # Affichage
             st.plotly_chart(figLikes)
             
-            # %%%%% Camembert
-            
             # Camembert TOP5 Langues et TOP10 Hashtags
-
+            
             # Préparation des données
-            dfLtag = dfScrap.explode('Langue').reset_index(drop=True).drop(['Datetime','Like','Hashtags','url','User'], axis=1)
+            dfLtag = dfScrap.explode('Langue').reset_index(drop=True).drop(['Datetime','Like','Hashtags'], axis=1)
             dfLtag['Langue'] = dfLtag['Langue'].str.upper()
             dfLtop = dfLtag.value_counts().head(5).reset_index()
-            
-            dfHtag = dfScrap.explode('Hashtags').reset_index(drop=True).drop(['Datetime','Like','Langue','url','User'], axis=1)
+        
+            dfHtag = dfScrap.explode('Hashtags').reset_index(drop=True).drop(['Datetime','Like','Langue'], axis=1)
             dfHtag['Hashtags'] = dfHtag['Hashtags'].str.upper()
             dfHtop = dfHtag.value_counts().head(10).drop([scrapInput.upper()]).reset_index()
-            
+        
             figPiesTitle = "#" + scrapInput +" ("+ scrapStart.strftime('%d %b %Y') + " - "+ scrapEnd.strftime('%d %b %Y') +")"
             
             # Graphique Instance
             figPies = make_subplots(rows=1, cols=2,    
                                     specs=[[{"type": "pie"}, {"type": "pie"}]],
-                                    subplot_titles=("Langues les plus utilisées","Hashtags associés récurents"))
-            
+                                    subplot_titles=("Langues les plus utilisées","Hashtags associés populaires"))
+        
             # Pie TOP5 Langues
             figPies.add_trace(go.Pie(values=dfLtop[0],
                                      labels=dfLtop["Langue"],
-                                     marker_colors=colorsTop5,
-                                     name=""),
+                                     name="",
+                                     marker_colors=colorsTop5),
                               row=1, col=1)
-            
+        
             # Pie TOP10 Hashtags
             figPies.add_trace(go.Pie(values=dfHtop[0],
                                      labels=dfHtop["Hashtags"],
-                                     marker_colors=colorsTop10,
-                                     name=""),
+                                     name="",
+                                     marker_colors=colorsTop10),
                               row=1, col=2)
-            
+        
             #Règlages
             figPies.update_traces(textposition='inside',
                                   insidetextorientation='radial', 
                                   textinfo='percent+label',
-                                  hovertemplate="%{label}<br><b>%{value:.2s}</b>")
-            
-            
-                
-            
+                                  hovertemplate="<b>%{label}</b><br>%{value:.2s}")
+        
             figPies.update_layout(showlegend = False,
                                   title = figPiesTitle)
-            
+        
             # Affichage
-            st.plotly_chart(figPies)
+            st.plotly_chart(figPies)  
