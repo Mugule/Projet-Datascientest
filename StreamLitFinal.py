@@ -1852,7 +1852,7 @@ if selectedMenu == "Scrapp-App":
 
     with col1:
         # Recherche
-        scrapInput = st.text_input('Hashtag', 'TemTem')
+        scrapInput = st.text_input('Hashtag', 'Coromon')
         # Date de début
         scrapStart = st.date_input("Début",datetime.date(2023, 2, 1))
     with col2:
