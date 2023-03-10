@@ -414,7 +414,7 @@ if selectedMenu == "Methodologie":
         st.markdown("Pour une année, cela permet de récupérer au maximum près de 18 000 tweets parmi les plus likés et donc les plus partagés par les communautés de joueurs. Cela réduit le biais d’opinion et permet de toucher un maximum de joueurs qui partagent la même opinion en likant le tweet (positif, neutre ou négatif).\n")
         st.markdown("Un dataset a été récupéré pour chaque jeu :")
         
-        st.markdown(>"- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
+        st.markdown(">- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
 
       
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
