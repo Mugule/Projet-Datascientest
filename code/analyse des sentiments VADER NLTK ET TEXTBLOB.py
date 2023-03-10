@@ -8,7 +8,7 @@ nltk.download('vader_lexicon')
 
 
 # Charger le fichier CSV
-df = pd.read_csv(r"C:\Users\nicol\OneDrive\Nicolas\Bureau\FORMATION\PROJET GAMING SALES\DATAVIZ\AMAZON ET METACRITIC ENG SA.csv")
+df = pd.read_csv(r"*****AMAZON ET METACRITIC ENG SA.csv")
 df['review_en'] = df['review_en'].astype(str)
 
 # Créer une fonction pour l'analyse de sentiment TextBlob
@@ -49,6 +49,6 @@ df['sentiment VADER'] = df['review_en'].apply(get_vader_sentiment)
 df['sentiment NLTK'] = df['review_en'].apply(get_nltk_sentiment)
 
 # Sauvegarder le dataframe dans un nouveau fichier CSV
-df.to_csv(r"C:\Users\nicol\OneDrive\Nicolas\Bureau\FORMATION\PROJET GAMING SALES\DATAVIZ\AMAZON ET METACRITIC SA VADER NLTK TEXTBLOB.csv", index=False)
+df.to_csv(r"****AMAZON ET METACRITIC SA VADER NLTK TEXTBLOB.csv", index=False)
 
 print(df.head(100))
