@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 import plotly.colors
 
 # Charger le fichier CSV en tant que dataframe
-data = pd.read_csv(r"C:\Users\nicol\OneDrive\Nicolas\Bureau\FORMATION\PROJET GAMING SALES\DATAVIZ\AMAZON ET METACRITIC SA VADER NLTK TEXTBLOB.csv")
+data = pd.read_csv(r"****AMAZON ET METACRITIC SA VADER NLTK TEXTBLOB.csv")
 
 # Transformer la colonne "date" en datetime
 data["date"] = pd.to_datetime(data["date"])
@@ -38,7 +38,7 @@ for quadgram in quadgrams:
 df = pd.DataFrame([(" ".join(quadgram), quadgram_finder.ngram_fd[quadgram]) for quadgram in quadgrams if len(quadgram) == 4], columns=["4-gramme", "freq"])
 
 # Sauvegarder le dataframe sous forme de fichier CSV
-df.to_csv(r"C:\Users\nicol\OneDrive\Nicolas\Bureau\FORMATION\PROJET GAMING SALES\DATASETS FINAUX\N-GRAMMES ACNH.csv", index=False)
+df.to_csv(r"****N-GRAMMES ACNH.csv", index=False)
 """
 # VISUEL
 
