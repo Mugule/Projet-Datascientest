@@ -1912,6 +1912,44 @@ if selectedMenu == "Scrapp-App":
             
             # %%%% Results
 
+            # %%%%% Likes / Tweets
+            
+            # Préparation des données
+            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap_x) + " Tweets avec " + str(dfScrap.Like.sum()) + " Likes"
+            
+            dfLikes = dfScrap.groupby([dfScrap['Datetime'].dt.date]).sum().reset_index()
+            
+            # Graphique Instance
+            figLikes = make_subplots(specs=[[{"secondary_y": True}]])
+
+            # Courbes Likes
+            figLikes.add_trace(go.Scatter(x = dfLikes['Datetime'], 
+                                          y = dfLikes['Like'],
+                                          marker_color=colorSales,
+                                          hovertemplate="<b>%{y:.2s}</b> Likes",
+                                          name =""),
+                                          secondary_y=True)
+
+            # Bar Tweets
+            figLikes.add_trace(go.Histogram(x = dfScrap['Datetime'],
+                                            marker_color=colorTwitter,
+                                            xbins=dict(size='D1'),
+                                            hovertemplate="<b>%{y:.2s}</b> Tweets",
+                                            name ="",
+                                            opacity = 0.75),
+                                            secondary_y=False)
+        
+            # Réglages
+            figLikes.update_layout(showlegend=False,
+                                   hovermode="x unified",
+                                   title = figLikesTitle)
+        
+            figLikes.update_yaxes(title_text="Tweets", secondary_y=False)
+            figLikes.update_yaxes(title_text="Likes", secondary_y=True)
+        
+            # Affichage
+            st.plotly_chart(figLikes)
+            
             # %%%%% TOP3 Best Tweets 
 
             colL, colR = st.columns([2,3])
@@ -1968,44 +2006,6 @@ if selectedMenu == "Scrapp-App":
                 st.markdown("**Meilleur Tweet**")
                 bestTweet = dfScrap.sort_values(by=["Like"],ascending=False).reset_index()["url"][0]
                 t = Tweet(bestTweet).component()
-
-            # %%%%% Likes / Tweets
-            
-            # Préparation des données
-            figLikesTitle = "#" + scrapInput + ", un total de " + str(dfScrap_x) + " Tweets avec " + str(dfScrap.Like.sum()) + " Likes"
-            
-            dfLikes = dfScrap.groupby([dfScrap['Datetime'].dt.date]).sum().reset_index()
-            
-            # Graphique Instance
-            figLikes = make_subplots(specs=[[{"secondary_y": True}]])
-
-            # Courbes Likes
-            figLikes.add_trace(go.Scatter(x = dfLikes['Datetime'], 
-                                          y = dfLikes['Like'],
-                                          marker_color=colorSales,
-                                          hovertemplate="<b>%{y:.2s}</b> Likes",
-                                          name =""),
-                                          secondary_y=True)
-
-            # Bar Tweets
-            figLikes.add_trace(go.Histogram(x = dfScrap['Datetime'],
-                                            marker_color=colorTwitter,
-                                            xbins=dict(size='D1'),
-                                            hovertemplate="<b>%{y:.2s}</b> Tweets",
-                                            name ="",
-                                            opacity = 0.75),
-                                            secondary_y=False)
-        
-            # Réglages
-            figLikes.update_layout(showlegend=False,
-                                   hovermode="x unified",
-                                   title = figLikesTitle)
-        
-            figLikes.update_yaxes(title_text="Tweets", secondary_y=False)
-            figLikes.update_yaxes(title_text="Likes", secondary_y=True)
-        
-            # Affichage
-            st.plotly_chart(figLikes)
             
             # %%%%% Camembert
             
