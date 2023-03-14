@@ -419,44 +419,6 @@ if selectedMenu == "Methodologie":
         # Affichage
         st.plotly_chart(bestFive)
         
-        st.markdown("L’étude de la corrélation entre les sentiments et le nombre de tweets nous permet de dégager des premières tendances dans le graphique ci-dessous. Nous verrons dans l’analyse si nous pouvons les confirmer ou non. La taille de chaque point représente le nombre de tweets.")
-
-        # Graphique Sentiment vs Tweet
-
-        df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
-
-        # Define a list of colors for each game
-        colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
-
-        # Convert the date column to datetime type
-        df_scrap_tweet_2['Date'] = pd.to_datetime(df_scrap_tweet_2['Date'])
-
-        # Calculate the number of tweets per day for each game
-        df_tweets_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Clean_Tweet_Text'].count().reset_index()
-
-        # Calculate the mean sentiment per day for each game
-        df_sentiment_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Sentiment_NLTK'].mean().reset_index()
-
-        # Merge the two dataframes
-        df_merged = pd.merge(df_tweets_per_day, df_sentiment_per_day, on=['Game Name', 'Date'])
-
-        # Define the order of appearance of games based on number of tweets, in descending order
-        game_order = df_merged.groupby('Game Name')['Clean_Tweet_Text'].sum().sort_values(ascending=False).index.tolist()
-
-        # Create a scatter plot with a time scale and specific colors for each game, with the specified game order
-        fig_ST = px.scatter(df_merged, x='Date', y='Sentiment_NLTK', color='Game Name', size='Clean_Tweet_Text', 
-                         color_discrete_sequence=colorsTop5, title='Etude de la corrélation entre les sentiments et le nombre de tweets', category_orders={'Game Name': game_order})
-
-        # Set the x-axis to display dates
-        fig_ST.update_xaxes(type='date')
-
-        # Show the chart
-        st.plotly_chart(fig_ST)
-
-
-        st.markdown("- **Trois jeux sortent du lot :** Super Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
-        st.markdown("- **Mario Kart 8 Deluxe :** La corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
-        st.markdown("- **Animal Crossing : New Horizon :** La relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
     
         # %%%% Scrap Twitter
         
@@ -542,6 +504,46 @@ if selectedMenu == "Methodologie":
 
         st.markdown("Il apparaît que Textblob n’identifie presque pas les sentiments neutres contrairement à NLTK qui place les sentiments neutres et positifs presque au même niveau. L’étape du Machine Learning devrait pouvoir nous éclairer sur le modèle le plus efficient, voir à ajouter une ou plusieurs variables pour ajuster l’analyse.")
 
+        
+        st.markdown("L’étude de la corrélation entre les sentiments et le nombre de tweets nous permet de dégager des premières tendances dans le graphique ci-dessous. Nous verrons dans l’analyse si nous pouvons les confirmer ou non. La taille de chaque point représente le nombre de tweets.")
+
+        # Graphique Sentiment vs Tweet
+
+        df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
+
+        # Define a list of colors for each game
+        colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
+
+        # Convert the date column to datetime type
+        df_scrap_tweet_2['Date'] = pd.to_datetime(df_scrap_tweet_2['Date'])
+
+        # Calculate the number of tweets per day for each game
+        df_tweets_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Clean_Tweet_Text'].count().reset_index()
+
+        # Calculate the mean sentiment per day for each game
+        df_sentiment_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Sentiment_NLTK'].mean().reset_index()
+
+        # Merge the two dataframes
+        df_merged = pd.merge(df_tweets_per_day, df_sentiment_per_day, on=['Game Name', 'Date'])
+
+        # Define the order of appearance of games based on number of tweets, in descending order
+        game_order = df_merged.groupby('Game Name')['Clean_Tweet_Text'].sum().sort_values(ascending=False).index.tolist()
+
+        # Create a scatter plot with a time scale and specific colors for each game, with the specified game order
+        fig_ST = px.scatter(df_merged, x='Date', y='Sentiment_NLTK', color='Game Name', size='Clean_Tweet_Text', 
+                         color_discrete_sequence=colorsTop5, title='Etude de la corrélation entre les sentiments et le nombre de tweets', category_orders={'Game Name': game_order})
+
+        # Set the x-axis to display dates
+        fig_ST.update_xaxes(type='date')
+
+        # Show the chart
+        st.plotly_chart(fig_ST)
+
+
+        st.markdown("- **Trois jeux sortent du lot :** Super Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
+        st.markdown("- **Mario Kart 8 Deluxe :** La corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
+        st.markdown("- **Animal Crossing : New Horizon :** La relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
+        
 # %%%% Scrap Comments
         
     with tabc:
