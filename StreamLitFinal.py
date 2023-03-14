@@ -449,7 +449,7 @@ if selectedMenu == "Methodologie":
         fig_ST.update_xaxes(type='date')
 
         # Show the chart
-        st.fig_ST.show()
+        st.plotly_chart(fig_ST)
         
         
         # %%%% Scrap Twitter
