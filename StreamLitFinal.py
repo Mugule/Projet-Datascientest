@@ -442,10 +442,10 @@ if selectedMenu == "Methodologie":
         
         st.markdown(">**Un dataset a été récupéré pour chaque jeu :**\n>- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
 
-        pd.set_option('display.max_colwidth', None)
 
-        df_Scrap_Twitter_csv = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games.csv')
-        df_Scrap_Twitter_csv['Date'] = pd.to_datetime(df_Scrap_Twitter_csv['Date'], format='%Y-%m-%d').dt.date
+        df_scrap_tweet = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games.csv')
+
+        df_scrap_tweet['Date'] = pd.to_datetime(df_scrap_tweet['Date'])
 
         # créer un dictionnaire pour mapper les noms de jeu originaux aux noms de jeu abrégés
         game_name_mapping = {
@@ -457,30 +457,28 @@ if selectedMenu == "Methodologie":
         }
 
         # utiliser la méthode .replace() pour remplacer les noms de jeu originaux par les noms abrégés
-        df_Scrap_Twitter_csv['Game Name'] = df_Scrap_Twitter_csv['Game Name'].replace(game_name_mapping)
-
-        # %%% Graphique
+        df_scrap_tweet['Game Name'] = df_scrap_tweet['Game Name'].replace(game_name_mapping)
 
         # Spécifier les noms des jeux et leurs codes couleurs correspondants
         jeux = {'POKE': '#E74C3C', 'BOTW': '#636EFA', 'SSBU': '#AAB7B8', 'ACNH': '#82E0AA', 'MKD8': '#FDEBD0'}
 
         # Cibler les tweets pour chaque jeu spécifié
-        dfs_jeux_Scrap_Twitter_csv = {}
+        dfs_jeux = {}
         for nom_jeu, couleur in jeux.items():
-            df_jeu_Scrap_Twitter_csv = df_Scrap_Twitter_csv[df_Scrap_Twitter_csv["Game Name"] == nom_jeu]
-            dfs_jeux[nom_jeu] = df_jeu_Scrap_Twitter_csv
+            df_jeu = df_scrap_tweet[df_scrap_tweet["Game Name"] == nom_jeu]
+            dfs_jeux[nom_jeu] = df_jeu
 
         # Créer une colonne pour compter le nombre de tweets par jour pour chaque jeu
-        for nom_jeu, df_jeu_Scrap_Twitter_csv in dfs_jeux.items():
-            df_jeu_Scrap_Twitter_csv["tweets_par_jour"] = df_jeu_Scrap_Twitter_csv["Date"].apply(lambda x: x.strftime('%Y-%m'))
-            dfs_jeux[nom_jeu] = df_jeu_Scrap_Twitter_csv.groupby("tweets_par_jour").size().reset_index(name="nombre_de_tweets")
+        for nom_jeu, df_jeu in dfs_jeux.items():
+            df_jeu["tweets_par_jour"] = df_jeu["Date"].apply(lambda x: x.strftime('%Y-%m'))
+            dfs_jeux[nom_jeu] = df_jeu.groupby("tweets_par_jour").size().reset_index(name="nombre_de_tweets")
 
         # Fusionner les dataframes des différents jeux en un seul dataframe
         df_tous_jeux = pd.concat(dfs_jeux.values(), keys=dfs_jeux.keys(), names=["nom_jeu", "index"]).reset_index()
 
         # Créer la courbe avec Plotly
         fig = px.line(df_tous_jeux, x="tweets_par_jour", y="nombre_de_tweets",
-                      color="Nom du jeu", color_discrete_map=jeux,
+                      color="nom_jeu", color_discrete_map=jeux,
                       title="Nombre de tweets pour les jeux",
                       labels={"tweets_par_jour": "Date", "nombre_de_tweets": "Nombre de tweets"})
         st.plotly_chart(fig)
