@@ -558,64 +558,7 @@ if selectedMenu == "Methodologie":
         st.markdown("Matrices de confusion associées :")
 
         # Graphique Classificatin Matrix
-        # Classification Report data
-        report_nb = {'Class': ['-1', '0', '1'],
-                     'Precision': ['0.26', '0.01', '0.69'],
-                     'Recall': ['0.16', '0.00', '0.91'],
-                     'F1-score': ['0.20', '0.00', '0.79'],
-                     'Support': ['7918', '8044', '34610']}
-
-        report_rf = {'Class': ['-1', '0', '1'],
-                     'Precision': ['0.56', '0.18', '0.69'],
-                     'Recall': ['0.03', '0.00', '0.99'],
-                     'F1-score': ['0.05', '0.00', '0.81'],
-                     'Support': ['7918', '8044', '34610']}
-
-        report_svm = {'Class': ['-1', '0', '1'],
-                      'Precision': ['0.95', '0.00', '0.73'],
-                      'Recall': ['0.39', '0.00', '1.00'],
-                      'F1-score': ['0.55', '0.00', '0.84'],
-                      'Support': ['7918', '8044', '34610']}
-
-        # Convert Classification Report data to dataframe
-        df_nb = pd.DataFrame(report_nb)
-        df_rf = pd.DataFrame(report_rf)
-        df_svm = pd.DataFrame(report_svm)
-
-        # Set Class as index
-        df_nb.set_index('Class', inplace=True)
-        df_rf.set_index('Class', inplace=True)
-        df_svm.set_index('Class', inplace=True)
-
-        # Convert dataframe values to float
-        df_nb = df_nb.astype(float)
-        df_rf = df_rf.astype(float)
-        df_svm = df_svm.astype(float)
-
-        # Create heatmap for each classification report
-        st.header('Classification Report - Naive Bayes')
-        plt.imshow(df_nb, cmap='Blues', interpolation='nearest')
-        plt.xticks(range(df_nb.shape[1]), df_nb.columns, fontsize=12)
-        plt.yticks(range(df_nb.shape[0]), df_nb.index, fontsize=12)
-        plt.colorbar()
-        plt.show()
-        st.pyplot()
-
-        st.header('Classification Report - Random Forest')
-        plt.imshow(df_rf, cmap='Blues', interpolation='nearest')
-        plt.xticks(range(df_rf.shape[1]), df_rf.columns, fontsize=12)
-        plt.yticks(range(df_rf.shape[0]), df_rf.index, fontsize=12)
-        plt.colorbar()
-        plt.show()
-        st.pyplot()
-
-        st.header('Classification Report - SVM')
-        plt.imshow(df_svm, cmap='Blues', interpolation='nearest')
-        plt.xticks(range(df_svm.shape[1]), df_svm.columns, fontsize=12)
-        plt.yticks(range(df_svm.shape[0]), df_svm.index, fontsize=12)
-        plt.colorbar()
-        plt.show()
-        st.pyplot()
+        
 
         
         st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
