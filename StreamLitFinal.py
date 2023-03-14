@@ -419,6 +419,38 @@ if selectedMenu == "Methodologie":
         # Affichage
         st.plotly_chart(bestFive)
         
+        # Graphique Sentiment vs Tweet
+
+        df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
+
+        # Define a list of colors for each game
+        colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
+
+        # Convert the date column to datetime type
+        df_scrap_tweet_2['Date'] = pd.to_datetime(df_scrap_tweet_2['Date'])
+
+        # Calculate the number of tweets per day for each game
+        df_tweets_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Clean_Tweet_Text'].count().reset_index()
+
+        # Calculate the mean sentiment per day for each game
+        df_sentiment_per_day = df_scrap_tweet_2.groupby(['Game Name', pd.Grouper(key='Date', freq='D')])['Sentiment_NLTK'].mean().reset_index()
+
+        # Merge the two dataframes
+        df_merged = pd.merge(df_tweets_per_day, df_sentiment_per_day, on=['Game Name', 'Date'])
+
+        # Define the order of appearance of games based on number of tweets, in descending order
+        game_order = df_merged.groupby('Game Name')['Clean_Tweet_Text'].sum().sort_values(ascending=False).index.tolist()
+
+        # Create a scatter plot with a time scale and specific colors for each game, with the specified game order
+        fig_ST = px.scatter(df_merged, x='Date', y='Sentiment_NLTK', color='Game Name', size='Clean_Tweet_Text', 
+                         color_discrete_sequence=colors, title='Sentiment vs Tweets par jour', category_orders={'Game Name': game_order})
+
+        # Set the x-axis to display dates
+        fig_ST.update_xaxes(type='date')
+
+        # Show the chart
+        st.fig_ST.show()
+        
         
         # %%%% Scrap Twitter
         
