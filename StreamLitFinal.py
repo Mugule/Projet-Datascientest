@@ -444,7 +444,7 @@ if selectedMenu == "Methodologie":
 
         # Create a scatter plot with a time scale and specific colors for each game, with the specified game order
         fig_ST = px.scatter(df_merged, x='Date', y='Sentiment_NLTK', color='Game Name', size='Clean_Tweet_Text', 
-                         color_discrete_sequence=colors, title='Sentiment vs Tweets par jour', category_orders={'Game Name': game_order})
+                         color_discrete_sequence=colorsTop5, title='Sentiment vs Tweets par jour', category_orders={'Game Name': game_order})
 
         # Set the x-axis to display dates
         fig_ST.update_xaxes(type='date')
