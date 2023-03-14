@@ -444,7 +444,7 @@ if selectedMenu == "Methodologie":
 
         pd.set_option('display.max_colwidth', None)
 
-        df_Scrap_Twitter_csv = pd.read_csv('/data/Scrap_Twitter_csv/top5_nintendo_games.csv')
+        df_Scrap_Twitter_csv = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games.csv')
         df_Scrap_Twitter_csv['Date'] = pd.to_datetime(df_Scrap_Twitter_csv['Date'], format='%Y-%m-%d').dt.date
 
         # créer un dictionnaire pour mapper les noms de jeu originaux aux noms de jeu abrégés
