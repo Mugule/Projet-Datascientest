@@ -419,11 +419,10 @@ if selectedMenu == "Methodologie":
         # Affichage
         st.plotly_chart(bestFive)
         
-        # Graphique Sentiment vs Tweet
 
         # Graphique Sentiment vs Tweet
 
-        df_scrap_tweet_2 = pd.read_csv('Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
+        df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
 
         # Define a list of colors for each game
         colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
