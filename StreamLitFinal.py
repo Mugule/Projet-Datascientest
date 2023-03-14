@@ -531,7 +531,7 @@ fig.update_layout({
             "color": "white"
         }
     }})
-st.plotly_chart(fig)
+    st.plotly_chart(fig)
           
         st.markdown("Le premier dataset scrappé du jeu Pokemon a permis de révéler que le nombre de tweets était très nettement supérieur aux autres jeux et que la courbe obtenue avait un aspect aberrant. Après analyse, il apparaît que le filtre des 50 meilleurs tweets par jour avec plus de 100 likes est atteint presque chaque jour entre 2018 et 2022. Il est donc impossible de dégager une tendance avec ce filtre.")
 
