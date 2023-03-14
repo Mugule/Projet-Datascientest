@@ -544,6 +544,25 @@ if selectedMenu == "Methodologie":
         st.markdown("- **Mario Kart 8 Deluxe :** La corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
         st.markdown("- **Animal Crossing : New Horizon :** La relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
         
+        
+        st.markdown("**Machine Learning**")
+
+        st.markdown("La méthode Count Vectorizer est utilisée pour transformer les données textuelles en vecteurs d'entités à l'aide du modèle Bag of Words. Ensuite, nous entraînons des modèles de classification Naive Bayes, Random Forest et SVM sur 20% des données vectorisées et nous faisons des prédictions sur les données de test.")
+
+        st.markdown("Enfin, nous évaluons la précision des modèles à l'aide de la fonction accuracy_score de Scikit-Learn et nous affichons les rapports de classification détaillés pour les trois modèles à l'aide de la fonction classification_report.")
+
+        st.markdown("Scores de précision obtenu pour chaque modèles de classification :")
+
+        st.markdown(">- **Naive Bayes** = 0.6500632761211738\n>- **Random Forest** = 0.6845092145851459\n>- **SVM** = 0.7415763663687416")
+
+        st.markdown("Matrices de confusion associées :")
+
+        st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
+
+        st.markdown("Il serait précieux de pouvoir disposer de variables supplémentaires pour ajuster et rendre plus précis notre modèle. Des notes seraient les bienvenues par exemple, avec des commentaires plus longs. Nous aurions alors à disposition une plus grande richesse de contenu pour une analyse plus fine.")
+
+        st.markdown("Les contraintes inhérentes à Twitter avec son nombre de caractères limités notamment nous impose d’enrichir autrement notre dataset. Nous y avons donc ajouté l’étude des commentaires et des notes sur Amazon et Metacritic.")
+        
 # %%%% Scrap Comments
         
     with tabc:
