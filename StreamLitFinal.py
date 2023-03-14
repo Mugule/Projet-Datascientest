@@ -419,6 +419,7 @@ if selectedMenu == "Methodologie":
         # Affichage
         st.plotly_chart(bestFive)
         
+        st.markdown("L’étude de la corrélation entre les sentiments et le nombre de tweets nous permet de dégager des premières tendances dans le graphique ci-dessous. Nous verrons dans l’analyse si nous pouvons les confirmer ou non. La taille de chaque point représente le nombre de tweets.")
 
         # Graphique Sentiment vs Tweet
 
@@ -451,8 +452,10 @@ if selectedMenu == "Methodologie":
 
         # Show the chart
         st.plotly_chart(fig_ST)
-        
-        
+
+
+        st.markdown(">Trois jeux sortent du lot. Super Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres./n"">**Mario Kart 8 Deluxe** : la corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…/n"">**Animal Crossing : New Horizon** : la relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
+    
         # %%%% Scrap Twitter
         
     with tabt:
