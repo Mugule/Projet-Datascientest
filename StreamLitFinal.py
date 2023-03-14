@@ -526,7 +526,7 @@ if selectedMenu == "Methodologie":
                 "color": "white"
             }
         }
-    })
+        })
 
         st.plotly_chart(fig)
           
