@@ -423,6 +423,9 @@ if selectedMenu == "Methodologie":
 
         df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
 
+        # Define a list of colors for each game
+        colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
+
         # Convert the date column to datetime type
         df_scrap_tweet_2['Date'] = pd.to_datetime(df_scrap_tweet_2['Date'])
 
@@ -440,7 +443,7 @@ if selectedMenu == "Methodologie":
 
         # Create a scatter plot with a time scale and specific colors for each game, with the specified game order
         fig_ST = px.scatter(df_merged, x='Date', y='Sentiment_NLTK', size='Clean_Tweet_Text', 
-                            color_discrete_sequence='colorsTop5', title='Sentiment vs Tweets par jour', 
+                            color_discrete_sequence=colors, title='Sentiment vs Tweets par jour', 
                             category_orders={'Game Name': game_order})
 
         # Set the x-axis to display dates
