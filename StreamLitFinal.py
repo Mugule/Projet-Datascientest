@@ -454,7 +454,7 @@ if selectedMenu == "Methodologie":
         st.plotly_chart(fig_ST)
 
 
-        st.markdown("- **Trois jeux sortent du lot :**\nSuper Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
+        st.markdown("- **Trois jeux sortent du lot :**\n\nSuper Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
         st.markdown("- **Mario Kart 8 Deluxe :**\nLa corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
         st.markdown("- **Animal Crossing : New Horizon :**\nLa relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
     
