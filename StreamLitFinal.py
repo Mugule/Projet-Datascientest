@@ -465,7 +465,7 @@ if selectedMenu == "Methodologie":
         jeux = {'POKE': '#E74C3C', 'BOTW': '#636EFA', 'SSBU': '#AAB7B8', 'ACNH': '#82E0AA', 'MKD8': '#FDEBD0'}
 
         # Cibler les tweets pour chaque jeu spécifié
-        dfs_jeux__Scrap_Twitter_csv = {}
+        dfs_jeux_Scrap_Twitter_csv = {}
         for nom_jeu, couleur in jeux.items():
             df_jeu_Scrap_Twitter_csv = df_Scrap_Twitter_csv[df_Scrap_Twitter_csv["Game Name"] == nom_jeu]
             dfs_jeux[nom_jeu] = df_jeu_Scrap_Twitter_csv
