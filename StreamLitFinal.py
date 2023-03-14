@@ -454,9 +454,9 @@ if selectedMenu == "Methodologie":
         st.plotly_chart(fig_ST)
 
 
-        st.markdown("**Trois jeux sortent du lot :**\nSuper Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
-        st.markdown("**Mario Kart 8 Deluxe :**\nLa corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
-        st.markdown("**Animal Crossing : New Horizon :**\nLa relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
+        st.markdown(">-**Trois jeux sortent du lot :**\nSuper Smash Bros Ultimate, Pokémon et Zelda Breath of the Wild. Trois jeux qui engagent, à priori, davantage les joueurs présents sur Twitter et de façon continue que les autres.")
+        st.markdown(">-**Mario Kart 8 Deluxe :**\nLa corrélation entre les sentiments et le nombre n’est pas très puissante et s’opère de façon discontinue. L’engagement des joueurs sur le temps n’est pas homogène. Peut-être un lien avec la sortie du jeu et la sortie de dlc par exemple…")
+        st.markdown(">-**Animal Crossing : New Horizon :**\nLa relation de corrélation entre les sentiments et le nombre de tweets est forte les 3 premières années de ventes même si cela ne dépasse pas une moyenne de sentiment entre 0 et 0.5. Il y a une très nette rupture à partir de 2022 avec très peu de points visibles.")
     
         # %%%% Scrap Twitter
         
@@ -478,7 +478,7 @@ if selectedMenu == "Methodologie":
         st.markdown("- 50 tweets par jour maximum.")
         st.markdown("Pour une année, cela permet de récupérer au maximum près de 18 000 tweets parmi les plus likés et donc les plus partagés par les communautés de joueurs. Cela réduit le biais d’opinion et permet de toucher un maximum de joueurs qui partagent la même opinion en likant le tweet (positif, neutre ou négatif).\n")
         
-        st.markdown(">**Un dataset a été récupéré pour chaque jeu :**\n>- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
+        st.markdown("**Un dataset a été récupéré pour chaque jeu :**\n>- top_tweets_2017_to_2022_ACNH.csv : 6 575 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_botw.csv : 14 261 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_mariokart.csv : 1 593 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_supersmashbros.csv : 10 151 lignes x 14 colonnes\n>- top_tweets_2017_to_2022_pokemon.csv : 18 991 lignes x 14 colonnes")
 
 
         df_scrap_tweet = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games.csv')
