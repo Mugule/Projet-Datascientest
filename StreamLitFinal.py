@@ -559,7 +559,25 @@ if selectedMenu == "Methodologie":
 
         # Graphique Classificatin Matrix
         
+        # Image
+        # URL des images à afficher
+        urls = [
+            "medias/Naive Bayes_Confusion Matrix_transparent.png",
+            "medias/Random Forest_Confusion Matrix_transparent.png",
+            "medias/SVM_Confusion Matrix_transparent.png"
+        ]
 
+        # Téléchargement et affichage des images
+        col1, col2, col3 = st.beta_columns(3)
+        with col1:
+            image1 = Image.open(BytesIO(urlopen(urls[0]).read()))
+            st.image(image1, width=200)
+        with col2:
+            image2 = Image.open(BytesIO(urlopen(urls[1]).read()))
+            st.image(image2, width=200)
+        with col3:
+            image3 = Image.open(BytesIO(urlopen(urls[2]).read()))
+            st.image(image3, width=200)
         
         st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
 
