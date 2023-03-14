@@ -423,9 +423,6 @@ if selectedMenu == "Methodologie":
 
         df_scrap_tweet_2 = pd.read_csv('data/Scrap_Twitter_csv/top5_nintendo_games_SENTIMENT_ANALYSIS.csv')
 
-        # Define a list of colors for each game
-        colors = ['#2ca02c', 'blue', 'navajowhite', '#d62728', 'gray']
-
         # Convert the date column to datetime type
         df_scrap_tweet_2['Date'] = pd.to_datetime(df_scrap_tweet_2['Date'])
 
