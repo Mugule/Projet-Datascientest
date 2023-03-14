@@ -478,7 +478,7 @@ if selectedMenu == "Methodologie":
 
         # Créer la courbe avec Plotly
         fig = px.line(df_tous_jeux, x="tweets_par_jour", y="nombre_de_tweets",
-                      color="nom_jeu", color_discrete_map=jeux,
+                      color="nom_jeu", color_discrete_map=colorsTop5,
                       title="Nombre de tweets pour les jeux",
                       labels={"tweets_par_jour": "Date", "nombre_de_tweets": "Nombre de tweets"})
         st.plotly_chart(fig)
