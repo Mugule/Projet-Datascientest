@@ -557,10 +557,10 @@ if selectedMenu == "Methodologie":
 
         st.markdown("Matrices de confusion associées :")
 
-        # Graphique Classificatin Matrix
-        st.image("medias/Naive Bayes_Confusion Matrix_transparent.png", width=200)
-        st.image("medias/Random Forest_Confusion Matrix_transparent.png", width=200)
-        st.image("medias/SVM_Confusion Matrix_transparent.png", width=200)
+        # Graphique Classification Matrix
+        st.image("medias/Naive_Bayes_ConfusionMatrix_transparent.png", width=200)
+        st.image("medias/Random_Forest_ConfusionMatrix_transparent.png", width=200)
+        st.image("medias/SVM_ConfusionMatrix_transparent.png", width=200)
         
         st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
 
