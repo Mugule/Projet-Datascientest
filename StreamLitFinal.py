@@ -626,7 +626,7 @@ if selectedMenu == "Methodologie":
         
         st.subheader('Analyse de sentiment par text mining')
 
-        st.markdown("Nous avons utilisé la technique de text mining pour répondre à deux problématiques spécifiques, par exemple :
+        st.markdown("Nous avons utilisé la technique de text mining pour répondre à deux problématiques spécifiques, par exemple :")
         st.markdown("- Pourquoi POKEMON a des commentaires si négatifs ?")
         st.markdown("- Pourquoi ACNH a reçu de mauvaises notes en mars/avril 2020 au vu du pic de commentaires négatifs à cette date sur amazon.")
 
