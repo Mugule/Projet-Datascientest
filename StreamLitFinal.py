@@ -566,11 +566,11 @@ if selectedMenu == "Methodologie":
 
         # Création d'une liste d'images
         images = [
-            Image.open("medias/NaiveBayes_ConfusionMatrix_black.png"),
+            image.open("medias/NaiveBayes_ConfusionMatrix_black.png"),
             image.resize((300, 300))
-            Image.open("medias/RandomForest_ConfusionMatrix_black.png"),
+            image.open("medias/RandomForest_ConfusionMatrix_black.png"),
             image.resize((300, 300))
-            Image.open("medias/SVM_ConfusionMatrix_black.png"),
+            image.open("medias/SVM_ConfusionMatrix_black.png"),
             image.resize((300, 300))
         ]
 
