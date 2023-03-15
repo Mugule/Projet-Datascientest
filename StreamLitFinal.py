@@ -558,12 +558,6 @@ if selectedMenu == "Methodologie":
         st.markdown("Matrices de confusion associées :")
 
         # Graphique Classification Matrix
-        st.image("medias/NaiveBayes_ConfusionMatrix_black.png", width=300)
-        st.image("medias/RandomForest_ConfusionMatrix_black.png", width=300)
-        st.image("medias/SVM_ConfusionMatrix_black.png", width=300)
-
-        from PIL import Image
-
         # Création d'une liste d'images
         images = [
             Image.open("medias/NaiveBayes_ConfusionMatrix_black.png"),
