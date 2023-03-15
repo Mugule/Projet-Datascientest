@@ -616,7 +616,7 @@ if selectedMenu == "Methodologie":
         st.subheader('Analyse de sentiment')
         st.markdown("Pour analyser le sentiment des commentaires et notes, nous avons utilisé 3  bibliothèques différentes : VADER, NLTK, TEXTBLOB.")
         st.markdown("Après avoir traduit l’intégralité des commentaires en anglais, pour de meilleurs résultats, ces bibliothèques permettent d'attribuer une note de positivité, de négativité et de neutralité à chacun en fonction du choix de mots utilisés.")
-        st.markdown("Après avoir utilisé ces méthodes d’analyse de sentiments, nous avons constaté que les résultats étaient peu concluants. En effet, les bibliothèques classaient en négatif certains commentaires alors que la note associée était très positive, et vice versa. 
+        st.markdown("Après avoir utilisé ces méthodes d’analyse de sentiments, nous avons constaté que les résultats étaient peu concluants. En effet, les bibliothèques classaient en négatif certains commentaires alors que la note associée était très positive, et vice versa. ")
 
         st.markdown("Pour corriger ce biais, nous avons mis en place une fonction de correction qui crée une nouvelle variable en croisant l'avis des analyses informatiques et la note laissée par l'utilisateur. Cette fonction permet d'attribuer une note finale de positivité, de négativité ou de neutralité à chaque commentaire en prenant en compte à la fois l'avis de VADER par exemple et la note laissée. Cette méthode a permis d'obtenir des résultats plus fiables pour notre analyse de sentiment.")
 
