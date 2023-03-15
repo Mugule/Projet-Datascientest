@@ -574,11 +574,11 @@ if selectedMenu == "Methodologie":
             st.image(resized_image, width=300)
 
         with col2:
-            resized_image = images[1].resize((300, 290))
+            resized_image = images[1].resize((300, 270))
             st.image(resized_image, width=300)
 
         with col3:
-            resized_image = images[2].resize((300, 280))
+            resized_image = images[2].resize((300, 270))
             st.image(resized_image, width=300)
 
         
