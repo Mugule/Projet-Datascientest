@@ -570,15 +570,15 @@ if selectedMenu == "Methodologie":
 
         # Insertion des images dans chaque colonne
         with col1:
-            resized_image = images[0].resize((300, 300))
+            resized_image = images[0].resize((300))
             st.image(resized_image, width=300)
 
         with col2:
-            resized_image = images[1].resize((300, 300))
+            resized_image = images[1].resize((300))
             st.image(resized_image, width=300)
 
         with col3:
-            resized_image = images[2].resize((300, 300))
+            resized_image = images[2].resize((300))
             st.image(resized_image, width=300)
 
         
