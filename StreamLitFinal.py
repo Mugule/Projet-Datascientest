@@ -554,8 +554,8 @@ if selectedMenu == "Methodologie":
         st.markdown("Scores de précision obtenu pour chaque modèles de classification :")
 
         st.markdown(">- **Naive Bayes** = 0.6500632761211738\n>- **Random Forest** = 0.6845092145851459\n>- **SVM** = 0.7415763663687416")
-
-        st.markdown("\nMatrices de confusion associées :")
+        st.markdown("\n")
+        st.markdown("**Matrices de confusion associées :**")
 
         # Graphique Classification Matrix
         # Création d'une liste d'images
