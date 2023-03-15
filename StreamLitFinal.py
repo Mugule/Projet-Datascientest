@@ -614,10 +614,27 @@ if selectedMenu == "Methodologie":
     with tabm:
         
         st.subheader('Analyse de sentiment')
-        st.markdown("Pour analyser le sentiment des commentaires et notes, nous avons utilisé la bibliothèque VADER (Valence Aware Dictionary and sentiment Reasoner) en Python. Cette bibliothèque permet d'attribuer une note de positivité, de négativité et de neutralité à chaque commentaire en fonction du choix de mots utilisés.")
-        st.markdown("Après avoir utilisé la bibliothèque VADER, nous avons constaté que les résultats étaient peu concluants. En effet, la bibliothèque classait en négatif certains commentaires alors que la note associée était très positive, et vice versa. Pour corriger ce biais, nous avons mis en place une fonction de correction qui crée une nouvelle variable en croisant l'avis de VADER et la note laissée par l'utilisateur. Cette fonction permet d'attribuer une note finale de positivité, de négativité ou de neutralité à chaque commentaire en prenant en compte à la fois l'avis de VADER et la note laissée. Cette méthode a permis d'obtenir des résultats plus fiables pour notre analyse de sentiment.")
+        st.markdown("Pour analyser le sentiment des commentaires et notes, nous avons utilisé 3  bibliothèques différentes : VADER, NLTK, TEXTBLOB.")
+        st.markdown("Après avoir traduit l’intégralité des commentaires en anglais, pour de meilleurs résultats, ces bibliothèques permettent d'attribuer une note de positivité, de négativité et de neutralité à chacun en fonction du choix de mots utilisés.")
+        st.markdown("Après avoir utilisé ces méthodes d’analyse de sentiments, nous avons constaté que les résultats étaient peu concluants. En effet, les bibliothèques classaient en négatif certains commentaires alors que la note associée était très positive, et vice versa. 
+
+        st.markdown("Pour corriger ce biais, nous avons mis en place une fonction de correction qui crée une nouvelle variable en croisant l'avis des analyses informatiques et la note laissée par l'utilisateur. Cette fonction permet d'attribuer une note finale de positivité, de négativité ou de neutralité à chaque commentaire en prenant en compte à la fois l'avis de VADER par exemple et la note laissée. Cette méthode a permis d'obtenir des résultats plus fiables pour notre analyse de sentiment.")
+
+        st.markdown("En plus des bibliothèques, il est donc nécessaire d'utiliser une autre technique d'analyse de texte plus avancée pour obtenir des résultats plus fiables. Parmi les autres techniques d'analyse de texte, on peut citer l'utilisation de réseaux de neurones, de modèles de langage comme BERT ou encore de méthodes de classification supervisées telles que les SVM (Support Vector Machines) ou les arbres de décision.")
+                    
         st.markdown("En plus de la bibliothèque VADER, il est donc nécessaire d'utiliser une autre technique d'analyse de texte plus avancée pour obtenir des résultats plus fiables. Parmi les autres techniques d'analyse de texte, on peut citer l'utilisation de réseaux de neurones, de modèles de langage comme BERT ou encore de méthodes de classification supervisées telles que les SVM (Support Vector Machines) ou les arbres de décision.")
         
+        st.subheader('Analyse de sentiment par text mining')
+
+        st.markdown("Nous avons utilisé la technique de text mining pour répondre à deux problématiques spécifiques, par exemple :
+        st.markdown("- Pourquoi POKEMON a des commentaires si négatifs ?")
+        st.markdown("- Pourquoi ACNH a reçu de mauvaises notes en mars/avril 2020 au vu du pic de commentaires négatifs à cette date sur amazon.")
+
+        st.markdown("Pour répondre à ces questions, nous avons utilisé la bibliothèque Python nltk pour le traitement du langage naturel. Cette bibliothèque offre des fonctionnalités pour traiter et analyser les données textuelles.")
+
+        st.markdown("Nous avons commencé par extraire les commentaires concernant POKÉMON et ACNH à partir de différentes sources en ligne, telles que les forums, les réseaux sociaux et les critiques de jeux vidéo. Les données ont ensuite été nettoyées en supprimant les caractères spéciaux, les ponctuations et les mots vides, également connus sous le nom de stopwords.")
+
+        st.markdown("Ensuite, une liste de mots a été créée pour traduire un sentiment négatif dans le jeu vidéo, tels que ['boring', 'broken', 'confusing', 'disappointing', 'frustrating', 'glitchy'...] etc. Nous avons utilisé cette liste pour identifier les commentaires qui contenaient ces mots.")
         # %%%% Création du Dataset Final
         
     with tabd:
