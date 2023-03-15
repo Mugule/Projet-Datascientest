@@ -562,6 +562,26 @@ if selectedMenu == "Methodologie":
         st.image("medias/RandomForest_ConfusionMatrix_black.png", width=300)
         st.image("medias/SVM_ConfusionMatrix_black.png", width=300)
 
+        from PIL import Image
+
+        # Création d'une liste d'images
+        images = [
+            Image.open("medias/NaiveBayes_ConfusionMatrix_black.png", width=300),
+            Image.open("medias/RandomForest_ConfusionMatrix_black.png", width=300),
+            Image.open("medias/SVM_ConfusionMatrix_black.png", width=300),
+        ]
+
+        # Division de l'écran en 3 colonnes
+        col1, col2, col3 = st.beta_columns(3)
+
+        # Insertion des images dans chaque colonne
+        with col1:
+            st.image(images[0])
+        with col2:
+            st.image(images[1])
+        with col3:
+            st.image(images[2])
+
         
         st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
 
