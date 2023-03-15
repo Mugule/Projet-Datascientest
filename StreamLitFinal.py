@@ -586,7 +586,7 @@ if selectedMenu == "Methodologie":
 
         st.markdown("Il serait précieux de pouvoir disposer de variables supplémentaires pour ajuster et rendre plus précis notre modèle. Des notes seraient les bienvenues par exemple, avec des commentaires plus longs. Nous aurions alors à disposition une plus grande richesse de contenu pour une analyse plus fine.")
 
-        st.markdown("Les contraintes inhérentes à Twitter avec son nombre de caractères limités notamment nous impose d’enrichir autrement notre dataset. Nous y avons donc ajouté l’étude des commentaires et des notes sur Amazon et Metacritic.")
+        st.markdown("Les contraintes inhérentes à Twitter avec son nombre de caractères limités notamment nous impose d’enrichir autrement notre dataset. **Nous y avons donc ajouté l’étude des commentaires et des notes sur Amazon et Metacritic.**")
         
 # %%%% Scrap Comments
         
