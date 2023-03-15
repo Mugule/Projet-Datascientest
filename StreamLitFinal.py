@@ -567,11 +567,11 @@ if selectedMenu == "Methodologie":
         # Création d'une liste d'images
         images = [
             Image.open("medias/NaiveBayes_ConfusionMatrix_black.png"),
-            Image.resize((300, 300)),
+            resized_image = Image.resize((300, 300)),
             Image.open("medias/RandomForest_ConfusionMatrix_black.png"),
-            Image.resize((300, 300)),
+            resized_image = Image.resize((300, 300)),
             Image.open("medias/SVM_ConfusionMatrix_black.png"),
-            Image.resize((300, 300))
+            resized_image = Image.resize((300, 300))
         ]
 
         # Division de l'écran en 3 colonnes
@@ -579,11 +579,11 @@ if selectedMenu == "Methodologie":
 
         # Insertion des images dans chaque colonne
         with col1:
-            st.image(images[0])
+            st.image(images[0], resized_image)
         with col2:
-            st.image(images[1])
+            st.image(images[1], resized_image)
         with col3:
-            st.image(images[2])
+            st.image(images[2], resized_image)
 
         
         st.markdown("A la lumière des rapports de classification pour chaque modèle, on peut voir que le SVM a la meilleure précision globale, avec un score de 0,74. Les rapports de classification du premier modèle montrent que le SVM a une précision élevée pour la classe 1 (0,73), mais une précision relativement faible pour la classe -1 (0,95) et une précision nulle pour la classe 0. Cela peut indiquer que le SVM est mieux adapté pour prédire la classe 1 que les autres classes.")
