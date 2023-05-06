@@ -78,7 +78,8 @@ dfcount = pd.DataFrame()
 for qty, qly in zip(CountList,MeanList):
     dfNoNan[qty] = dfNoNan[qty].fillna(0)
     dfNoNan[qly] = dfNoNan[qly].fillna(0)
-    dfmean = dfmean.append(dfNoNan.groupby("Game").apply(weighted_average),ignore_index=True)
+    dftempo = dfNoNan.groupby("Game").apply(weighted_average)
+    dfmean = dfmean.append(dftempo,ignore_index=True)
 # Mise en forme du dataframe
 dfmean = dfmean.rename(index=dict(zip(dfmean.index, MeanList)))
 dfmean = dfmean.T.reset_index()
