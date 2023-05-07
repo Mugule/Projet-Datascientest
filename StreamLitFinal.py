@@ -2015,11 +2015,15 @@ if selectedMenu == "Scrapp-App":
         dateTest = False
         buttonName = "Scrapp-App"
     
-    # Lancement de la requête
-    if st.button(buttonName, disabled=dateTest):
-        # Retrait du # si il est mis par l'utilisateur 
-        if scrapInput[0]=="#":
-            scrapInput = scrapInput[1:]
+    
+    st.warning('Snscrape ne permet plus de récupérer les données Twitter. Nous laissons cet onglet pour le projet GitHub.', icon="⚠️")
+    
+    
+    ## Lancement de la requête
+    #if st.button(buttonName, disabled=dateTest):
+    #    # Retrait du # si il est mis par l'utilisateur 
+    #    if scrapInput[0]=="#":
+    #        scrapInput = scrapInput[1:]
     
     # %%%% Scrapping
     
