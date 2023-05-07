@@ -1,5 +1,6 @@
 # Librairies
 
+pandas==1.5.2
 streamlit_option_menu
 plotly
 pillow
