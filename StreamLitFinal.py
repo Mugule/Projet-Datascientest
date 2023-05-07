@@ -90,8 +90,7 @@ dfmean = pd.concat([dfmean,
 dfmean = dfmean.drop([5,6])
 
 # Rename
-dfmean = dfmean.rename(columns={0: "meanMTC", 1: "meanAMZ"})
-dfmean = dfmean.set_index('index')
+dfmean = dfmean.rename(columns={'index':'Game',0: "meanMTC", 1: "meanAMZ"})
 
 # %% (_.~" STREAMLIT "~._) 
 
