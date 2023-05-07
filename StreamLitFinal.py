@@ -78,19 +78,16 @@ dfcount = pd.DataFrame()
 for qty, qly in zip(CountList,MeanList):
     dfNoNan[qty] = dfNoNan[qty].fillna(0)
     dfNoNan[qly] = dfNoNan[qly].fillna(0)
-    dftempo = dfNoNan.groupby("Game").apply(weighted_average)
-    dfmean = pd.concat([dfmean,dftempo],axis=1,ignore_index=True)
+    dfmean = dfmean.append(dfNoNan.groupby("Game").apply(weighted_average),ignore_index=True)
 # Mise en forme du dataframe
-dfmean = dfmean.reset_index()
+dfmean = dfmean.rename(index=dict(zip(dfmean.index, MeanList)))
+dfmean = dfmean.T.reset_index()
 dfmean = pd.concat([dfmean,
                     dfNoNan.groupby("Game").agg({'countAMZ':"sum"}).reset_index(drop=True),
                     dfNoNan.groupby("Game").agg({"countMTC":"sum"}).reset_index(drop=True)], 
                     axis=1)
 # Suppression de SWCH et TOTL
 dfmean = dfmean.drop([5,6])
-
-# Rename
-dfmean = dfmean.rename(columns={'index':'Game',0: "meanMTC", 1: "meanAMZ"})
 
 # %% (_.~" STREAMLIT "~._) 
 
